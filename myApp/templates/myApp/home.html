@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maria Gregory | Founder. Visionary. Storyteller.</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Google Fonts for warm, elegant typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'serif': ['Cormorant Garamond', 'serif'],
+                        'sans': ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Smooth scroll reveal animations */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .fade-in-left {
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        
+        .fade-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .fade-in-right {
+            opacity: 0;
+            transform: translateX(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        
+        .fade-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .stagger-1 { transition-delay: 0.1s; }
+        .stagger-2 { transition-delay: 0.2s; }
+        .stagger-3 { transition-delay: 0.3s; }
+        .stagger-4 { transition-delay: 0.4s; }
+        .stagger-5 { transition-delay: 0.5s; }
+        .stagger-6 { transition-delay: 0.6s; }
+    </style>
+</head>
+<body class="font-sans antialiased bg-white">
+    
+    <!-- 1. Hero Section – "Warm Welcome" -->
+    <section class="min-h-screen flex items-center justify-center bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50 relative overflow-hidden">
+        <!-- Subtle pattern overlay -->
+        <div class="absolute inset-0 opacity-5">
+            <div class="absolute inset-0" style="background-image: radial-gradient(circle at 2px 2px, #d97706 1px, transparent 0); background-size: 40px 40px;"></div>
+        </div>
+        
+        <div class="container mx-auto px-6 py-20 relative z-10">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <!-- Left: Text Content -->
+                <div class="fade-in-up text-center md:text-left">
+                    <div class="inline-block mb-4 fade-in-left stagger-1">
+                        <i class="fas fa-sun text-4xl text-amber-400"></i>
+                    </div>
+                    <h1 class="text-5xl md:text-7xl font-serif font-bold text-amber-900 mb-6 leading-tight fade-in-up stagger-2">
+                        Maria Gregory
+                    </h1>
+                    <p class="text-xl md:text-2xl text-amber-800 mb-4 font-serif italic fade-in-up stagger-3">
+                        Founder. Visionary. Storyteller.
+                    </p>
+                    <p class="text-lg text-amber-700 mb-8 leading-relaxed fade-in-up stagger-4">
+                        The kind of leader whose presence leaves a quiet imprint on people long after the conversation ends.
+                    </p>
+                    <a href="#about" class="inline-block bg-amber-600 hover:bg-amber-700 text-white px-8 py-4 rounded-full font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-xl fade-in-up stagger-5">
+                        Learn Maria's Story
+                        <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+                
+                <!-- Right: Portrait Image -->
+                <div class="fade-in-right stagger-3">
+                    <div class="relative">
+                        <div class="absolute inset-0 bg-gradient-to-br from-amber-200 to-orange-200 rounded-full blur-3xl opacity-30 transform scale-110"></div>
+                        <img 
+                            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800&h=1000&fit=crop&q=80" 
+                            alt="Maria Gregory" 
+                            class="relative rounded-3xl shadow-2xl w-full max-w-md mx-auto transform transition-all duration-500 hover:scale-105 hover:shadow-3xl"
+                            onerror="this.src='https://via.placeholder.com/800x1000/f59e0b/ffffff?text=Maria+Gregory'"
+                        >
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 2. About Maria – "Story as Conversation" -->
+    <section id="about" class="py-24 bg-stone-50">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <!-- Left: Image -->
+                <div class="fade-in-left">
+                    <img 
+                        src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&h=600&fit=crop&q=80" 
+                        alt="Maria speaking and mentoring" 
+                        class="rounded-2xl shadow-xl w-full transform transition-all duration-500 hover:scale-105 hover:shadow-2xl"
+                        onerror="this.src='https://via.placeholder.com/800x600/f59e0b/ffffff?text=Maria+Speaking'"
+                    >
+                </div>
+                
+                <!-- Right: About Text -->
+                <div class="fade-in-right">
+                    <h2 class="text-4xl md:text-5xl font-serif font-bold text-amber-900 mb-6">
+                        The Woman Behind the Mission
+                    </h2>
+                    
+                    <div class="bg-white p-6 rounded-lg shadow-md mb-6 border-l-4 border-amber-400">
+                        <i class="fas fa-quote-left text-amber-400 text-3xl mb-3"></i>
+                        <p class="text-stone-700 text-lg leading-relaxed italic">
+                            Maria Gregory is a storyteller with a gift for seeing strength in others long before they see it in themselves — a visionary who builds communities, nurtures people, and turns compassion into action.
+                        </p>
+                    </div>
+                    
+                    <p class="text-stone-700 mb-4 leading-relaxed">
+                        As the founder of the <strong class="text-amber-800">I RiseUp Group of Companies</strong>—including I RiseUp Academy, I RiseUp Foundation, and CLICK: Computer Learning for Inner City Kids—Maria has dedicated her life to creating pathways for people to grow, heal, and discover their inner lion.
+                    </p>
+                    
+                    <p class="text-stone-700 leading-relaxed">
+                        Her work is rooted in a simple but profound belief: <em class="text-amber-800 font-medium">every person carries greatness inside them — they just need someone to remind them it's there.</em>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 3. Impact Timeline – "A Life of Showing Up" -->
+    <section class="py-24 bg-amber-50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl md:text-5xl font-serif font-bold text-center text-amber-900 mb-16 fade-in-up">
+                A Life of Service, Leadership & Impact
+            </h2>
+            
+            <div class="max-w-4xl mx-auto space-y-12">
+                <!-- Timeline Item 1 -->
+                <div class="fade-in-up stagger-1">
+                    <div class="flex flex-col md:flex-row gap-6 items-start">
+                        <div class="flex-shrink-0">
+                            <div class="w-16 h-16 bg-amber-600 rounded-full flex items-center justify-center text-white text-2xl transform transition-all duration-300 hover:rotate-12 hover:scale-110">
+                                <i class="fas fa-hand-holding-heart"></i>
+                            </div>
+                        </div>
+                        <div class="flex-1 bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all duration-300">
+                            <div class="text-amber-600 font-semibold mb-2">2009–2020</div>
+                            <h3 class="text-2xl font-serif font-bold text-amber-900 mb-2">Presidential Member</h3>
+                            <p class="text-amber-700 font-medium mb-2">American Christian Counselors Association</p>
+                            <p class="text-stone-700">Supporting individuals through challenges, growth, and transformation.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Timeline Item 2 -->
+                <div class="fade-in-up stagger-2">
+                    <div class="flex flex-col md:flex-row gap-6 items-start">
+                        <div class="flex-shrink-0">
+                            <div class="w-16 h-16 bg-amber-600 rounded-full flex items-center justify-center text-white text-2xl transform transition-all duration-300 hover:rotate-12 hover:scale-110">
+                                <i class="fas fa-users"></i>
+                            </div>
+                        </div>
+                        <div class="flex-1 bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all duration-300">
+                            <div class="text-amber-600 font-semibold mb-2">2004–2016</div>
+                            <h3 class="text-2xl font-serif font-bold text-amber-900 mb-2">Volunteer Big Sister</h3>
+                            <p class="text-amber-700 font-medium mb-2">Big Brothers Big Sisters of America</p>
+                            <p class="text-stone-700">Over a decade dedicated to empowering youth and giving them the confidence to dream boldly.</p>
+                            <img 
+                                src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=600&h=400&fit=crop&q=80" 
+                                alt="Mentoring kids" 
+                                class="mt-4 rounded-lg w-full max-w-sm"
+                                onerror="this.src='https://via.placeholder.com/600x400/f59e0b/ffffff?text=Mentoring'"
+                            >
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Timeline Item 3 -->
+                <div class="fade-in-up stagger-3">
+                    <div class="flex flex-col md:flex-row gap-6 items-start">
+                        <div class="flex-shrink-0">
+                            <div class="w-16 h-16 bg-amber-600 rounded-full flex items-center justify-center text-white text-2xl transform transition-all duration-300 hover:rotate-12 hover:scale-110">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                        </div>
+                        <div class="flex-1 bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all duration-300">
+                            <div class="text-amber-600 font-semibold mb-2">2012–2014, 2018</div>
+                            <h3 class="text-2xl font-serif font-bold text-amber-900 mb-2">Judge</h3>
+                            <p class="text-amber-700 font-medium mb-2">Invention Convention League</p>
+                            <p class="text-stone-700">Helping young innovators express their creativity and believe in their ideas.</p>
+                            <img 
+                                src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&h=400&fit=crop&q=80" 
+                                alt="Invention Convention" 
+                                class="mt-4 rounded-lg w-full max-w-sm"
+                                onerror="this.src='https://via.placeholder.com/600x400/f59e0b/ffffff?text=Innovation'"
+                            >
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <p class="text-center text-stone-700 text-lg mt-12 italic fade-in-up stagger-4">
+                Maria believes leadership is not about a title — it's about showing up, listening deeply, and lifting others higher.
+            </p>
+        </div>
+    </section>
+    
+    <!-- 4. Mission / The Lion You Don't See – "Inner Strength Theme" -->
+    <section class="relative py-32 overflow-hidden">
+        <!-- Background Image with Overlay -->
+        <div class="absolute inset-0">
+            <img 
+                src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&h=1080&fit=crop&q=80" 
+                alt="Forest light symbolizing inner strength" 
+                class="w-full h-full object-cover"
+                onerror="this.src='https://via.placeholder.com/1920x1080/1f2937/ffffff?text=Inner+Strength'"
+            >
+            <div class="absolute inset-0 bg-gradient-to-b from-amber-900/80 via-amber-800/70 to-amber-900/80"></div>
+        </div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="max-w-4xl mx-auto text-center">
+                <div class="fade-in-up">
+                    <i class="fas fa-star text-amber-300 text-5xl mb-6"></i>
+                    <h2 class="text-5xl md:text-7xl font-serif font-bold text-white mb-6">
+                        The Lion You Don't See
+                    </h2>
+                    <p class="text-xl md:text-2xl text-amber-100 mb-8 leading-relaxed">
+                        Maria's newest project embodies her lifelong passion for helping people discover their hidden courage.
+                    </p>
+                    <p class="text-lg text-amber-50 mb-12 leading-relaxed max-w-2xl mx-auto">
+                        Through powerful storytelling, she invites readers of all ages to look beyond their fear, past their struggles, and toward the quiet strength waiting inside them.
+                    </p>
+                </div>
+                
+                <!-- Book Display -->
+                <div class="fade-in-up stagger-2 mt-12">
+                    <div class="inline-block transform transition-all duration-500 hover:scale-110 hover:shadow-2xl">
+                        <img 
+                            src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=600&h=800&fit=crop&q=80" 
+                            alt="The Lion You Don't See book cover" 
+                            class="rounded-2xl shadow-2xl max-w-xs mx-auto"
+                            onerror="this.src='https://via.placeholder.com/600x800/f59e0b/ffffff?text=The+Lion+You+Dont+See'"
+                        >
+                    </div>
+                    <p class="text-amber-200 mt-6 text-lg italic">
+                        "The lion within you has always been there. It's time to let it roar."
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 5. The Person Behind the Roles – "Family & Humanity" -->
+    <section class="py-24 bg-stone-50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl md:text-5xl font-serif font-bold text-center text-amber-900 mb-4 fade-in-up">
+                Rooted in Family, Fueled by Purpose
+            </h2>
+            <p class="text-center text-stone-600 text-lg mb-16 fade-in-up stagger-1">
+                Beyond her accomplishments, Maria embraces the roles that shape her heart.
+            </p>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <!-- Card 1: Wife -->
+                <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition-all duration-300 transform hover:scale-105 fade-in-up stagger-1">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-heart text-amber-500 text-4xl mb-3 transform transition-all duration-300 hover:brightness-125"></i>
+                        <h3 class="text-2xl font-serif font-bold text-amber-900">Wife</h3>
+                    </div>
+                    <p class="text-stone-700 text-center">Building a life of love, partnership, and shared dreams.</p>
+                </div>
+                
+                <!-- Card 2: Stepmom -->
+                <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition-all duration-300 transform hover:scale-105 fade-in-up stagger-2">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-home text-amber-500 text-4xl mb-3 transform transition-all duration-300 hover:brightness-125"></i>
+                        <h3 class="text-2xl font-serif font-bold text-amber-900">Stepmom</h3>
+                    </div>
+                    <p class="text-stone-700 text-center">Nurturing and guiding with patience and unconditional love.</p>
+                </div>
+                
+                <!-- Card 3: Big Sister -->
+                <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition-all duration-300 transform hover:scale-105 fade-in-up stagger-3">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-people-group text-amber-500 text-4xl mb-3 transform transition-all duration-300 hover:brightness-125"></i>
+                        <h3 class="text-2xl font-serif font-bold text-amber-900">Big Sister</h3>
+                    </div>
+                    <p class="text-stone-700 text-center">A decade of mentorship, showing up for youth who need someone to believe in them.</p>
+                </div>
+                
+                <!-- Card 4: Aunt -->
+                <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition-all duration-300 transform hover:scale-105 fade-in-up stagger-4">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-hands-helping text-amber-500 text-4xl mb-3 transform transition-all duration-300 hover:brightness-125"></i>
+                        <h3 class="text-2xl font-serif font-bold text-amber-900">Aunt</h3>
+                    </div>
+                    <p class="text-stone-700 text-center">Creating moments of joy, wisdom, and connection with the next generation.</p>
+                </div>
+                
+                <!-- Card 5: Godmother -->
+                <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition-all duration-300 transform hover:scale-105 fade-in-up stagger-5">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-star text-amber-500 text-4xl mb-3 transform transition-all duration-300 hover:brightness-125"></i>
+                        <h3 class="text-2xl font-serif font-bold text-amber-900">Godmother</h3>
+                    </div>
+                    <p class="text-stone-700 text-center">A sacred role of guidance, love, and spiritual support.</p>
+                </div>
+                
+                <!-- Card 6: Mentor -->
+                <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition-all duration-300 transform hover:scale-105 fade-in-up stagger-6">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-book text-amber-500 text-4xl mb-3 transform transition-all duration-300 hover:brightness-125"></i>
+                        <h3 class="text-2xl font-serif font-bold text-amber-900">Mentor</h3>
+                    </div>
+                    <p class="text-stone-700 text-center">Helping others discover their inner strength and potential.</p>
+                </div>
+            </div>
+            
+            <div class="mt-12 text-center fade-in-up stagger-4">
+                <p class="text-stone-700 text-lg italic max-w-2xl mx-auto">
+                    She finds joy in nurturing others — especially those who feel unseen or unheard. Her compassion isn't just part of her work; it's woven into her daily life, her relationships, and every mission she leads.
+                </p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 6. Final Message & Call To Action – "Let's Rise Together" -->
+    <section class="py-32 bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50 relative overflow-hidden">
+        <!-- Subtle background image with overlay -->
+        <div class="absolute inset-0 opacity-10">
+            <img 
+                src="https://images.unsplash.com/photo-1455390582262-044cdead277a?w=1920&h=1080&fit=crop&q=80" 
+                alt="Journal and pen" 
+                class="w-full h-full object-cover"
+                onerror="this.src='https://via.placeholder.com/1920x1080/f59e0b/ffffff?text=Journal'"
+            >
+        </div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="max-w-3xl mx-auto text-center">
+                <div class="fade-in-up">
+                    <h2 class="text-4xl md:text-6xl font-serif font-bold text-amber-900 mb-8">
+                        Let's Rise Together
+                    </h2>
+                    
+                    <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-8 md:p-12 shadow-xl mb-10">
+                        <p class="text-xl text-stone-700 mb-6 leading-relaxed">
+                            Whether you're exploring her work, joining her mission, or discovering your own story, Maria welcomes you with open arms.
+                        </p>
+                        <p class="text-lg text-stone-600 leading-relaxed mb-6">
+                            Because every journey toward inner strength begins with a single step — and Maria is here to walk with you.
+                        </p>
+                        <div class="flex items-center justify-center gap-2 text-amber-600">
+                            <i class="fas fa-heart"></i>
+                            <p class="text-lg font-serif italic">— Maria Gregory</p>
+                        </div>
+                    </div>
+                    
+                    <div class="fade-in-up stagger-2">
+                        <p class="text-2xl font-serif text-amber-800 mb-4 italic">
+                            "You may not see the lion yet… but I promise, it's already inside you."
+                        </p>
+                    </div>
+                    
+                    <!-- CTA Buttons -->
+                    <div class="mt-12 flex flex-col sm:flex-row gap-4 justify-center items-center fade-in-up stagger-3">
+                        <a href="#contact" class="bg-amber-600 hover:bg-amber-700 text-white px-10 py-4 rounded-full font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
+                            Connect with Maria
+                            <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                        <a href="#about" class="text-amber-700 hover:text-amber-800 px-6 py-4 font-medium transition-all duration-300 border-b-2 border-transparent hover:border-amber-600">
+                            Learn more about I RiseUp
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll to Top Button -->
+        <button id="scrollToTop" class="fixed bottom-8 right-8 bg-amber-600 hover:bg-amber-700 text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 transform hover:scale-110 opacity-0 pointer-events-none" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+            <i class="fas fa-angle-up"></i>
+        </button>
+    </section>
+    
+    <!-- 7. Footer – "Quiet, Simple, Respectful" -->
+    <footer class="bg-amber-900 text-amber-100 py-12">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div>
+                    <h3 class="text-2xl font-serif font-bold mb-2">Maria Gregory</h3>
+                    <p class="text-amber-200 text-sm">Founder. Visionary. Storyteller.</p>
+                </div>
+                
+                <div class="flex flex-col md:flex-row gap-6 items-center">
+                    <a href="#about" class="text-amber-200 hover:text-white transition-colors duration-300">About</a>
+                    <a href="#contact" class="text-amber-200 hover:text-white transition-colors duration-300">Contact</a>
+                    <a href="#" class="text-amber-200 hover:text-white transition-colors duration-300">I RiseUp Group</a>
+                    <a href="#" class="text-amber-200 hover:text-white transition-colors duration-300">Privacy</a>
+                </div>
+                
+                <div class="flex gap-4">
+                    <a href="mailto:contact@mariagregory.com" class="text-amber-200 hover:text-white transition-colors duration-300 text-xl">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="mt-8 pt-8 border-t border-amber-800 text-center text-amber-300 text-sm">
+                <p>&copy; 2025 Maria Gregory. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Scroll Animation Script -->
+    <script>
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+        
+        // Observe all fade-in elements
+        document.querySelectorAll('.fade-in-up, .fade-in-left, .fade-in-right').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Scroll to top button visibility
+        const scrollToTopBtn = document.getElementById('scrollToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                scrollToTopBtn.classList.remove('opacity-0', 'pointer-events-none');
+                scrollToTopBtn.classList.add('opacity-100');
+            } else {
+                scrollToTopBtn.classList.add('opacity-0', 'pointer-events-none');
+                scrollToTopBtn.classList.remove('opacity-100');
+            }
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
