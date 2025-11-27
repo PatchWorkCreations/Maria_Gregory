@@ -1,0 +1,161 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}Image Gallery{% endblock %}
+
+{% block content %}
+<div class="mb-8 flex justify-between items-center">
+    <div>
+        <h1 class="text-3xl font-bold text-navy-900 mb-2">Image Gallery</h1>
+        <p class="text-gray-600">Upload and manage your images</p>
+    </div>
+    <button onclick="document.getElementById('uploadModal').classList.remove('hidden')" class="bg-navy-900 hover:bg-navy-800 text-white px-6 py-3 rounded-lg transition-colors">
+        <i class="fas fa-upload mr-2"></i>Upload Image
+    </button>
+</div>
+
+<!-- Upload Modal -->
+<div id="uploadModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+    <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold text-navy-900">Upload Image</h2>
+            <button onclick="document.getElementById('uploadModal').classList.add('hidden')" class="text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <form id="uploadForm" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-4">
+                <label class="block text-gray-700 font-medium mb-2">Image File</label>
+                <input type="file" name="image" id="imageInput" accept="image/*" required class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+            </div>
+            
+            <div class="mb-4">
+                <label class="block text-gray-700 font-medium mb-2">Title</label>
+                <input type="text" name="title" class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="Image title">
+            </div>
+            
+            <div class="mb-4">
+                <label class="block text-gray-700 font-medium mb-2">Description</label>
+                <textarea name="description" class="w-full px-4 py-2 border border-gray-300 rounded-lg" rows="3" placeholder="Image description"></textarea>
+            </div>
+            
+            <div class="mb-4">
+                <label class="block text-gray-700 font-medium mb-2">Folder</label>
+                <input type="text" name="folder" value="myApp/uploads" class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="myApp/uploads">
+            </div>
+            
+            <div class="flex gap-4">
+                <button type="submit" class="flex-1 bg-navy-900 hover:bg-navy-800 text-white px-6 py-3 rounded-lg transition-colors">
+                    <i class="fas fa-upload mr-2"></i>Upload
+                </button>
+                <button type="button" onclick="document.getElementById('uploadModal').classList.add('hidden')" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 px-6 py-3 rounded-lg transition-colors">
+                    Cancel
+                </button>
+            </div>
+        </form>
+        
+        <div id="uploadProgress" class="hidden mt-4">
+            <div class="bg-gray-200 rounded-full h-2">
+                <div id="progressBar" class="bg-blue-600 h-2 rounded-full" style="width: 0%"></div>
+            </div>
+            <p class="text-sm text-gray-600 mt-2">Uploading...</p>
+        </div>
+    </div>
+</div>
+
+<!-- Gallery Grid -->
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+    {% for image in page_obj %}
+        <div class="bg-white rounded-lg shadow overflow-hidden group relative">
+            <img src="{{ image.thumbnail_url|default:image.original_url }}" alt="{{ image.title }}" class="w-full h-48 object-cover">
+            <div class="p-3">
+                <p class="text-sm font-medium text-navy-900 truncate">{{ image.title }}</p>
+                <p class="text-xs text-gray-500">{{ image.width }}x{{ image.height }}</p>
+            </div>
+            <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-60 transition-opacity flex items-center justify-center gap-2">
+                <button onclick="copyUrl('{{ image.original_url }}')" class="bg-white text-navy-900 px-3 py-2 rounded text-sm opacity-0 group-hover:opacity-100 transition-opacity">
+                    <i class="fas fa-copy mr-1"></i>Copy URL
+                </button>
+            </div>
+        </div>
+    {% empty %}
+        <div class="col-span-full text-center py-12">
+            <i class="fas fa-images text-6xl text-gray-300 mb-4"></i>
+            <p class="text-gray-600">No images uploaded yet</p>
+        </div>
+    {% endfor %}
+</div>
+
+<!-- Pagination -->
+{% if page_obj.has_other_pages %}
+    <div class="mt-8 flex justify-center">
+        <div class="flex gap-2">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}" class="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+                    <i class="fas fa-chevron-left"></i>
+                </a>
+            {% endif %}
+            
+            <span class="px-4 py-2 bg-navy-900 text-white rounded-lg">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </span>
+            
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            {% endif %}
+        </div>
+    </div>
+{% endif %}
+
+{% block extra_js %}
+<script>
+    document.getElementById('uploadForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        const progressDiv = document.getElementById('uploadProgress');
+        const progressBar = document.getElementById('progressBar');
+        
+        progressDiv.classList.remove('hidden');
+        progressBar.style.width = '50%';
+        
+        try {
+            const response = await fetch('{% url "dashboard:upload_image" %}', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                }
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                progressBar.style.width = '100%';
+                setTimeout(() => {
+                    location.reload();
+                }, 500);
+            } else {
+                alert('Error: ' + (data.error || 'Upload failed'));
+                progressDiv.classList.add('hidden');
+            }
+        } catch (error) {
+            alert('Error: ' + error.message);
+            progressDiv.classList.add('hidden');
+        }
+    });
+    
+    function copyUrl(url) {
+        navigator.clipboard.writeText(url).then(() => {
+            alert('URL copied to clipboard!');
+        });
+    }
+</script>
+{% endblock %}
+{% endblock %}
+
+
+

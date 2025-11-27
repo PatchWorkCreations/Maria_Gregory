@@ -1,0 +1,149 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}Edit Navigation{% endblock %}
+
+{% block content %}
+<div class="mb-8 flex justify-between items-center">
+    <div>
+        <h1 class="text-3xl font-bold text-navy-900 mb-2">Edit Navigation</h1>
+        <p class="text-gray-600">Manage your website navigation menu</p>
+    </div>
+    <button onclick="document.getElementById('addModal').classList.remove('hidden')" class="bg-navy-900 hover:bg-navy-800 text-white px-6 py-3 rounded-lg transition-colors">
+        <i class="fas fa-plus mr-2"></i>Add Item
+    </button>
+</div>
+
+<!-- Add/Edit Modal -->
+<div id="addModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+    <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold text-navy-900">Navigation Item</h2>
+            <button onclick="document.getElementById('addModal').classList.add('hidden')" class="text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <form method="post" id="navForm">
+            {% csrf_token %}
+            <input type="hidden" name="id" id="navId">
+            
+            <div class="mb-4">
+                <label class="block text-gray-700 font-medium mb-2">Label</label>
+                <input type="text" name="label" id="navLabel" required class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+            </div>
+            
+            <div class="mb-4">
+                <label class="block text-gray-700 font-medium mb-2">URL</label>
+                <input type="text" name="url" id="navUrl" required class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="/about or https://...">
+            </div>
+            
+            <div class="mb-4">
+                <label class="block text-gray-700 font-medium mb-2">Order</label>
+                <input type="number" name="order" id="navOrder" value="0" class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+            </div>
+            
+            <div class="mb-4 flex items-center gap-4">
+                <label class="flex items-center">
+                    <input type="checkbox" name="is_external" id="navExternal" class="mr-2">
+                    <span class="text-gray-700">External Link</span>
+                </label>
+                
+                <label class="flex items-center">
+                    <input type="checkbox" name="is_active" id="navActive" checked class="mr-2">
+                    <span class="text-gray-700">Active</span>
+                </label>
+            </div>
+            
+            <div class="flex gap-4">
+                <button type="submit" class="flex-1 bg-navy-900 hover:bg-navy-800 text-white px-6 py-3 rounded-lg transition-colors">
+                    Save
+                </button>
+                <button type="button" onclick="document.getElementById('addModal').classList.add('hidden')" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 px-6 py-3 rounded-lg transition-colors">
+                    Cancel
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Navigation Items List -->
+<div class="bg-white rounded-lg shadow overflow-hidden">
+    <table class="w-full">
+        <thead class="bg-navy-900 text-white">
+            <tr>
+                <th class="px-6 py-3 text-left">Label</th>
+                <th class="px-6 py-3 text-left">URL</th>
+                <th class="px-6 py-3 text-left">Order</th>
+                <th class="px-6 py-3 text-left">Type</th>
+                <th class="px-6 py-3 text-left">Status</th>
+                <th class="px-6 py-3 text-left">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in nav_items %}
+                <tr class="border-b border-gray-200 hover:bg-gray-50">
+                    <td class="px-6 py-4">{{ item.label }}</td>
+                    <td class="px-6 py-4 text-sm text-gray-600">{{ item.url }}</td>
+                    <td class="px-6 py-4">{{ item.order }}</td>
+                    <td class="px-6 py-4">
+                        {% if item.is_external %}
+                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">External</span>
+                        {% else %}
+                            <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded text-xs">Internal</span>
+                        {% endif %}
+                    </td>
+                    <td class="px-6 py-4">
+                        {% if item.is_active %}
+                            <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">Active</span>
+                        {% else %}
+                            <span class="bg-red-100 text-red-800 px-2 py-1 rounded text-xs">Inactive</span>
+                        {% endif %}
+                    </td>
+                    <td class="px-6 py-4">
+                        <div class="flex gap-2">
+                            <button onclick="editItem({{ item.id }}, '{{ item.label }}', '{{ item.url }}', {{ item.order }}, {{ item.is_external|yesno:"true,false" }}, {{ item.is_active|yesno:"true,false" }})" class="text-blue-600 hover:text-blue-800">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <form method="post" class="inline" onsubmit="return confirm('Delete this item?')">
+                                {% csrf_token %}
+                                <input type="hidden" name="delete_id" value="{{ item.id }}">
+                                <button type="submit" class="text-red-600 hover:text-red-800">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="6" class="px-6 py-8 text-center text-gray-500">No navigation items yet</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% block extra_js %}
+<script>
+    function editItem(id, label, url, order, isExternal, isActive) {
+        document.getElementById('navId').value = id;
+        document.getElementById('navLabel').value = label;
+        document.getElementById('navUrl').value = url;
+        document.getElementById('navOrder').value = order;
+        document.getElementById('navExternal').checked = isExternal;
+        document.getElementById('navActive').checked = isActive;
+        document.getElementById('addModal').classList.remove('hidden');
+    }
+    
+    // Reset form when opening for new item
+    document.querySelector('button[onclick*="addModal"]').addEventListener('click', function() {
+        document.getElementById('navForm').reset();
+        document.getElementById('navId').value = '';
+        document.getElementById('navActive').checked = true;
+    });
+</script>
+{% endblock %}
+{% endblock %}
+
+
+

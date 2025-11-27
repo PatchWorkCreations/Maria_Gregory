@@ -1,0 +1,93 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}Dashboard Home{% endblock %}
+
+{% block content %}
+<div class="mb-8">
+    <h1 class="text-3xl font-bold text-navy-900 mb-2">Welcome to Dashboard</h1>
+    <p class="text-gray-600">Manage your website content easily</p>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div class="bg-white rounded-lg shadow p-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-gray-600 text-sm">Total Images</p>
+                <p class="text-3xl font-bold text-navy-900">{{ total_images }}</p>
+            </div>
+            <div class="bg-blue-100 p-3 rounded-full">
+                <i class="fas fa-images text-blue-600 text-2xl"></i>
+            </div>
+        </div>
+        <a href="{% url 'dashboard:gallery' %}" class="text-blue-600 hover:text-blue-800 text-sm mt-4 inline-block">
+            View Gallery <i class="fas fa-arrow-right ml-1"></i>
+        </a>
+    </div>
+    
+    <div class="bg-white rounded-lg shadow p-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-gray-600 text-sm">Navigation Items</p>
+                <p class="text-3xl font-bold text-navy-900">{{ total_nav_items }}</p>
+            </div>
+            <div class="bg-green-100 p-3 rounded-full">
+                <i class="fas fa-bars text-green-600 text-2xl"></i>
+            </div>
+        </div>
+        <a href="{% url 'dashboard:navigation_edit' %}" class="text-green-600 hover:text-green-800 text-sm mt-4 inline-block">
+            Manage Navigation <i class="fas fa-arrow-right ml-1"></i>
+        </a>
+    </div>
+    
+    <div class="bg-white rounded-lg shadow p-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-gray-600 text-sm">Services</p>
+                <p class="text-3xl font-bold text-navy-900">{{ total_services }}</p>
+            </div>
+            <div class="bg-purple-100 p-3 rounded-full">
+                <i class="fas fa-briefcase text-purple-600 text-2xl"></i>
+            </div>
+        </div>
+        <a href="{% url 'dashboard:services_list' %}" class="text-purple-600 hover:text-purple-800 text-sm mt-4 inline-block">
+            Manage Services <i class="fas fa-arrow-right ml-1"></i>
+        </a>
+    </div>
+    
+    <div class="bg-white rounded-lg shadow p-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-gray-600 text-sm">Testimonials</p>
+                <p class="text-3xl font-bold text-navy-900">{{ total_testimonials }}</p>
+            </div>
+            <div class="bg-yellow-100 p-3 rounded-full">
+                <i class="fas fa-quote-left text-yellow-600 text-2xl"></i>
+            </div>
+        </div>
+        <a href="{% url 'dashboard:testimonials_list' %}" class="text-yellow-600 hover:text-yellow-800 text-sm mt-4 inline-block">
+            Manage Testimonials <i class="fas fa-arrow-right ml-1"></i>
+        </a>
+    </div>
+</div>
+
+<div class="bg-white rounded-lg shadow p-6">
+    <h2 class="text-xl font-bold text-navy-900 mb-4">Recent Images</h2>
+    {% if recent_images %}
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+            {% for image in recent_images %}
+                <div class="relative group">
+                    <img src="{{ image.thumbnail_url|default:image.original_url }}" alt="{{ image.title }}" class="w-full h-24 object-cover rounded-lg">
+                    <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-opacity rounded-lg flex items-center justify-center">
+                        <span class="text-white text-xs opacity-0 group-hover:opacity-100">{{ image.title|truncatewords:3 }}</span>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-gray-600">No images uploaded yet. <a href="{% url 'dashboard:gallery' %}" class="text-blue-600 hover:text-blue-800">Upload your first image</a></p>
+    {% endif %}
+</div>
+{% endblock %}
+
+
+
