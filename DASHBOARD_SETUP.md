@@ -24,7 +24,10 @@ pip install -r requirements.txt
 CLOUDINARY_CLOUD_NAME=your_cloud_name
 CLOUDINARY_API_KEY=your_api_key
 CLOUDINARY_API_SECRET=your_api_secret
+OPENAI_API_KEY=your_openai_api_key
 ```
+
+**Note:** Get your OpenAI API key from [platform.openai.com](https://platform.openai.com/api-keys)
 
 **Important:** Add `.env` to `.gitignore` to keep your credentials secure!
 
