@@ -144,8 +144,334 @@
     </div>
     
     {% block extra_js %}{% endblock %}
+    
+    <!-- Image Picker Modal (Reusable Component) -->
+    <div id="imagePickerModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+        <div class="bg-white rounded-lg p-8 max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-navy-900">Select Image from Gallery</h2>
+                <button onclick="closeImagePicker()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+            
+            <div id="imagePickerGallery" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <!-- Images will be loaded here -->
+            </div>
+            
+            <div class="mt-6 flex justify-center">
+                <div id="imagePickerPagination" class="flex gap-2">
+                    <!-- Pagination will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Image Upload Modal (Reusable Component) -->
+    <div id="imageUploadModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+        <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-navy-900">Upload Image</h2>
+                <button onclick="closeImageUpload()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <form id="imageUploadForm" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-medium mb-2">Image File</label>
+                    <input type="file" name="image" id="imageUploadInput" accept="image/*" required class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-medium mb-2">Title</label>
+                    <input type="text" name="title" class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="Image title">
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-medium mb-2">Description</label>
+                    <textarea name="description" class="w-full px-4 py-2 border border-gray-300 rounded-lg" rows="3" placeholder="Image description"></textarea>
+                </div>
+                
+                <div class="flex gap-4">
+                    <button type="submit" class="flex-1 bg-navy-900 hover:bg-navy-800 text-white px-6 py-3 rounded-lg transition-colors">
+                        <i class="fas fa-upload mr-2"></i>Upload
+                    </button>
+                    <button type="button" onclick="closeImageUpload()" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 px-6 py-3 rounded-lg transition-colors">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+            
+            <div id="imageUploadProgress" class="hidden mt-4">
+                <div class="bg-gray-200 rounded-full h-2">
+                    <div id="imageUploadProgressBar" class="bg-blue-600 h-2 rounded-full" style="width: 0%"></div>
+                </div>
+                <p class="text-sm text-gray-600 mt-2">Uploading...</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Global image picker state
+        let currentImageTarget = null;
+        let currentImageCallback = null;
+        
+        // Open image picker
+        function openImagePicker(targetInputId, callback) {
+            currentImageTarget = targetInputId;
+            currentImageCallback = callback || null;
+            document.getElementById('imagePickerModal').classList.remove('hidden');
+            loadImageGallery(1);
+        }
+        
+        // Close image picker
+        function closeImagePicker() {
+            document.getElementById('imagePickerModal').classList.add('hidden');
+            currentImageTarget = null;
+            currentImageCallback = null;
+        }
+        
+        // Load images from gallery
+        async function loadImageGallery(page = 1) {
+            try {
+                const jsonResponse = await fetch(`{% url 'dashboard:gallery' %}?format=json&page=${page}`);
+                if (jsonResponse.ok) {
+                    const data = await jsonResponse.json();
+                    displayImageGallery(data.images, data.pagination);
+                } else {
+                    throw new Error('Failed to load images');
+                }
+            } catch (error) {
+                console.error('Error loading gallery:', error);
+                const gallery = document.getElementById('imagePickerGallery');
+                gallery.innerHTML = '<p class="col-span-full text-center text-gray-500 py-8">Error loading images. Please try again or <button onclick="openImageUpload(currentImageTarget, true)" class="text-blue-600 hover:text-blue-800">upload a new image</button>.</p>';
+            }
+        }
+        
+        // Display images in gallery
+        function displayImageGallery(images, pagination) {
+            const gallery = document.getElementById('imagePickerGallery');
+            gallery.innerHTML = '';
+            
+            if (!images || images.length === 0) {
+                gallery.innerHTML = '<p class="col-span-full text-center text-gray-500 py-8">No images found. <button onclick="openImageUpload(currentImageTarget, true)" class="text-blue-600 hover:text-blue-800">Upload one now</button></p>';
+                return;
+            }
+            
+            images.forEach(image => {
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-lg shadow overflow-hidden cursor-pointer hover:shadow-lg transition-shadow';
+                card.onclick = () => selectImage(image.original_url || image.web_url, image.title);
+                card.innerHTML = `
+                    <img src="${image.thumbnail_url || image.web_url || image.original_url}" alt="${image.title}" class="w-full h-32 object-cover">
+                    <div class="p-2">
+                        <p class="text-xs font-medium text-navy-900 truncate">${image.title}</p>
+                    </div>
+                `;
+                gallery.appendChild(card);
+            });
+            
+            // Display pagination
+            if (pagination && pagination.has_other_pages) {
+                const paginationDiv = document.getElementById('imagePickerPagination');
+                paginationDiv.innerHTML = '';
+                
+                if (pagination.has_previous) {
+                    const prevBtn = document.createElement('button');
+                    prevBtn.className = 'px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50';
+                    prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
+                    prevBtn.onclick = () => loadImageGallery(pagination.previous_page_number);
+                    paginationDiv.appendChild(prevBtn);
+                }
+                
+                const pageInfo = document.createElement('span');
+                pageInfo.className = 'px-4 py-2 bg-navy-900 text-white rounded-lg';
+                pageInfo.textContent = `Page ${pagination.number} of ${pagination.num_pages}`;
+                paginationDiv.appendChild(pageInfo);
+                
+                if (pagination.has_next) {
+                    const nextBtn = document.createElement('button');
+                    nextBtn.className = 'px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50';
+                    nextBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+                    nextBtn.onclick = () => loadImageGallery(pagination.next_page_number);
+                    paginationDiv.appendChild(nextBtn);
+                }
+            }
+        }
+        
+        // Select image from gallery
+        function selectImage(url, title) {
+            if (currentImageTarget) {
+                const input = document.getElementById(currentImageTarget);
+                if (input) {
+                    input.value = url;
+                    // Trigger change event
+                    input.dispatchEvent(new Event('change', { bubbles: true }));
+                    
+                    // Update preview if there's a preview image nearby
+                    const preview = input.parentElement.querySelector('img');
+                    if (preview) {
+                        preview.src = url;
+                        preview.style.display = 'block';
+                    } else {
+                        // Try to find preview in next sibling or parent
+                        const parent = input.closest('.mb-6');
+                        if (parent) {
+                            let previewDiv = parent.querySelector('.mt-2');
+                            if (!previewDiv) {
+                                previewDiv = document.createElement('div');
+                                previewDiv.className = 'mt-2';
+                                parent.appendChild(previewDiv);
+                            }
+                            const img = document.createElement('img');
+                            img.src = url;
+                            img.alt = title || 'Image Preview';
+                            img.className = 'max-w-xs h-32 object-cover rounded-lg border border-gray-300';
+                            previewDiv.innerHTML = '';
+                            previewDiv.appendChild(img);
+                        }
+                    }
+                }
+            }
+            
+            if (currentImageCallback) {
+                currentImageCallback(url, title);
+            }
+            
+            closeImagePicker();
+        }
+        
+        // Open image upload modal
+        function openImageUpload(targetInputId = null, preservePicker = false) {
+            if (targetInputId) {
+                currentImageTarget = targetInputId;
+            }
+            if (!preservePicker) {
+                closeImagePicker();
+            }
+            document.getElementById('imageUploadModal').classList.remove('hidden');
+        }
+        
+        // Close image upload modal
+        function closeImageUpload() {
+            document.getElementById('imageUploadModal').classList.add('hidden');
+            document.getElementById('imageUploadForm').reset();
+            document.getElementById('imageUploadProgress').classList.add('hidden');
+        }
+        
+        // Handle image upload
+        document.getElementById('imageUploadForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const progressDiv = document.getElementById('imageUploadProgress');
+            const progressBar = document.getElementById('imageUploadProgressBar');
+            
+            progressDiv.classList.remove('hidden');
+            progressBar.style.width = '50%';
+            
+            try {
+                const response = await fetch('{% url "dashboard:upload_image" %}', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    progressBar.style.width = '100%';
+                    
+                    // If we have a target, set it
+                    if (currentImageTarget) {
+                        const input = document.getElementById(currentImageTarget);
+                        if (input) {
+                            input.value = data.original_url || data.web_url;
+                            input.dispatchEvent(new Event('change', { bubbles: true }));
+                        }
+                    }
+                    
+                    setTimeout(() => {
+                        closeImageUpload();
+                        if (currentImageTarget) {
+                            closeImagePicker();
+                        } else {
+                            // Reload gallery if we're on the gallery page
+                            if (window.location.pathname.includes('gallery')) {
+                                location.reload();
+                            }
+                        }
+                    }, 500);
+                } else {
+                    alert('Error: ' + (data.error || 'Upload failed'));
+                    progressDiv.classList.add('hidden');
+                }
+            } catch (error) {
+                alert('Error: ' + error.message);
+                progressDiv.classList.add('hidden');
+            }
+        });
+        
+        // Close modals on outside click
+        document.getElementById('imagePickerModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeImagePicker();
+            }
+        });
+        
+        document.getElementById('imageUploadModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeImageUpload();
+            }
+        });
+        
+        // Auto-update image previews when URL inputs change
+        document.addEventListener('DOMContentLoaded', function() {
+            // Find all image URL inputs and add change listeners
+            const imageInputs = document.querySelectorAll('input[type="url"][id*="image"], input[type="url"][id*="Image"], input[type="url"][name*="image"]');
+            imageInputs.forEach(input => {
+                input.addEventListener('change', function() {
+                    const url = this.value.trim();
+                    if (url) {
+                        const parent = this.closest('.mb-6');
+                        if (parent) {
+                            let previewDiv = parent.querySelector('.mt-2');
+                            if (!previewDiv) {
+                                previewDiv = document.createElement('div');
+                                previewDiv.className = 'mt-2';
+                                parent.appendChild(previewDiv);
+                            }
+                            const img = document.createElement('img');
+                            img.src = url;
+                            img.alt = 'Image Preview';
+                            img.className = 'max-w-xs h-32 object-cover rounded-lg border border-gray-300';
+                            img.onerror = function() {
+                                this.style.display = 'none';
+                            };
+                            previewDiv.innerHTML = '';
+                            previewDiv.appendChild(img);
+                        }
+                    } else {
+                        const parent = this.closest('.mb-6');
+                        if (parent) {
+                            const previewDiv = parent.querySelector('.mt-2');
+                            if (previewDiv) {
+                                previewDiv.innerHTML = '';
+                            }
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
+
+
 
 
 

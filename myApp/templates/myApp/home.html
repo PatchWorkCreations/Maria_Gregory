@@ -1,10 +1,30 @@
+{% load custom_filters %}
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% if content.seo %}
+    <meta name="description" content="{{ content.seo.meta_description|default:'Maria Gregory offers quiet, private 1:1 support for founders, mentors, executives, and high-responsibility leaders.' }}">
+    <meta name="keywords" content="{{ content.seo.meta_keywords|default:'' }}">
+    <title>{{ content.seo.page_title|default:'Maria Gregory – Someone Leaders Can Lean On' }}</title>
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ content.seo.og_title|default:content.seo.page_title|default:'Maria Gregory – Someone Leaders Can Lean On' }}">
+    <meta property="og:description" content="{{ content.seo.og_description|default:content.seo.meta_description|default:'' }}">
+    {% if content.seo.og_image %}<meta property="og:image" content="{{ content.seo.og_image }}">{% endif %}
+    {% if content.seo.canonical_url %}<link rel="canonical" href="{{ content.seo.canonical_url }}">{% endif %}
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="{{ content.seo.twitter_card|default:'summary_large_image' }}">
+    <meta name="twitter:title" content="{{ content.seo.og_title|default:content.seo.page_title|default:'Maria Gregory' }}">
+    <meta name="twitter:description" content="{{ content.seo.og_description|default:content.seo.meta_description|default:'' }}">
+    {% if content.seo.og_image %}<meta name="twitter:image" content="{{ content.seo.og_image }}">{% endif %}
+    {% else %}
     <meta name="description" content="Maria Gregory offers quiet, private 1:1 support for founders, mentors, executives, and high-responsibility leaders — especially the ones who are used to figuring things out on their own.">
     <title>Maria Gregory – Someone Leaders Can Lean On</title>
+    {% endif %}
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -384,20 +404,18 @@
                     </div>
     
                     <h1 class="text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-ephesis font-normal text-white leading-tight fade-in-up stagger-2">
-                        Maria <span class="text-[#22C55E]">Gregory</span>
+                        {% if content.hero.title %}{{ content.hero.title }}{% else %}Maria <span class="text-[#22C55E]">Gregory</span>{% endif %}
                     </h1>
     
                     <p class="text-lg sm:text-xl md:text-2xl text-[#E5E7EB] font-serif italic fade-in-up stagger-3">
-                        Someone Leaders Can Lean On.
+                        {% if content.hero.subtitle %}{{ content.hero.subtitle }}{% else %}Someone Leaders Can Lean On.{% endif %}
                     </p>
     
+                    {% if content.hero.description %}
                     <p class="text-lg md:text-xl text-[#E5E7EB]/90 leading-relaxed max-w-xl mx-auto lg:mx-0 fade-in-up stagger-4">
-                        "I'm the person leaders turn to when they've carried things far on their own and simply want a steadier place to think, breathe, and be human again."
+                        {{ content.hero.description }}
                     </p>
-    
-                    <p class="text-base md:text-lg text-[#A7F3D0] italic max-w-xl mx-auto lg:mx-0 fade-in-up stagger-4">
-                        If you're often the one others rely on, notice what it feels like to land somewhere you don't have to hold anything just yet.
-                    </p>
+                    {% endif %}
     
                     <!-- Who she works with -->
                     <div class="flex flex-wrap justify-center lg:justify-start gap-3 text-sm md:text-base text-[#9CA3AF] fade-in-up stagger-4">
@@ -416,12 +434,15 @@
                     </div>
     
                     <!-- Buttons -->
+                    {% if content.hero.button_text or content.hero.button_url %}
                     <div class="flex flex-col sm:flex-row items-center sm:items-stretch gap-4 pt-2 fade-in-up stagger-5">
-                        <a href="#mentorship"
+                        {% if content.hero.button_text %}
+                        <a href="{{ content.hero.button_url|default:'#mentorship' }}"
                            class="inline-flex items-center justify-center gap-2 bg-[#22C55E] hover:bg-[#16A34A] text-[#031018] px-8 py-4 rounded-full font-medium text-base md:text-lg transition-all duration-200 ease-out transform hover:-translate-y-0.5 hover:shadow-[0_18px_45px_rgba(34,197,94,0.35)] w-full sm:w-auto">
-                            Explore 1:1 Guidance
+                            {{ content.hero.button_text }}
                             <i class="fas fa-arrow-right text-sm"></i>
                         </a>
+                        {% endif %}
     
                         <a href="#who-she-mentors"
                            class="inline-flex items-center justify-center gap-2 border-2 border-[#A7F3D0]/60 text-[#E5E7EB] hover:bg-[#A7F3D0]/10 hover:border-[#22C55E] px-8 py-4 rounded-full font-medium text-base md:text-lg transition-all duration-200 ease-out transform hover:-translate-y-0.5 hover:shadow-lg w-full sm:w-auto">
@@ -429,6 +450,7 @@
                             <i class="fas fa-question-circle text-sm text-[#A7F3D0]"></i>
                         </a>
                     </div>
+                    {% endif %}
     
                     <!-- Gentle nudge -->
                     <p class="text-sm md:text-base text-[#9CA3AF] pt-2 fade-in-up stagger-6">
@@ -459,8 +481,8 @@
                             </div>
     
                             <img
-                                src="https://www.thelionyoudontsee.com/static/assets/images/about/authorimg1.jpg"
-                                alt="Maria Gregory"
+                                src="{% if content.hero.background_image_url %}{{ content.hero.background_image_url }}{% else %}https://www.thelionyoudontsee.com/static/assets/images/about/authorimg1.jpg{% endif %}"
+                                alt="{% if content.hero.title %}{{ content.hero.title }}{% else %}Maria Gregory{% endif %}"
                                 class="relative w-full aspect-[4/5] object-cover transform transition-all duration-500 hover:scale-105"
                                 onerror="this.src='https://via.placeholder.com/800x1000/111827/ffffff?text=Maria+Gregory';"
                             >
@@ -531,39 +553,61 @@
         </div>
 
         <!-- Subtle section label -->
+        {% if content.portfolio %}
         <div class="max-w-6xl mx-auto mb-6 flex items-center justify-between gap-4 text-sm md:text-base text-[#6B7280]">
             <div class="flex items-center gap-2">
                 <div class="h-px w-10 bg-[#CBD5F5]"></div>
-                <span class="tracking-[0.22em] uppercase">Patterns I see over and over</span>
+                <span class="tracking-[0.22em] uppercase">{{ content.portfolio.title|default:'Patterns I see over and over' }}</span>
             </div>
             <span class="hidden md:inline-block italic text-[#9CA3AF]">
-                If you see yourself in more than one, that’s often where the deepest work begins.
+                {{ content.portfolio.subtitle|default:"If you see yourself in more than one, that's often where the deepest work begins." }}
             </span>
         </div>
+        {% endif %}
 
-        <!-- Leader Types -->
+        <!-- Leader Types / Portfolio Projects -->
+        {% if content.portfolio_projects %}
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            <!-- Card 1: Founders & CEOs -->
-            <div class="group bg-white border border-[#E5E7EB] rounded-2xl shadow-[0_10px_30px_rgba(15,23,42,0.06)] p-7 hover:shadow-[0_20px_50px_rgba(15,23,42,0.12)] transition-all duration-200 transform hover:-translate-y-1 fade-in-up stagger-1">
+            {% for project in content.portfolio_projects %}
+            <!-- Card: {{ project.title }} -->
+            <div class="group bg-white border border-[#E5E7EB] rounded-2xl shadow-[0_10px_30px_rgba(15,23,42,0.06)] p-7 hover:shadow-[0_20px_50px_rgba(15,23,42,0.12)] transition-all duration-200 transform hover:-translate-y-1 fade-in-up stagger-{{ forloop.counter }}">
                 <div class="flex flex-col h-full">
+                    {% if project.image_url %}
+                    <div class="mb-4">
+                        <img src="{{ project.image_url }}" alt="{{ project.title }}" class="w-full h-48 object-cover rounded-lg mb-4">
+                    </div>
+                    {% endif %}
                     <div class="text-center mb-4">
                         <div class="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-[#ECFDF3] group-hover:bg-[#22C55E]/10 transition">
                             <i class="fas fa-briefcase text-[#22C55E] text-xl"></i>
                         </div>
                         <h3 class="text-lg md:text-xl font-serif font-semibold text-[#111827]">
-                            Founders & CEOs
+                            {{ project.title }}
                         </h3>
+                        {% if project.category %}
+                        <span class="inline-block mt-2 bg-[#ECFDF3] text-[#16A34A] px-3 py-1 rounded-full text-xs font-medium">{{ project.category }}</span>
+                        {% endif %}
                     </div>
+                    {% if project.description %}
                     <p class="text-[#4B5563] text-center mb-3 text-base md:text-lg">
-                        You're used to navigating things yourself — and you do it well. But even strong minds appreciate a calm place to think clearly without needing to impress anyone.
+                        {{ project.description }}
                     </p>
-                    <p class="mt-auto text-sm md:text-base text-[#16A34A] italic text-center border-t border-dashed border-[#DCFCE7] pt-3">
-                        Reflection: Where do you go when you don't want to be the one with the answers?
-                    </p>
+                    {% endif %}
+                    {% if project.project_url %}
+                    <div class="mt-auto text-center">
+                        <a href="{{ project.project_url }}" target="_blank" class="text-sm md:text-base text-[#16A34A] hover:text-[#22C55E] font-medium">
+                            Learn More <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
-
-            <!-- Card 2: Coaches, Therapists & Healers -->
+            {% endfor %}
+        </div>
+        {% else %}
+        <!-- Fallback: Hardcoded cards if no portfolio projects -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <!-- Card 1: Founders & CEOs -->
             <div class="group bg-white border border-[#E5E7EB] rounded-2xl shadow-[0_10px_30px_rgba(15,23,42,0.06)] p-7 hover:shadow-[0_20px_50px_rgba(15,23,42,0.12)] transition-all duration-200 transform hover:-translate-y-1 fade-in-up stagger-2">
                 <div class="flex flex-col h-full">
                     <div class="text-center mb-4">
@@ -663,6 +707,7 @@
                 </div>
             </div>
         </div>
+        {% endif %}
 
         <!-- Bottom microcopy -->
         <div class="max-w-3xl mx-auto mt-10 text-center text-sm md:text-base text-[#6B7280] italic fade-in-up stagger-7">
@@ -676,12 +721,19 @@
     <!-- 3. 1:1 Guidance Section -->
     <section id="mentorship" class="py-24 bg-[#2F4258]">
         <div class="container mx-auto px-6">
+            {% if content.services_section %}
             <div class="max-w-4xl mx-auto text-center mb-16 fade-in-up">
                 <h2 class="text-4xl md:text-5xl font-serif font-bold text-white mb-4">
-                    1:1 Work With <span class="text-[#22C55E]">Me</span>
+                    {% if content.services_section.title %}{{ content.services_section.title }}{% else %}1:1 Work With <span class="text-[#22C55E]">Me</span>{% endif %}
                 </h2>
-                <p class="text-xl md:text-2xl text-[#E5E7EB]">A private, steady space for the people who carry everyone else.</p>
+                {% if content.services_section.subtitle %}
+                <p class="text-xl md:text-2xl text-[#E5E7EB]">{{ content.services_section.subtitle }}</p>
+                {% endif %}
+                {% if content.services_section.description %}
+                <p class="text-lg text-[#E5E7EB]/90 mt-4">{{ content.services_section.description }}</p>
+                {% endif %}
             </div>
+            {% endif %}
             
             <div class="max-w-3xl mx-auto mb-16 fade-in-up stagger-1">
                 <div class="bg-[#3B546E] p-8 rounded-xl shadow-lg mb-8">
@@ -699,6 +751,27 @@
                 </div>
             </div>
             
+            {% if content.services %}
+            <div class="max-w-5xl mx-auto mb-12">
+                <h3 class="text-3xl font-serif font-bold text-white text-center mb-12 fade-in-up stagger-2">Our Services</h3>
+                <div class="grid md:grid-cols-2 gap-8">
+                    {% for service in content.services %}
+                    <!-- Service: {{ service.title }} -->
+                    <div class="bg-[#3B546E] p-6 rounded-xl shadow-md hover:shadow-xl transition-all duration-200 hover:-translate-y-1 fade-in-up stagger-{{ forloop.counter|add:2 }}">
+                        {% if service.icon %}<i class="{{ service.icon }} text-[#22C55E] text-3xl mb-4"></i>{% endif %}
+                        <h4 class="text-xl font-serif font-bold text-white mb-3">{{ service.title }}</h4>
+                        {% if service.description %}
+                        <p class="text-[#E5E7EB] mb-3 text-base md:text-lg">{{ service.description }}</p>
+                        {% endif %}
+                        {% if service.image_url %}
+                        <img src="{{ service.image_url }}" alt="{{ service.title }}" class="w-full h-48 object-cover rounded-lg mt-4">
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% else %}
+            <!-- Fallback: Hardcoded services -->
             <div class="max-w-5xl mx-auto mb-12">
                 <h3 class="text-3xl font-serif font-bold text-white text-center mb-12 fade-in-up stagger-2">Our Pillars</h3>
                 <div class="grid md:grid-cols-2 gap-8">
@@ -744,6 +817,7 @@
                     <p class="mt-6"><strong class="text-[#22C55E]">Next step:</strong> "If something here is landing for you, fill out the form below. I personally read every application and will respond with next steps."</p>
                 </div>
             </div>
+            {% endif %}
         </div>
     </section>
     
@@ -817,7 +891,7 @@
                             </div>
                         </div>
                         <div class="flex-1 bg-[#3B546E] p-6 rounded-xl shadow-md hover:shadow-xl transition-all duration-200 hover:-translate-y-1">
-                            <div class="bg-[#233345] text-[#A7F3D0] text-sm rounded-full px-3 py-1 inline-block mb-3 font-semibold">2009–2020</div>
+                            <div class="bg-[#233345] text-[#A7F3D0] text-sm rounded-full px-3 py-1 inline-block mb-3 font-semibold">2009–Present</div>
                             <h3 class="text-2xl font-serif font-bold text-white mb-2">Presidential Member</h3>
                             <p class="text-[#22C55E] font-medium mb-2">American Christian Counselors Association</p>
                             <p class="text-[#E5E7EB] mb-3">Years of supporting individuals through challenge, growth, and transformation.</p>
@@ -1020,17 +1094,21 @@
             <div class="max-w-3xl mx-auto text-center">
                 <div class="fade-in-up">
                     <h2 class="text-4xl md:text-6xl font-serif font-bold text-white mb-8">
-                        Ready for Someone in Your <span class="text-[#22C55E]">Corner?</span>
+                        {% if content.contact.title %}{{ content.contact.title }}{% else %}Ready for Someone in Your <span class="text-[#22C55E]">Corner?</span>{% endif %}
                     </h2>
                     
+                    {% if content.contact.description %}
                     <div class="bg-[#3B546E]/80 backdrop-blur-sm rounded-2xl p-8 md:p-12 shadow-xl mb-10">
                         <p class="text-xl text-[#E5E7EB] mb-6 leading-relaxed">
-                            "You don't have to be struggling to reach out. Many of the people I mentor simply want a steadier, truer way of living and leading — a space where they can think clearly and be understood without needing to explain themselves."
+                            {{ content.contact.description }}
                         </p>
+                        {% if content.contact.subtitle %}
                         <p class="text-sm text-[#A7F3D0] italic">
-                            If things are already going well, what might become possible with a place where you don't have to carry everything alone?
+                            {{ content.contact.subtitle }}
                         </p>
+                        {% endif %}
                     </div>
+                    {% endif %}
                     
                     <div class="fade-in-up stagger-2">
                         <p class="text-2xl font-serif text-white mb-4 italic">
@@ -1062,47 +1140,60 @@
     <section id="contact" class="py-24 bg-[#F9FAFB]">
         <div class="container mx-auto px-6">
             <div class="max-w-3xl mx-auto">
+                {% if content.contact %}
                 <h2 class="text-4xl md:text-5xl font-serif font-bold text-center text-[#2F4258] mb-4 fade-in-up">
-                    Apply for <span class="text-[#22C55E]">1:1 Guidance</span>
+                    {% if content.contact.title %}{{ content.contact.title }}{% else %}Apply for <span class="text-[#22C55E]">1:1 Guidance</span>{% endif %}
                 </h2>
+                {% if content.contact.subtitle %}
                 <p class="text-center text-[#2F4258] mb-2 fade-in-up stagger-1">
-                    "If what you've read resonates, I'd be honored to hear your story.
+                    {{ content.contact.subtitle }}
                 </p>
+                {% endif %}
+                {% if content.contact.description %}
                 <p class="text-center text-[#2F4258] mb-12 fade-in-up stagger-1">
-                    Take your time with these questions — there's no 'right' way to answer them. They're simply a way for me to understand your world and how I might walk alongside you."
+                    {{ content.contact.description }}
                 </p>
+                {% endif %}
+                {% endif %}
                 
+                {% if content.contact_info %}
+                <div class="grid md:grid-cols-3 gap-6 mb-12 fade-in-up stagger-1">
+                    {% for info in content.contact_info %}
+                    <div class="text-center">
+                        {% if info.icon %}<i class="{{ info.icon }} text-[#22C55E] text-3xl mb-3"></i>{% endif %}
+                        <h3 class="font-semibold text-[#2F4258] mb-2">{{ info.label }}</h3>
+                        <p class="text-[#64748B]">
+                            {% if info.type == 'email' %}<a href="mailto:{{ info.value }}" class="hover:text-[#22C55E]">{{ info.value }}</a>
+                            {% elif info.type == 'phone' %}<a href="tel:{{ info.value }}" class="hover:text-[#22C55E]">{{ info.value }}</a>
+                            {% else %}{{ info.value }}{% endif %}
+                        </p>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+                {% if content.contact_form_fields %}
                 <form class="bg-white p-8 rounded-xl shadow-lg fade-in-up stagger-2">
                     <div class="space-y-6">
+                        {% for field in content.contact_form_fields %}
                         <div>
-                            <label for="name" class="block text-[#2F4258] font-medium mb-2">Name *</label>
-                            <input type="text" id="name" name="name" required class="w-full px-4 py-3 border border-[#E5E7EB] rounded-lg focus:ring-2 focus:ring-[#22C55E] focus:border-transparent">
+                            <label for="field_{{ forloop.counter }}" class="block text-[#2F4258] font-medium mb-2">
+                                {{ field.label }}{% if field.is_required %} *{% endif %}
+                            </label>
+                            {% if field.field_type == 'textarea' %}
+                            <textarea id="field_{{ forloop.counter }}" name="{{ field.label|to_field_name }}" rows="4" {% if field.is_required %}required{% endif %} placeholder="{{ field.placeholder|default:'' }}" class="w-full px-4 py-3 border border-[#E5E7EB] rounded-lg focus:ring-2 focus:ring-[#22C55E] focus:border-transparent"></textarea>
+                            {% elif field.field_type == 'select' %}
+                            <select id="field_{{ forloop.counter }}" name="{{ field.label|to_field_name }}" {% if field.is_required %}required{% endif %} class="w-full px-4 py-3 border border-[#E5E7EB] rounded-lg focus:ring-2 focus:ring-[#22C55E] focus:border-transparent">
+                                <option value="">{{ field.placeholder|default:'Select...' }}</option>
+                                {% for option in field.options %}
+                                <option value="{{ option }}">{{ option }}</option>
+                                {% endfor %}
+                            </select>
+                            {% else %}
+                            <input type="{{ field.field_type }}" id="field_{{ forloop.counter }}" name="{{ field.label|to_field_name }}" {% if field.is_required %}required{% endif %} placeholder="{{ field.placeholder|default:'' }}" class="w-full px-4 py-3 border border-[#E5E7EB] rounded-lg focus:ring-2 focus:ring-[#22C55E] focus:border-transparent">
+                            {% endif %}
                         </div>
-                        
-                        <div>
-                            <label for="email" class="block text-[#2F4258] font-medium mb-2">Email *</label>
-                            <input type="email" id="email" name="email" required class="w-full px-4 py-3 border border-[#E5E7EB] rounded-lg focus:ring-2 focus:ring-[#22C55E] focus:border-transparent">
-                        </div>
-                        
-                        <div>
-                            <label for="role" class="block text-[#2F4258] font-medium mb-2">Role / What you do *</label>
-                            <input type="text" id="role" name="role" required class="w-full px-4 py-3 border border-[#E5E7EB] rounded-lg focus:ring-2 focus:ring-[#22C55E] focus:border-transparent">
-                        </div>
-                        
-                        <div>
-                            <label for="who_serve" class="block text-[#2F4258] font-medium mb-2">"Who do you primarily serve or lead?" *</label>
-                            <textarea id="who_serve" name="who_serve" rows="4" required class="w-full px-4 py-3 border border-[#E5E7EB] rounded-lg focus:ring-2 focus:ring-[#22C55E] focus:border-transparent"></textarea>
-                        </div>
-                        
-                        <div>
-                            <label for="hoping_for" class="block text-[#2F4258] font-medium mb-2">"What are you hoping this 1:1 work will give you?" *</label>
-                            <textarea id="hoping_for" name="hoping_for" rows="4" required class="w-full px-4 py-3 border border-[#E5E7EB] rounded-lg focus:ring-2 focus:ring-[#22C55E] focus:border-transparent"></textarea>
-                        </div>
-                        
-                        <div>
-                            <label for="current_season" class="block text-[#2F4258] font-medium mb-2">"Anything important I should know about your current season?"</label>
-                            <textarea id="current_season" name="current_season" rows="4" class="w-full px-4 py-3 border border-[#E5E7EB] rounded-lg focus:ring-2 focus:ring-[#22C55E] focus:border-transparent"></textarea>
-                        </div>
+                        {% endfor %}
                         
                         <button type="submit" class="w-full bg-[#22C55E] hover:bg-[#16A34A] text-[#233345] px-8 py-4 rounded-full font-medium transition-all duration-200 ease-out transform hover:-translate-y-0.5 hover:shadow-lg">
                             Submit Application
@@ -1110,6 +1201,7 @@
                         </button>
                     </div>
                 </form>
+                {% endif %}
             </div>
         </div>
     </section>
@@ -1140,8 +1232,18 @@
             </div>
             
             <div class="mt-8 pt-8 border-t border-[#233345] text-center text-[#A7F3D0] text-sm">
-                <p>&copy; 2025 Maria Gregory. All rights reserved.</p>
+                <p>{% if content.footer.copyright_text %}{{ content.footer.copyright_text }}{% else %}&copy; 2025 Maria Gregory. All rights reserved.{% endif %}</p>
             </div>
+            
+            {% if content.social_links %}
+            <div class="mt-6 flex justify-center gap-4">
+                {% for link in content.social_links %}
+                <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer" class="text-[#A7F3D0] hover:text-[#22C55E] transition-colors duration-150 text-xl" title="{{ link.label }}">
+                    {% if link.icon %}<i class="{{ link.icon }}"></i>{% else %}{{ link.label }}{% endif %}
+                </a>
+                {% endfor %}
+            </div>
+            {% endif %}
         </div>
     </footer>
     

@@ -114,8 +114,32 @@ def gallery(request):
     
     # Pagination
     paginator = Paginator(images, 24)
-    page_number = request.GET.get('page')
+    page_number = request.GET.get('page', 1)
     page_obj = paginator.get_page(page_number)
+    
+    # Support JSON response for image picker
+    if request.GET.get('format') == 'json' or request.GET.get('json'):
+        images_data = []
+        for img in page_obj:
+            images_data.append({
+                'id': img.id,
+                'title': img.title,
+                'original_url': img.original_url,
+                'web_url': img.web_url,
+                'thumbnail_url': img.thumbnail_url,
+            })
+        
+        return JsonResponse({
+            'images': images_data,
+            'pagination': {
+                'number': page_obj.number,
+                'num_pages': paginator.num_pages,
+                'has_previous': page_obj.has_previous(),
+                'has_next': page_obj.has_next(),
+                'previous_page_number': page_obj.previous_page_number() if page_obj.has_previous() else None,
+                'next_page_number': page_obj.next_page_number() if page_obj.has_next() else None,
+            }
+        })
     
     context = {
         'page_obj': page_obj,
@@ -635,11 +659,19 @@ def contact_form_field_edit(request, field_id=None):
         field.sort_order = int(request.POST.get('sort_order', 0))
         field.is_active = request.POST.get('is_active') == 'on'
         
+        # Handle options - can come as JSON string or as textarea (one per line)
         options_json = request.POST.get('options', '[]')
-        try:
-            field.options = json.loads(options_json)
-        except:
-            field.options = []
+        options_text = request.POST.get('options_text', '')
+        
+        if options_text:
+            # Convert textarea (one per line) to list
+            options_list = [opt.strip() for opt in options_text.split('\n') if opt.strip()]
+            field.options = options_list
+        else:
+            try:
+                field.options = json.loads(options_json)
+            except:
+                field.options = []
         
         field.save()
         messages.success(request, 'Form field saved!')

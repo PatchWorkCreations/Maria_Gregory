@@ -1,0 +1,72 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}Statistics{% endblock %}
+
+{% block content %}
+<div class="mb-8 flex justify-between items-center">
+    <div>
+        <h1 class="text-3xl font-bold text-navy-900 mb-2">Statistics</h1>
+        <p class="text-gray-600">Manage your website statistics</p>
+    </div>
+    <a href="{% url 'dashboard:stat_new' %}" class="bg-navy-900 hover:bg-navy-800 text-white px-6 py-3 rounded-lg transition-colors">
+        <i class="fas fa-plus mr-2"></i>Add Statistic
+    </a>
+</div>
+
+<div class="bg-white rounded-lg shadow overflow-hidden">
+    <table class="w-full">
+        <thead class="bg-navy-900 text-white">
+            <tr>
+                <th class="px-6 py-3 text-left">Label</th>
+                <th class="px-6 py-3 text-left">Value</th>
+                <th class="px-6 py-3 text-left">Icon</th>
+                <th class="px-6 py-3 text-left">Order</th>
+                <th class="px-6 py-3 text-left">Status</th>
+                <th class="px-6 py-3 text-left">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for stat in stats %}
+                <tr class="border-b border-gray-200 hover:bg-gray-50">
+                    <td class="px-6 py-4 font-medium">{{ stat.label }}</td>
+                    <td class="px-6 py-4 text-lg font-bold text-navy-900">{{ stat.value }}</td>
+                    <td class="px-6 py-4">
+                        {% if stat.icon %}
+                            <i class="{{ stat.icon }} text-xl"></i>
+                        {% else %}
+                            <span class="text-gray-400">-</span>
+                        {% endif %}
+                    </td>
+                    <td class="px-6 py-4">{{ stat.sort_order }}</td>
+                    <td class="px-6 py-4">
+                        {% if stat.is_active %}
+                            <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">Active</span>
+                        {% else %}
+                            <span class="bg-red-100 text-red-800 px-2 py-1 rounded text-xs">Inactive</span>
+                        {% endif %}
+                    </td>
+                    <td class="px-6 py-4">
+                        <div class="flex gap-2">
+                            <a href="{% url 'dashboard:stat_edit' stat.id %}" class="text-blue-600 hover:text-blue-800">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <form method="post" class="inline" onsubmit="return confirm('Delete this statistic?')">
+                                {% csrf_token %}
+                                <input type="hidden" name="delete_id" value="{{ stat.id }}">
+                                <button type="submit" class="text-red-600 hover:text-red-800">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="6" class="px-6 py-8 text-center text-gray-500">No statistics yet. <a href="{% url 'dashboard:stat_new' %}" class="text-blue-600 hover:text-blue-800">Add your first statistic</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+

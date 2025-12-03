@@ -1,0 +1,79 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}Testimonials{% endblock %}
+
+{% block content %}
+<div class="mb-8 flex justify-between items-center">
+    <div>
+        <h1 class="text-3xl font-bold text-navy-900 mb-2">Testimonials</h1>
+        <p class="text-gray-600">Manage customer testimonials</p>
+    </div>
+    <a href="{% url 'dashboard:testimonial_new' %}" class="bg-navy-900 hover:bg-navy-800 text-white px-6 py-3 rounded-lg transition-colors">
+        <i class="fas fa-plus mr-2"></i>Add Testimonial
+    </a>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {% for testimonial in testimonials %}
+        <div class="bg-white rounded-lg shadow overflow-hidden">
+            <div class="p-4">
+                <div class="flex items-center mb-3">
+                    {% if testimonial.image_url %}
+                        <img src="{{ testimonial.image_url }}" alt="{{ testimonial.name }}" class="w-12 h-12 rounded-full object-cover mr-3">
+                    {% else %}
+                        <div class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center mr-3">
+                            <i class="fas fa-user text-gray-400"></i>
+                        </div>
+                    {% endif %}
+                    <div>
+                        <h3 class="font-bold text-navy-900">{{ testimonial.name }}</h3>
+                        <p class="text-sm text-gray-600">
+                            {% if testimonial.role %}{{ testimonial.role }}{% endif %}
+                            {% if testimonial.company %} at {{ testimonial.company }}{% endif %}
+                        </p>
+                    </div>
+                </div>
+                <p class="text-gray-700 mb-3">{{ testimonial.content|truncatewords:20 }}</p>
+                {% if testimonial.rating %}
+                    <div class="mb-3">
+                        {% for i in "12345"|make_list %}
+                            {% if forloop.counter <= testimonial.rating %}
+                                <i class="fas fa-star text-yellow-400"></i>
+                            {% else %}
+                                <i class="far fa-star text-gray-300"></i>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <div class="flex justify-between items-center">
+                    <div>
+                        {% if testimonial.is_active %}
+                            <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">Active</span>
+                        {% else %}
+                            <span class="bg-red-100 text-red-800 px-2 py-1 rounded text-xs">Inactive</span>
+                        {% endif %}
+                    </div>
+                    <div class="flex gap-2">
+                        <a href="{% url 'dashboard:testimonial_edit' testimonial.id %}" class="text-blue-600 hover:text-blue-800">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <form method="post" class="inline" onsubmit="return confirm('Delete this testimonial?')">
+                            {% csrf_token %}
+                            <input type="hidden" name="delete_id" value="{{ testimonial.id }}">
+                            <button type="submit" class="text-red-600 hover:text-red-800">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="col-span-full text-center py-12">
+            <i class="fas fa-quote-left text-6xl text-gray-300 mb-4"></i>
+            <p class="text-gray-600">No testimonials yet. <a href="{% url 'dashboard:testimonial_new' %}" class="text-blue-600 hover:text-blue-800">Add your first testimonial</a></p>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
+

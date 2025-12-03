@@ -1,0 +1,64 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}{% if info.id %}Edit{% else %}Add{% endif %} Contact Information{% endblock %}
+
+{% block content %}
+<div class="mb-8">
+    <h1 class="text-3xl font-bold text-navy-900 mb-2">{% if info.id %}Edit{% else %}Add{% endif %} Contact Information</h1>
+    <p class="text-gray-600">Manage contact information</p>
+</div>
+
+<form method="post" class="bg-white rounded-lg shadow p-6">
+    {% csrf_token %}
+    
+    <div class="mb-6">
+        <label class="block text-gray-700 font-medium mb-2">Type</label>
+        <select name="type" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-navy-500">
+            <option value="email" {% if info.type == 'email' %}selected{% endif %}>Email</option>
+            <option value="phone" {% if info.type == 'phone' %}selected{% endif %}>Phone</option>
+            <option value="address" {% if info.type == 'address' %}selected{% endif %}>Address</option>
+            <option value="hours" {% if info.type == 'hours' %}selected{% endif %}>Business Hours</option>
+            <option value="other" {% if info.type == 'other' or not info.type %}selected{% endif %}>Other</option>
+        </select>
+    </div>
+    
+    <div class="mb-6">
+        <label class="block text-gray-700 font-medium mb-2">Label</label>
+        <input type="text" name="label" value="{{ info.label|default:'' }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-navy-500" required placeholder="e.g., Email Address">
+    </div>
+    
+    <div class="mb-6">
+        <label class="block text-gray-700 font-medium mb-2">Value</label>
+        <input type="text" name="value" value="{{ info.value|default:'' }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-navy-500" required placeholder="e.g., info@example.com">
+    </div>
+    
+    <div class="mb-6">
+        <label class="block text-gray-700 font-medium mb-2">Icon (Font Awesome)</label>
+        <input type="text" name="icon" value="{{ info.icon|default:'' }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-navy-500" placeholder="e.g., fas fa-envelope">
+        <p class="text-sm text-gray-500 mt-1">Font Awesome icon class (optional)</p>
+    </div>
+    
+    <div class="mb-6">
+        <label class="block text-gray-700 font-medium mb-2">Display Order</label>
+        <input type="number" name="sort_order" value="{{ info.sort_order|default:0 }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-navy-500">
+        <p class="text-sm text-gray-500 mt-1">Lower numbers appear first</p>
+    </div>
+    
+    <div class="mb-6">
+        <label class="flex items-center">
+            <input type="checkbox" name="is_active" {% if info.is_active or not info.id %}checked{% endif %} class="mr-2">
+            <span class="text-gray-700 font-medium">Active (show on website)</span>
+        </label>
+    </div>
+    
+    <div class="flex gap-4">
+        <button type="submit" class="bg-navy-900 hover:bg-navy-800 text-white px-6 py-3 rounded-lg transition-colors">
+            <i class="fas fa-save mr-2"></i>Save
+        </button>
+        <a href="{% url 'dashboard:contact_info_list' %}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-6 py-3 rounded-lg transition-colors">
+            Cancel
+        </a>
+    </div>
+</form>
+{% endblock %}
+

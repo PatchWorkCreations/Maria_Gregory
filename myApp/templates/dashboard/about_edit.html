@@ -27,9 +27,22 @@
     </div>
     
     <div class="mb-6">
-        <label class="block text-gray-700 font-medium mb-2">Image URL</label>
-        <input type="url" name="image_url" value="{{ about.image_url|default:'' }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-navy-500" placeholder="https://...">
-        <p class="text-sm text-gray-500 mt-1">Use an image from your gallery or external URL</p>
+        <label class="block text-gray-700 font-medium mb-2">Image</label>
+        <div class="flex gap-2 mb-2">
+            <button type="button" onclick="openImageUpload('image_url')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors">
+                <i class="fas fa-upload mr-2"></i>Upload
+            </button>
+            <button type="button" onclick="openImagePicker('image_url')" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors">
+                <i class="fas fa-images mr-2"></i>Select from Gallery
+            </button>
+        </div>
+        <input type="url" name="image_url" id="image_url" value="{{ about.image_url|default:'' }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-navy-500" placeholder="Image URL will appear here">
+        {% if about.image_url %}
+        <div class="mt-2">
+            <img src="{{ about.image_url }}" alt="Image Preview" class="max-w-xs h-32 object-cover rounded-lg border border-gray-300">
+        </div>
+        {% endif %}
+        <p class="text-sm text-gray-500 mt-1">Image for the about section</p>
     </div>
     
     <div class="mb-6">
@@ -54,6 +67,8 @@
     </div>
 </form>
 {% endblock %}
+
+
 
 
 

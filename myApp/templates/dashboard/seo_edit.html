@@ -42,9 +42,22 @@
     </div>
     
     <div class="mb-6">
-        <label class="block text-gray-700 font-medium mb-2">OG Image URL</label>
-        <input type="url" name="og_image" value="{{ seo.og_image|default:'' }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-navy-500" placeholder="https://...">
-        <p class="text-sm text-gray-500 mt-1">Image URL for social media sharing (recommended: 1200x630px)</p>
+        <label class="block text-gray-700 font-medium mb-2">OG Image (Social Media Image)</label>
+        <div class="flex gap-2 mb-2">
+            <button type="button" onclick="openImageUpload('og_image')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors">
+                <i class="fas fa-upload mr-2"></i>Upload
+            </button>
+            <button type="button" onclick="openImagePicker('og_image')" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors">
+                <i class="fas fa-images mr-2"></i>Select from Gallery
+            </button>
+        </div>
+        <input type="url" name="og_image" id="og_image" value="{{ seo.og_image|default:'' }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-navy-500" placeholder="Image URL will appear here">
+        {% if seo.og_image %}
+        <div class="mt-2">
+            <img src="{{ seo.og_image }}" alt="OG Image Preview" class="max-w-xs h-32 object-cover rounded-lg border border-gray-300">
+        </div>
+        {% endif %}
+        <p class="text-sm text-gray-500 mt-1">Image for social media sharing (recommended: 1200x630px)</p>
     </div>
     
     <div class="mb-6">
@@ -71,6 +84,8 @@
     </div>
 </form>
 {% endblock %}
+
+
 
 
 

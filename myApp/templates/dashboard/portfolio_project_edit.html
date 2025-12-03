@@ -1,0 +1,76 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}{% if project.id %}Edit{% else %}Add{% endif %} Portfolio Project{% endblock %}
+
+{% block content %}
+<div class="mb-8">
+    <h1 class="text-3xl font-bold text-navy-900 mb-2">{% if project.id %}Edit{% else %}Add{% endif %} Portfolio Project</h1>
+    <p class="text-gray-600">Manage project information</p>
+</div>
+
+<form method="post" class="bg-white rounded-lg shadow p-6">
+    {% csrf_token %}
+    
+    <div class="mb-6">
+        <label class="block text-gray-700 font-medium mb-2">Title</label>
+        <input type="text" name="title" value="{{ project.title|default:'' }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-navy-500" required>
+    </div>
+    
+    <div class="mb-6">
+        <label class="block text-gray-700 font-medium mb-2">Description</label>
+        <textarea name="description" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-navy-500">{{ project.description|default:'' }}</textarea>
+    </div>
+    
+    <div class="mb-6">
+        <label class="block text-gray-700 font-medium mb-2">Image</label>
+        <div class="flex gap-2 mb-2">
+            <button type="button" onclick="openImageUpload('image_url')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors">
+                <i class="fas fa-upload mr-2"></i>Upload
+            </button>
+            <button type="button" onclick="openImagePicker('image_url')" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors">
+                <i class="fas fa-images mr-2"></i>Select from Gallery
+            </button>
+        </div>
+        <input type="url" name="image_url" id="image_url" value="{{ project.image_url|default:'' }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-navy-500" placeholder="Image URL will appear here">
+        {% if project.image_url %}
+        <div class="mt-2">
+            <img src="{{ project.image_url }}" alt="Project Image Preview" class="max-w-xs h-32 object-cover rounded-lg border border-gray-300">
+        </div>
+        {% endif %}
+    </div>
+    
+    <div class="mb-6">
+        <label class="block text-gray-700 font-medium mb-2">Project URL</label>
+        <input type="url" name="project_url" value="{{ project.project_url|default:'' }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-navy-500" placeholder="https://...">
+        <p class="text-sm text-gray-500 mt-1">Link to the project (optional)</p>
+    </div>
+    
+    <div class="mb-6">
+        <label class="block text-gray-700 font-medium mb-2">Category</label>
+        <input type="text" name="category" value="{{ project.category|default:'' }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-navy-500" placeholder="e.g., Web Design, Photography">
+    </div>
+    
+    <div class="mb-6">
+        <label class="block text-gray-700 font-medium mb-2">Display Order</label>
+        <input type="number" name="sort_order" value="{{ project.sort_order|default:0 }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-navy-500">
+        <p class="text-sm text-gray-500 mt-1">Lower numbers appear first</p>
+    </div>
+    
+    <div class="mb-6">
+        <label class="flex items-center">
+            <input type="checkbox" name="is_active" {% if project.is_active or not project.id %}checked{% endif %} class="mr-2">
+            <span class="text-gray-700 font-medium">Active (show on website)</span>
+        </label>
+    </div>
+    
+    <div class="flex gap-4">
+        <button type="submit" class="bg-navy-900 hover:bg-navy-800 text-white px-6 py-3 rounded-lg transition-colors">
+            <i class="fas fa-save mr-2"></i>Save
+        </button>
+        <a href="{% url 'dashboard:portfolio_projects_list' %}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-6 py-3 rounded-lg transition-colors">
+            Cancel
+        </a>
+    </div>
+</form>
+{% endblock %}
+
