@@ -93,6 +93,25 @@
         .stagger-5 { transition-delay: 0.5s; }
         .stagger-6 { transition-delay: 0.6s; }
         
+        /* Footer buttons scroll-up animation */
+        .footer-btn-scroll-up {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .footer-btn-scroll-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .footer-btn-scroll-up.delay-1 { transition-delay: 0.1s; }
+        .footer-btn-scroll-up.delay-2 { transition-delay: 0.2s; }
+        .footer-btn-scroll-up.delay-3 { transition-delay: 0.3s; }
+        .footer-btn-scroll-up.delay-4 { transition-delay: 0.4s; }
+        .footer-btn-scroll-up.delay-5 { transition-delay: 0.5s; }
+        
+        
         /* Chatbot Styles */
         .chatbot-container {
             position: fixed;
@@ -828,8 +847,8 @@
                 <!-- Left: Image -->
                 <div class="fade-in-left">
                     <img 
-                        src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&h=600&fit=crop&q=80" 
-                        alt="Maria speaking and mentoring" 
+                        src="{% if content.about.image_url %}{{ content.about.image_url }}{% else %}https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&h=600&fit=crop&q=80{% endif %}" 
+                        alt="{% if content.about.title %}{{ content.about.title }}{% else %}Maria speaking and mentoring{% endif %}" 
                         class="rounded-2xl shadow-xl w-full border border-[#E5E7EB] transform transition-all duration-500 hover:scale-105 hover:shadow-2xl"
                         onerror="this.src='https://via.placeholder.com/800x600/2F4258/ffffff?text=Maria+Speaking'"
                     >
@@ -868,152 +887,157 @@
     </section>
     
     <!-- 5. Impact Timeline – "Decades of Walking With Leaders" -->
+    {% if content.decades_section %}
     <section class="py-24 bg-[#2F4258]">
         <div class="container mx-auto px-6">
             <h2 class="text-4xl md:text-5xl font-serif font-bold text-center text-white mb-6 fade-in-up">
-                Decades of Walking With <span class="text-[#22C55E]">Leaders</span>
+                {% if content.decades_section.title %}{{ content.decades_section.title|safe }}{% else %}Decades of Walking With <span class="text-[#22C55E]">Leaders</span>{% endif %}
             </h2>
             
+            {% if content.decades_section.subtitle %}
             <p class="text-center text-[#E5E7EB] text-lg mb-12 max-w-3xl mx-auto fade-in-up">
-                "Long before I ever used language like 'Someone Leaders Can Lean On', I simply showed up — listening, serving, and walking alongside people in their real lives.
+                {{ content.decades_section.subtitle }}
             </p>
+            {% endif %}
+            
+            {% if content.decades_section.description %}
             <p class="text-center text-[#E5E7EB] text-lg mb-16 max-w-3xl mx-auto fade-in-up">
-                As you read through these, notice what they stir in you about your own journey of service and leadership."
+                {{ content.decades_section.description }}
             </p>
+            {% endif %}
             
+            {% if content.decades_timeline_items %}
             <div class="max-w-4xl mx-auto space-y-12">
-                <!-- Timeline Item 1 -->
-                <div class="fade-in-up stagger-1">
+                {% for item in content.decades_timeline_items %}
+                <!-- Timeline Item {{ forloop.counter }} -->
+                <div class="fade-in-up stagger-{{ forloop.counter }}">
                     <div class="flex flex-col md:flex-row gap-6 items-start">
                         <div class="flex-shrink-0">
                             <div class="w-16 h-16 bg-[#3B546E] rounded-full flex items-center justify-center text-[#22C55E] text-2xl transform transition-all duration-200 hover:rotate-12 hover:scale-110">
-                                <i class="fas fa-hand-holding-heart"></i>
+                                {% if item.icon %}<i class="{{ item.icon }}"></i>{% else %}<i class="fas fa-hand-holding-heart"></i>{% endif %}
                             </div>
                         </div>
                         <div class="flex-1 bg-[#3B546E] p-6 rounded-xl shadow-md hover:shadow-xl transition-all duration-200 hover:-translate-y-1">
-                            <div class="bg-[#233345] text-[#A7F3D0] text-sm rounded-full px-3 py-1 inline-block mb-3 font-semibold">2009–Present</div>
-                            <h3 class="text-2xl font-serif font-bold text-white mb-2">Presidential Member</h3>
-                            <p class="text-[#22C55E] font-medium mb-2">American Christian Counselors Association</p>
-                            <p class="text-[#E5E7EB] mb-3">Years of supporting individuals through challenge, growth, and transformation.</p>
-                            <p class="text-base text-[#A7F3D0] italic">Reflection: Where have you quietly been holding space for transformation in others?</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Timeline Item 2 -->
-                <div class="fade-in-up stagger-2">
-                    <div class="flex flex-col md:flex-row gap-6 items-start">
-                        <div class="flex-shrink-0">
-                            <div class="w-16 h-16 bg-[#3B546E] rounded-full flex items-center justify-center text-[#22C55E] text-2xl transform transition-all duration-200 hover:rotate-12 hover:scale-110">
-                                <i class="fas fa-users"></i>
-                            </div>
-                        </div>
-                        <div class="flex-1 bg-[#3B546E] p-6 rounded-xl shadow-md hover:shadow-xl transition-all duration-200 hover:-translate-y-1">
-                            <div class="bg-[#233345] text-[#A7F3D0] text-xs rounded-full px-3 py-1 inline-block mb-3 font-semibold">2004–2016</div>
-                            <h3 class="text-2xl font-serif font-bold text-white mb-2">Volunteer Big Sister</h3>
-                            <p class="text-[#22C55E] font-medium mb-2">Big Brothers Big Sisters of America</p>
-                            <p class="text-[#E5E7EB] mb-3">Over a decade spent empowering youth and helping them see what's possible for their lives.</p>
-                            <p class="text-sm text-[#A7F3D0] italic">Reflection: Who has benefitted from your presence in ways you may never fully see or know?</p>
+                            {% if item.period %}
+                            <div class="bg-[#233345] text-[#A7F3D0] {% if item.period|length > 15 %}text-xs{% else %}text-sm{% endif %} rounded-full px-3 py-1 inline-block mb-3 font-semibold">{{ item.period }}</div>
+                            {% endif %}
+                            <h3 class="text-2xl font-serif font-bold text-white mb-2">{{ item.title }}</h3>
+                            {% if item.organization %}
+                            <p class="text-[#22C55E] font-medium mb-2">{{ item.organization }}</p>
+                            {% endif %}
+                            {% if item.description %}
+                            <p class="text-[#E5E7EB] mb-3">{{ item.description }}</p>
+                            {% endif %}
+                            {% if item.reflection %}
+                            <p class="text-base text-[#A7F3D0] italic">{{ item.reflection }}</p>
+                            {% endif %}
+                            {% if item.image_url %}
                             <div class="mt-4 rounded-lg overflow-hidden relative">
                                 <div class="absolute inset-0 bg-[#2F4258]/60 z-10"></div>
                                 <img 
-                                    src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=600&h=400&fit=crop&q=80" 
-                                    alt="Supporting children" 
+                                    src="{{ item.image_url }}" 
+                                    alt="{{ item.title }}" 
                                     class="relative w-full max-w-sm rounded-lg"
-                                    onerror="this.src='https://via.placeholder.com/600x400/2F4258/ffffff?text=Mentoring'"
+                                    onerror="this.src='https://via.placeholder.com/600x400/2F4258/ffffff?text={{ item.title|urlencode }}'"
                                 >
                             </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
-                
-                <!-- Timeline Item 3 -->
-                <div class="fade-in-up stagger-3">
-                    <div class="flex flex-col md:flex-row gap-6 items-start">
-                        <div class="flex-shrink-0">
-                            <div class="w-16 h-16 bg-[#3B546E] rounded-full flex items-center justify-center text-[#22C55E] text-2xl transform transition-all duration-200 hover:rotate-12 hover:scale-110">
-                                <i class="fas fa-lightbulb"></i>
-                            </div>
-                        </div>
-                        <div class="flex-1 bg-[#3B546E] p-6 rounded-xl shadow-md hover:shadow-xl transition-all duration-200 hover:-translate-y-1">
-                            <div class="bg-[#233345] text-[#A7F3D0] text-xs rounded-full px-3 py-1 inline-block mb-3 font-semibold">2012–2014, 2018</div>
-                            <h3 class="text-2xl font-serif font-bold text-white mb-2">Judge</h3>
-                            <p class="text-[#22C55E] font-medium mb-2">Invention Convention League</p>
-                            <p class="text-[#E5E7EB] mb-3">Standing with young innovators, encouraging them to trust their creativity and believe in their ideas.</p>
-                            <p class="text-sm text-[#A7F3D0] italic">Reflection: Where are you currently calling out courage and creativity in others?</p>
-                            <div class="mt-4 rounded-lg overflow-hidden relative">
-                                <div class="absolute inset-0 bg-[#2F4258]/60 z-10"></div>
-                                <img 
-                                    src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&h=400&fit=crop&q=80" 
-                                    alt="Invention Convention" 
-                                    class="relative w-full max-w-sm rounded-lg"
-                                    onerror="this.src='https://via.placeholder.com/600x400/2F4258/ffffff?text=Innovation'"
-                                >
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
+            {% endif %}
             
+            {% if content.decades_section.closing_quote %}
             <p class="text-center text-[#E5E7EB] text-lg mt-12 italic fade-in-up stagger-4">
-                "This is the ground I stand on when I mentor others — years of quietly showing up, listening deeply, and walking with people through real seasons, not just highlight reels."
+                {{ content.decades_section.closing_quote }}
             </p>
+            {% endif %}
         </div>
     </section>
+    {% endif %}
     
     <!-- 6. The Lion You Don't See – "Origin Story" -->
+    {% if content.lion_section %}
     <section class="relative py-32 overflow-hidden">
         <!-- Background Image with Overlay -->
         <div class="absolute inset-0">
+            {% if content.lion_section.background_image_url %}
+            <img 
+                src="{{ content.lion_section.background_image_url }}" 
+                alt="Background image" 
+                class="w-full h-full object-cover"
+                onerror="this.src='https://via.placeholder.com/1920x1080/2F4258/ffffff?text=Inner+Strength'"
+            >
+            {% else %}
             <img 
                 src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&h=1080&fit=crop&q=80" 
                 alt="Forest light symbolizing inner strength" 
                 class="w-full h-full object-cover"
                 onerror="this.src='https://via.placeholder.com/1920x1080/2F4258/ffffff?text=Inner+Strength'"
             >
+            {% endif %}
             <div class="absolute inset-0 bg-[#2F4258]/80"></div>
         </div>
         
         <div class="container mx-auto px-6 relative z-10">
             <div class="max-w-4xl mx-auto text-center">
                 <div class="fade-in-up">
+                    {% if content.lion_section.icon %}
+                    <i class="{{ content.lion_section.icon }} text-[#22C55E] text-5xl mb-6"></i>
+                    {% else %}
                     <i class="fas fa-star text-[#22C55E] text-5xl mb-6"></i>
+                    {% endif %}
                     <h2 class="text-5xl md:text-7xl font-serif font-bold text-white mb-6">
-                        The <span class="text-[#22C55E]">Lion</span> You Don't See
+                        {% if content.lion_section.title %}{{ content.lion_section.title|safe }}{% else %}The <span class="text-[#22C55E]">Lion</span> You Don't See{% endif %}
                     </h2>
+                    {% if content.lion_section.intro_text %}
                     <p class="text-xl md:text-2xl text-[#E5E7EB] mb-8 leading-relaxed">
-                        "I wrote The Lion You Don't See as a story — but it's also a mirror.
+                        {{ content.lion_section.intro_text }}
                     </p>
+                    {% endif %}
+                    {% if content.lion_section.paragraph_1 %}
                     <p class="text-lg text-[#E5E7EB] mb-4 leading-relaxed max-w-2xl mx-auto">
-                        It was created to remind you that strength doesn't always look loud. Sometimes, strength looks like the way you keep showing up, even when no one sees the weight you're carrying.
+                        {{ content.lion_section.paragraph_1 }}
                     </p>
+                    {% endif %}
+                    {% if content.lion_section.paragraph_2 %}
                     <p class="text-lg text-[#E5E7EB] mb-8 leading-relaxed max-w-2xl mx-auto">
-                        The same lens I used to write this story is the lens I bring into our 1:1 work together: helping you notice the quiet, steady lion you've always carried inside."
+                        {{ content.lion_section.paragraph_2 }}
                     </p>
+                    {% endif %}
+                    {% if content.lion_section.reflection_question %}
                     <p class="text-sm text-[#A7F3D0] italic mb-12 max-w-2xl mx-auto">
-                        When you strip away everyone's expectations of you, what does your inner lion actually want to say?
+                        {{ content.lion_section.reflection_question }}
                     </p>
+                    {% endif %}
                 </div>
                 
                 <!-- Book Display -->
+                {% if content.lion_section.book_cover_image_url %}
                 <div class="fade-in-up stagger-2 mt-12">
                     <div class="inline-block transform transition-all duration-500 hover:scale-110 hover:shadow-2xl">
                         <div class="bg-[#3B546E] p-4 rounded-2xl shadow-2xl">
                             <img 
-                                src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=600&h=800&fit=crop&q=80" 
+                                src="{{ content.lion_section.book_cover_image_url }}" 
                                 alt="The Lion You Don't See book cover" 
                                 class="rounded-xl max-w-xs mx-auto"
                                 onerror="this.src='https://via.placeholder.com/600x800/2F4258/ffffff?text=The+Lion+You+Dont+See'"
                             >
                         </div>
                     </div>
+                    {% if content.lion_section.closing_quote %}
                     <p class="text-[#E5E7EB] mt-6 text-lg italic">
-                        "The lion within you has always been there. My work is simply to help you remember its voice."
+                        {{ content.lion_section.closing_quote }}
                     </p>
+                    {% endif %}
                 </div>
+                {% endif %}
             </div>
         </div>
     </section>
+    {% endif %}
     
     <!-- 7. The Human Behind the Work -->
     <section class="py-24 bg-[#233345]">
@@ -1207,7 +1231,7 @@
     </section>
     
     <!-- 10. Footer -->
-    <footer class="bg-[#1A2633] text-[#E5E7EB] py-12">
+    <footer id="main-footer" class="bg-[#1A2633] text-[#E5E7EB] py-12">
         <div class="container mx-auto px-6">
             <div class="flex flex-col md:flex-row justify-between items-center gap-6">
                 <div>
@@ -1217,11 +1241,11 @@
                 </div>
                 
                 <div class="flex flex-col md:flex-row gap-6 items-center">
-                    <a href="#" class="text-[#E5E7EB] hover:text-[#22C55E] transition-colors duration-150">Home</a>
-                    <a href="#who-she-mentors" class="text-[#E5E7EB] hover:text-[#22C55E] transition-colors duration-150">Who She Walks With</a>
-                    <a href="#mentorship" class="text-[#E5E7EB] hover:text-[#22C55E] transition-colors duration-150">1:1 Guidance</a>
-                    <a href="#about" class="text-[#E5E7EB] hover:text-[#22C55E] transition-colors duration-150">About Maria</a>
-                    <a href="#contact" class="text-[#E5E7EB] hover:text-[#22C55E] transition-colors duration-150">Contact</a>
+                    <a href="/" id="footer-home" class="footer-btn-scroll-up delay-1 text-[#E5E7EB] hover:text-[#22C55E] transition-all duration-300 ease-in-out transform hover:scale-105">Home</a>
+                    <a href="#who-she-mentors" class="footer-link footer-btn-scroll-up delay-2 text-[#E5E7EB] hover:text-[#22C55E] transition-all duration-300 ease-in-out transform hover:scale-105">Who She Walks With</a>
+                    <a href="#mentorship" class="footer-link footer-btn-scroll-up delay-3 text-[#E5E7EB] hover:text-[#22C55E] transition-all duration-300 ease-in-out transform hover:scale-105">1:1 Guidance</a>
+                    <a href="#about" class="footer-link footer-btn-scroll-up delay-4 text-[#E5E7EB] hover:text-[#22C55E] transition-all duration-300 ease-in-out transform hover:scale-105">About Maria</a>
+                    <a href="#contact" class="footer-link footer-btn-scroll-up delay-5 text-[#E5E7EB] hover:text-[#22C55E] transition-all duration-300 ease-in-out transform hover:scale-105">Contact</a>
                 </div>
                 
                 <div class="flex gap-4">
@@ -1308,6 +1332,12 @@
             observer.observe(el);
         });
         
+        // Observe footer buttons for scroll-up animation
+        document.querySelectorAll('.footer-btn-scroll-up').forEach(btn => {
+            observer.observe(btn);
+        });
+        
+        
         // Scroll to top button visibility
         const scrollToTopBtn = document.getElementById('scrollToTop');
         window.addEventListener('scroll', () => {
@@ -1329,6 +1359,41 @@
                     target.scrollIntoView({
                         behavior: 'smooth',
                         block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Smooth scroll for footer Home button
+        const footerHomeBtn = document.getElementById('footer-home');
+        if (footerHomeBtn) {
+            footerHomeBtn.addEventListener('click', function(e) {
+                // If we're already on the home page, scroll to top smoothly
+                if (window.location.pathname === '/' || window.location.pathname === '') {
+                    e.preventDefault();
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                }
+                // Otherwise, let the normal navigation happen
+            });
+        }
+        
+        // Enhanced smooth scroll for footer links with offset
+        document.querySelectorAll('.footer-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const target = document.getElementById(targetId);
+                if (target) {
+                    // Calculate offset for better positioning
+                    const offset = 80; // Adjust this value as needed
+                    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
                     });
                 }
             });

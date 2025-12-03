@@ -74,6 +74,15 @@ urlpatterns = [
     
     # Footer
     path('footer/', dashboard_views.footer_edit, name='footer_edit'),
+    
+    # Decades Section
+    path('decades-section/', dashboard_views.decades_section_edit, name='decades_section_edit'),
+    path('decades-timeline-items/', dashboard_views.decades_timeline_items_list, name='decades_timeline_items_list'),
+    path('decades-timeline-items/new/', dashboard_views.decades_timeline_item_edit, name='decades_timeline_item_new'),
+    path('decades-timeline-items/<int:item_id>/', dashboard_views.decades_timeline_item_edit, name='decades_timeline_item_edit'),
+    
+    # Lion Section
+    path('lion-section/', dashboard_views.lion_section_edit, name='lion_section_edit'),
 ]
 
 

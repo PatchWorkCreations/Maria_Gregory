@@ -4,7 +4,8 @@ Content helpers - Convert database models to JSON format for templates
 from .models import (
     MediaAsset, SEO, Navigation, Hero, About, Stat, Service, ServicesSection,
     Portfolio, PortfolioProject, Testimonial, FAQ, FAQSection, Contact,
-    ContactInfo, ContactFormField, SocialLink, Footer
+    ContactInfo, ContactFormField, SocialLink, Footer, DecadesSection, DecadesTimelineItem,
+    LionSection
 )
 
 
@@ -266,6 +267,57 @@ def get_homepage_content_from_db():
         content['footer'] = {
             'copyright_text': '© 2025 All rights reserved.'
         }
+    
+    # Decades Section
+    try:
+        decades_section = DecadesSection.objects.filter(is_active=True).first()
+        if decades_section:
+            content['decades_section'] = {
+                'title': decades_section.title,
+                'subtitle': decades_section.subtitle,
+                'description': decades_section.description,
+                'closing_quote': decades_section.closing_quote,
+                **decades_section.content,
+            }
+    except:
+        content['decades_section'] = {}
+    
+    # Decades Timeline Items
+    try:
+        timeline_items = DecadesTimelineItem.objects.filter(is_active=True).order_by('sort_order', 'id')
+        content['decades_timeline_items'] = [
+            {
+                'period': item.period,
+                'title': item.title,
+                'organization': item.organization,
+                'description': item.description,
+                'reflection': item.reflection,
+                'image_url': item.image_url,
+                'icon': item.icon,
+            }
+            for item in timeline_items
+        ]
+    except:
+        content['decades_timeline_items'] = []
+    
+    # Lion Section
+    try:
+        lion_section = LionSection.objects.filter(is_active=True).first()
+        if lion_section:
+            content['lion_section'] = {
+                'title': lion_section.title,
+                'icon': lion_section.icon,
+                'intro_text': lion_section.intro_text,
+                'paragraph_1': lion_section.paragraph_1,
+                'paragraph_2': lion_section.paragraph_2,
+                'reflection_question': lion_section.reflection_question,
+                'background_image_url': lion_section.background_image_url,
+                'book_cover_image_url': lion_section.book_cover_image_url,
+                'closing_quote': lion_section.closing_quote,
+                **lion_section.content,
+            }
+    except:
+        content['lion_section'] = {}
     
     return content
 

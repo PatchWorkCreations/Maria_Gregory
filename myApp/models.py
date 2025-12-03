@@ -357,3 +357,68 @@ class Footer(models.Model):
 
     def __str__(self):
         return "Footer"
+
+
+class DecadesSection(models.Model):
+    """Decades of Walking With Leaders section header/content"""
+    title = models.CharField(max_length=200)
+    subtitle = models.TextField(blank=True)
+    description = models.TextField(blank=True)
+    closing_quote = models.TextField(blank=True)
+    content = JSONField(default=dict, blank=True)
+    is_active = models.BooleanField(default=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Decades Section"
+        verbose_name_plural = "Decades Sections"
+
+    def __str__(self):
+        return self.title
+
+
+class DecadesTimelineItem(models.Model):
+    """Individual timeline items for Decades of Walking With Leaders section"""
+    section = models.ForeignKey(DecadesSection, on_delete=models.CASCADE, related_name='timeline_items', null=True, blank=True)
+    period = models.CharField(max_length=100, blank=True)  # e.g., "2009–Present"
+    title = models.CharField(max_length=200)
+    organization = models.CharField(max_length=200, blank=True)
+    description = models.TextField(blank=True)
+    reflection = models.TextField(blank=True)  # Reflection question/quote
+    image_url = models.URLField(max_length=500, blank=True)
+    icon = models.CharField(max_length=100, blank=True)  # Font Awesome icon class
+    sort_order = models.IntegerField(default=0)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['sort_order', 'id']
+        verbose_name = "Decades Timeline Item"
+        verbose_name_plural = "Decades Timeline Items"
+
+    def __str__(self):
+        return f"{self.period} - {self.title}"
+
+
+class LionSection(models.Model):
+    """The Lion You Don't See section content"""
+    title = models.CharField(max_length=200, default="The Lion You Don't See")
+    icon = models.CharField(max_length=100, default='fas fa-star', blank=True)  # Font Awesome icon class
+    intro_text = models.TextField(blank=True)  # First paragraph
+    paragraph_1 = models.TextField(blank=True)  # Second paragraph
+    paragraph_2 = models.TextField(blank=True)  # Third paragraph
+    reflection_question = models.TextField(blank=True)  # Reflection question
+    background_image_url = models.URLField(max_length=500, blank=True)  # Background image
+    book_cover_image_url = models.URLField(max_length=500, blank=True)  # Book cover image
+    closing_quote = models.TextField(blank=True)  # Quote below book
+    content = JSONField(default=dict, blank=True)
+    is_active = models.BooleanField(default=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Lion Section"
+        verbose_name_plural = "Lion Sections"
+
+    def __str__(self):
+        return self.title

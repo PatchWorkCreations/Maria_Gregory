@@ -1,0 +1,110 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}Edit The Lion Section{% endblock %}
+
+{% block content %}
+<div class="mb-8">
+    <h1 class="text-3xl font-bold text-navy-900 mb-2">Edit The Lion You Don't See Section</h1>
+    <p class="text-gray-600">Manage the "The Lion You Don't See" section content and images</p>
+</div>
+
+<form method="post" class="bg-white rounded-lg shadow p-6">
+    {% csrf_token %}
+    
+    <div class="mb-6">
+        <label class="block text-gray-700 font-medium mb-2">Title</label>
+        <input type="text" name="title" value="{{ section.title|default:'The Lion You Don\'t See' }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-navy-500" required>
+    </div>
+    
+    <div class="mb-6">
+        <label class="block text-gray-700 font-medium mb-2">Icon</label>
+        <input type="text" name="icon" value="{{ section.icon|default:'fas fa-star' }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-navy-500" placeholder="fas fa-star">
+        <p class="text-sm text-gray-500 mt-1">Font Awesome icon class</p>
+    </div>
+    
+    <div class="mb-6">
+        <label class="block text-gray-700 font-medium mb-2">Intro Text (First Paragraph)</label>
+        <textarea name="intro_text" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-navy-500">{{ section.intro_text|default:'' }}</textarea>
+        <p class="text-sm text-gray-500 mt-1">Opening quote/intro text</p>
+    </div>
+    
+    <div class="mb-6">
+        <label class="block text-gray-700 font-medium mb-2">Paragraph 1</label>
+        <textarea name="paragraph_1" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-navy-500">{{ section.paragraph_1|default:'' }}</textarea>
+        <p class="text-sm text-gray-500 mt-1">Second paragraph of text</p>
+    </div>
+    
+    <div class="mb-6">
+        <label class="block text-gray-700 font-medium mb-2">Paragraph 2</label>
+        <textarea name="paragraph_2" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-navy-500">{{ section.paragraph_2|default:'' }}</textarea>
+        <p class="text-sm text-gray-500 mt-1">Third paragraph of text</p>
+    </div>
+    
+    <div class="mb-6">
+        <label class="block text-gray-700 font-medium mb-2">Reflection Question</label>
+        <textarea name="reflection_question" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-navy-500">{{ section.reflection_question|default:'' }}</textarea>
+        <p class="text-sm text-gray-500 mt-1">Reflection question displayed below paragraphs</p>
+    </div>
+    
+    <div class="mb-6">
+        <label class="block text-gray-700 font-medium mb-2">Background Image</label>
+        <div class="flex gap-2 mb-2">
+            <button type="button" onclick="openImageUpload('background_image_url')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors">
+                <i class="fas fa-upload mr-2"></i>Upload
+            </button>
+            <button type="button" onclick="openImagePicker('background_image_url')" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors">
+                <i class="fas fa-images mr-2"></i>Select from Gallery
+            </button>
+        </div>
+        <input type="url" name="background_image_url" id="background_image_url" value="{{ section.background_image_url|default:'' }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-navy-500" placeholder="Background image URL">
+        {% if section.background_image_url %}
+        <div class="mt-2">
+            <img src="{{ section.background_image_url }}" alt="Background Image Preview" class="max-w-xs h-32 object-cover rounded-lg border border-gray-300">
+        </div>
+        {% endif %}
+        <p class="text-sm text-gray-500 mt-1">Background image for the section</p>
+    </div>
+    
+    <div class="mb-6">
+        <label class="block text-gray-700 font-medium mb-2">Book Cover Image</label>
+        <div class="flex gap-2 mb-2">
+            <button type="button" onclick="openImageUpload('book_cover_image_url')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors">
+                <i class="fas fa-upload mr-2"></i>Upload
+            </button>
+            <button type="button" onclick="openImagePicker('book_cover_image_url')" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors">
+                <i class="fas fa-images mr-2"></i>Select from Gallery
+            </button>
+        </div>
+        <input type="url" name="book_cover_image_url" id="book_cover_image_url" value="{{ section.book_cover_image_url|default:'' }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-navy-500" placeholder="Book cover image URL">
+        {% if section.book_cover_image_url %}
+        <div class="mt-2">
+            <img src="{{ section.book_cover_image_url }}" alt="Book Cover Preview" class="max-w-xs h-48 object-cover rounded-lg border border-gray-300">
+        </div>
+        {% endif %}
+        <p class="text-sm text-gray-500 mt-1">Book cover image displayed in the section</p>
+    </div>
+    
+    <div class="mb-6">
+        <label class="block text-gray-700 font-medium mb-2">Closing Quote</label>
+        <textarea name="closing_quote" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-navy-500">{{ section.closing_quote|default:'' }}</textarea>
+        <p class="text-sm text-gray-500 mt-1">Quote displayed below the book cover</p>
+    </div>
+    
+    <div class="mb-6">
+        <label class="flex items-center">
+            <input type="checkbox" name="is_active" {% if section.is_active %}checked{% endif %} class="mr-2">
+            <span class="text-gray-700 font-medium">Active (show on website)</span>
+        </label>
+    </div>
+    
+    <div class="flex gap-4">
+        <button type="submit" class="bg-navy-900 hover:bg-navy-800 text-white px-6 py-3 rounded-lg transition-colors">
+            <i class="fas fa-save mr-2"></i>Save Changes
+        </button>
+        <a href="{% url 'dashboard:index' %}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-6 py-3 rounded-lg transition-colors">
+            Cancel
+        </a>
+    </div>
+</form>
+{% endblock %}
+

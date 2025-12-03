@@ -1,0 +1,80 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}Decades Timeline Items{% endblock %}
+
+{% block content %}
+<div class="mb-8 flex justify-between items-center">
+    <div>
+        <h1 class="text-3xl font-bold text-navy-900 mb-2">Decades Timeline Items</h1>
+        <p class="text-gray-600">Manage timeline items for "Decades of Walking With Leaders" section</p>
+    </div>
+    <div class="flex gap-4">
+        <a href="{% url 'dashboard:decades_section_edit' %}" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors">
+            <i class="fas fa-cog mr-2"></i>Section Settings
+        </a>
+        <a href="{% url 'dashboard:decades_timeline_item_new' %}" class="bg-navy-900 hover:bg-navy-800 text-white px-6 py-3 rounded-lg transition-colors">
+            <i class="fas fa-plus mr-2"></i>Add Timeline Item
+        </a>
+    </div>
+</div>
+
+<div class="bg-white rounded-lg shadow overflow-hidden">
+    <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+            <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Period</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Organization</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Image</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+            </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+            {% for item in items %}
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ item.sort_order }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ item.period|default:'-' }}</td>
+                <td class="px-6 py-4 text-sm text-gray-900">{{ item.title }}</td>
+                <td class="px-6 py-4 text-sm text-gray-500">{{ item.organization|default:'-' }}</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    {% if item.image_url %}
+                    <img src="{{ item.image_url }}" alt="{{ item.title }}" class="h-12 w-12 object-cover rounded">
+                    {% else %}
+                    <span class="text-gray-400 text-xs">No image</span>
+                    {% endif %}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    {% if item.is_active %}
+                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">Active</span>
+                    {% else %}
+                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800">Inactive</span>
+                    {% endif %}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    <a href="{% url 'dashboard:decades_timeline_item_edit' item.id %}" class="text-blue-600 hover:text-blue-900 mr-4">
+                        <i class="fas fa-edit"></i> Edit
+                    </a>
+                    <form method="post" class="inline" onsubmit="return confirm('Are you sure you want to delete this timeline item?');">
+                        {% csrf_token %}
+                        <input type="hidden" name="delete_id" value="{{ item.id }}">
+                        <button type="submit" class="text-red-600 hover:text-red-900">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7" class="px-6 py-12 text-center text-gray-500">
+                    <i class="fas fa-history text-4xl mb-4 text-gray-300"></i>
+                    <p>No timeline items yet. <a href="{% url 'dashboard:decades_timeline_item_new' %}" class="text-blue-600 hover:text-blue-800">Create your first one</a></p>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+

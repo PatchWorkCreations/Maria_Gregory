@@ -15,7 +15,8 @@ import os
 from .models import (
     MediaAsset, SEO, Navigation, Hero, About, Stat, Service, ServicesSection,
     Portfolio, PortfolioProject, Testimonial, FAQ, FAQSection, Contact,
-    ContactInfo, ContactFormField, SocialLink, Footer
+    ContactInfo, ContactFormField, SocialLink, Footer, DecadesSection, DecadesTimelineItem,
+    LionSection
 )
 from .utils.cloudinary_utils import upload_to_cloudinary
 
@@ -66,45 +67,113 @@ def dashboard_home(request):
 @login_required
 @csrf_exempt
 def upload_image(request):
-    """Upload image to Cloudinary"""
+    """Upload image(s) to Cloudinary - supports single or multiple files"""
     if request.method != 'POST':
         return JsonResponse({'error': 'Method not allowed'}, status=405)
     
     try:
-        if 'image' not in request.FILES:
-            return JsonResponse({'error': 'No image file provided'}, status=400)
+        # Check Cloudinary configuration
+        import cloudinary
+        import os
+        from pathlib import Path
+        from dotenv import load_dotenv
         
-        image_file = request.FILES['image']
+        # Reload .env file to ensure we have the latest credentials
+        BASE_DIR = Path(__file__).resolve().parent.parent.parent
+        load_dotenv(BASE_DIR / '.env', override=True)
+        
+        cloud_name = os.getenv('CLOUDINARY_CLOUD_NAME', '')
+        api_key = os.getenv('CLOUDINARY_API_KEY', '')
+        api_secret = os.getenv('CLOUDINARY_API_SECRET', '')
+        
+        if not cloud_name or not api_key or not api_secret:
+            env_file_path = BASE_DIR / '.env'
+            env_exists = env_file_path.exists()
+            return JsonResponse({
+                'error': f'Cloudinary not configured. Please set CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, and CLOUDINARY_API_SECRET in your .env file. (.env file exists: {env_exists})'
+            }, status=500)
+        
+        # Check if we have 'image' (single) or 'images[]' (multiple)
+        # Try multiple files first, then single file for backward compatibility
+        image_files = request.FILES.getlist('images[]') or request.FILES.getlist('image')
+        
+        # Also check for single file upload (backward compatibility)
+        if not image_files and 'image' in request.FILES:
+            image_files = [request.FILES['image']]
+        
+        if not image_files:
+            return JsonResponse({'error': 'No image file(s) provided'}, status=400)
+        
         folder = request.POST.get('folder', 'myApp/uploads')
+        default_title = request.POST.get('title', '')
+        default_description = request.POST.get('description', '')
         
-        # Upload to Cloudinary
-        upload_result = upload_to_cloudinary(image_file, folder=folder)
+        uploaded_images = []
+        errors = []
         
-        # Save to database
-        media_asset = MediaAsset.objects.create(
-            title=request.POST.get('title', image_file.name),
-            description=request.POST.get('description', ''),
-            original_url=upload_result['original_url'],
-            web_url=upload_result['web_url'],
-            thumbnail_url=upload_result['thumbnail_url'],
-            cloudinary_public_id=upload_result['public_id'],
-            folder=folder,
-            width=upload_result['width'],
-            height=upload_result['height'],
-            file_size=upload_result['bytes'],
-        )
+        # Process each image
+        for idx, image_file in enumerate(image_files):
+            try:
+                # Use provided title/description for first image, or filename for others
+                title = default_title if idx == 0 and default_title else image_file.name.rsplit('.', 1)[0]
+                description = default_description if idx == 0 else ''
+                
+                # Upload to Cloudinary
+                upload_result = upload_to_cloudinary(image_file, folder=folder)
+                
+                # Save to database
+                media_asset = MediaAsset.objects.create(
+                    title=title,
+                    description=description,
+                    original_url=upload_result['original_url'],
+                    web_url=upload_result['web_url'],
+                    thumbnail_url=upload_result['thumbnail_url'],
+                    cloudinary_public_id=upload_result['public_id'],
+                    folder=folder,
+                    width=upload_result['width'],
+                    height=upload_result['height'],
+                    file_size=upload_result['bytes'],
+                )
+                
+                uploaded_images.append({
+                    'id': media_asset.id,
+                    'title': media_asset.title,
+                    'original_url': media_asset.original_url,
+                    'web_url': media_asset.web_url,
+                    'thumbnail_url': media_asset.thumbnail_url,
+                })
+            except Exception as e:
+                import traceback
+                error_msg = str(e)
+                # Log full traceback for debugging
+                print(f"Error uploading {image_file.name}: {error_msg}")
+                print(traceback.format_exc())
+                errors.append({
+                    'filename': image_file.name,
+                    'error': error_msg
+                })
         
-        return JsonResponse({
-            'success': True,
-            'id': media_asset.id,
-            'title': media_asset.title,
-            'original_url': media_asset.original_url,
-            'web_url': media_asset.web_url,
-            'thumbnail_url': media_asset.thumbnail_url,
-        })
+        # Return results
+        if uploaded_images:
+            return JsonResponse({
+                'success': True,
+                'images': uploaded_images,
+                'count': len(uploaded_images),
+                'errors': errors if errors else None
+            })
+        else:
+            return JsonResponse({
+                'success': False,
+                'error': 'All uploads failed. Check server console for details.',
+                'errors': errors
+            }, status=400)
     
     except Exception as e:
-        return JsonResponse({'error': str(e)}, status=500)
+        import traceback
+        error_msg = str(e)
+        print(f"Upload error: {error_msg}")
+        print(traceback.format_exc())
+        return JsonResponse({'error': error_msg}, status=500)
 
 
 @login_required
@@ -744,5 +813,112 @@ def footer_edit(request):
     
     context = {'footer': footer}
     return render(request, 'dashboard/footer_edit.html', context)
+
+
+# Decades Section Views
+@login_required
+def decades_section_edit(request):
+    """Edit Decades of Walking With Leaders section"""
+    section, created = DecadesSection.objects.get_or_create(pk=1)
+    
+    if request.method == 'POST':
+        section.title = request.POST.get('title', '')
+        section.subtitle = request.POST.get('subtitle', '')
+        section.description = request.POST.get('description', '')
+        section.closing_quote = request.POST.get('closing_quote', '')
+        section.is_active = request.POST.get('is_active') == 'on'
+        
+        content_json = request.POST.get('content', '{}')
+        try:
+            section.content = json.loads(content_json)
+        except:
+            section.content = {}
+        
+        section.save()
+        messages.success(request, 'Decades section updated!')
+        return redirect('dashboard:decades_section_edit')
+    
+    context = {'section': section}
+    return render(request, 'dashboard/decades_section_edit.html', context)
+
+
+@login_required
+def decades_timeline_items_list(request):
+    """List all decades timeline items"""
+    items = DecadesTimelineItem.objects.all()
+    
+    if request.method == 'POST':
+        if 'delete_id' in request.POST:
+            item_id = request.POST.get('delete_id')
+            item = get_object_or_404(DecadesTimelineItem, id=item_id)
+            item.delete()
+            messages.success(request, 'Timeline item deleted!')
+            return redirect('dashboard:decades_timeline_items_list')
+    
+    context = {'items': items}
+    return render(request, 'dashboard/decades_timeline_items_list.html', context)
+
+
+@login_required
+def decades_timeline_item_edit(request, item_id=None):
+    """Edit or create a decades timeline item"""
+    if item_id:
+        item = get_object_or_404(DecadesTimelineItem, id=item_id)
+    else:
+        item = DecadesTimelineItem()
+    
+    if request.method == 'POST':
+        item.period = request.POST.get('period', '')
+        item.title = request.POST.get('title', '')
+        item.organization = request.POST.get('organization', '')
+        item.description = request.POST.get('description', '')
+        item.reflection = request.POST.get('reflection', '')
+        item.image_url = request.POST.get('image_url', '')
+        item.icon = request.POST.get('icon', '')
+        item.sort_order = int(request.POST.get('sort_order', 0))
+        item.is_active = request.POST.get('is_active') == 'on'
+        
+        # Link to section if it exists
+        section, _ = DecadesSection.objects.get_or_create(pk=1)
+        item.section = section
+        
+        item.save()
+        messages.success(request, 'Timeline item saved!')
+        return redirect('dashboard:decades_timeline_items_list')
+    
+    context = {'item': item}
+    return render(request, 'dashboard/decades_timeline_item_edit.html', context)
+
+
+# Lion Section Views
+@login_required
+def lion_section_edit(request):
+    """Edit The Lion You Don't See section"""
+    section, created = LionSection.objects.get_or_create(pk=1)
+    
+    if request.method == 'POST':
+        section.title = request.POST.get('title', '')
+        section.icon = request.POST.get('icon', 'fas fa-star')
+        section.intro_text = request.POST.get('intro_text', '')
+        section.paragraph_1 = request.POST.get('paragraph_1', '')
+        section.paragraph_2 = request.POST.get('paragraph_2', '')
+        section.reflection_question = request.POST.get('reflection_question', '')
+        section.background_image_url = request.POST.get('background_image_url', '')
+        section.book_cover_image_url = request.POST.get('book_cover_image_url', '')
+        section.closing_quote = request.POST.get('closing_quote', '')
+        section.is_active = request.POST.get('is_active') == 'on'
+        
+        content_json = request.POST.get('content', '{}')
+        try:
+            section.content = json.loads(content_json)
+        except:
+            section.content = {}
+        
+        section.save()
+        messages.success(request, 'Lion section updated!')
+        return redirect('dashboard:lion_section_edit')
+    
+    context = {'section': section}
+    return render(request, 'dashboard/lion_section_edit.html', context)
 
 

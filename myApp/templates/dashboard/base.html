@@ -92,12 +92,24 @@
                     <i class="fas fa-briefcase mr-3"></i> Services
                 </a>
                 
-                <a href="{% url 'dashboard:portfolio_projects_list' %}" class="flex items-center px-4 py-3 mb-2 rounded-lg hover:bg-navy-800 transition-colors {% if 'portfolio' in request.resolver_match.url_name %}bg-navy-800{% endif %}">
-                    <i class="fas fa-folder-open mr-3"></i> Portfolio
+                <a href="{% url 'dashboard:portfolio_projects_list' %}" class="flex items-center px-4 py-3 mb-2 rounded-lg hover:bg-navy-800 transition-colors {% if 'portfolio_project' in request.resolver_match.url_name %}bg-navy-800{% endif %}">
+                    <i class="fas fa-folder-open mr-3"></i> Portfolio Projects
+                </a>
+                
+                <a href="{% url 'dashboard:portfolio_edit' %}" class="flex items-center px-4 py-3 mb-2 rounded-lg hover:bg-navy-800 transition-colors {% if request.resolver_match.url_name == 'portfolio_edit' %}bg-navy-800{% endif %}">
+                    <i class="fas fa-cog mr-3"></i> Portfolio Settings
                 </a>
                 
                 <a href="{% url 'dashboard:testimonials_list' %}" class="flex items-center px-4 py-3 mb-2 rounded-lg hover:bg-navy-800 transition-colors {% if 'testimonial' in request.resolver_match.url_name %}bg-navy-800{% endif %}">
                     <i class="fas fa-quote-left mr-3"></i> Testimonials
+                </a>
+                
+                <a href="{% url 'dashboard:decades_timeline_items_list' %}" class="flex items-center px-4 py-3 mb-2 rounded-lg hover:bg-navy-800 transition-colors {% if 'decades' in request.resolver_match.url_name %}bg-navy-800{% endif %}">
+                    <i class="fas fa-history mr-3"></i> Decades Timeline
+                </a>
+                
+                <a href="{% url 'dashboard:lion_section_edit' %}" class="flex items-center px-4 py-3 mb-2 rounded-lg hover:bg-navy-800 transition-colors {% if 'lion' in request.resolver_match.url_name %}bg-navy-800{% endif %}">
+                    <i class="fas fa-book mr-3"></i> The Lion Section
                 </a>
                 
                 <a href="{% url 'dashboard:faqs_list' %}" class="flex items-center px-4 py-3 mb-2 rounded-lg hover:bg-navy-800 transition-colors {% if 'faq' in request.resolver_match.url_name %}bg-navy-800{% endif %}">
@@ -180,18 +192,26 @@
             <form id="imageUploadForm" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="mb-4">
-                    <label class="block text-gray-700 font-medium mb-2">Image File</label>
-                    <input type="file" name="image" id="imageUploadInput" accept="image/*" required class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                    <label class="block text-gray-700 font-medium mb-2">Image File(s)</label>
+                    <input type="file" name="images[]" id="imageUploadInput" accept="image/*" multiple required class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                    <p class="text-xs text-gray-500 mt-1">You can select multiple images at once</p>
+                </div>
+                
+                <div id="selectedFilesModal" class="hidden mb-4">
+                    <label class="block text-gray-700 font-medium mb-2">Selected Files</label>
+                    <div id="fileListModal" class="max-h-32 overflow-y-auto border border-gray-300 rounded-lg p-2 bg-gray-50">
+                        <!-- Files will be listed here -->
+                    </div>
                 </div>
                 
                 <div class="mb-4">
-                    <label class="block text-gray-700 font-medium mb-2">Title</label>
-                    <input type="text" name="title" class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="Image title">
+                    <label class="block text-gray-700 font-medium mb-2">Title (for first image only)</label>
+                    <input type="text" name="title" class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="Image title (optional)">
                 </div>
                 
                 <div class="mb-4">
-                    <label class="block text-gray-700 font-medium mb-2">Description</label>
-                    <textarea name="description" class="w-full px-4 py-2 border border-gray-300 rounded-lg" rows="3" placeholder="Image description"></textarea>
+                    <label class="block text-gray-700 font-medium mb-2">Description (for first image only)</label>
+                    <textarea name="description" class="w-full px-4 py-2 border border-gray-300 rounded-lg" rows="3" placeholder="Image description (optional)"></textarea>
                 </div>
                 
                 <div class="flex gap-4">
@@ -205,10 +225,16 @@
             </form>
             
             <div id="imageUploadProgress" class="hidden mt-4">
-                <div class="bg-gray-200 rounded-full h-2">
-                    <div id="imageUploadProgressBar" class="bg-blue-600 h-2 rounded-full" style="width: 0%"></div>
+                <div class="mb-2">
+                    <div class="flex justify-between text-sm text-gray-600 mb-1">
+                        <span id="imageUploadStatus">Uploading...</span>
+                        <span id="imageUploadCount">0 / 0</span>
+                    </div>
+                    <div class="bg-gray-200 rounded-full h-2">
+                        <div id="imageUploadProgressBar" class="bg-blue-600 h-2 rounded-full transition-all" style="width: 0%"></div>
+                    </div>
                 </div>
-                <p class="text-sm text-gray-600 mt-2">Uploading...</p>
+                <div id="imageUploadDetails" class="text-xs text-gray-500"></div>
             </div>
         </div>
     </div>
@@ -359,7 +385,33 @@
             document.getElementById('imageUploadModal').classList.add('hidden');
             document.getElementById('imageUploadForm').reset();
             document.getElementById('imageUploadProgress').classList.add('hidden');
+            document.getElementById('selectedFilesModal').classList.add('hidden');
+            document.getElementById('fileListModal').innerHTML = '';
         }
+        
+        // Show selected files in modal
+        document.getElementById('imageUploadInput').addEventListener('change', function(e) {
+            const files = e.target.files;
+            const fileListDiv = document.getElementById('fileListModal');
+            const selectedFilesDiv = document.getElementById('selectedFilesModal');
+            
+            if (files.length > 0) {
+                selectedFilesDiv.classList.remove('hidden');
+                fileListDiv.innerHTML = '';
+                
+                Array.from(files).forEach((file, index) => {
+                    const fileItem = document.createElement('div');
+                    fileItem.className = 'flex items-center justify-between py-1 px-2 mb-1 bg-white rounded';
+                    fileItem.innerHTML = `
+                        <span class="text-sm text-gray-700 truncate flex-1">${file.name}</span>
+                        <span class="text-xs text-gray-500 ml-2">${(file.size / 1024 / 1024).toFixed(2)} MB</span>
+                    `;
+                    fileListDiv.appendChild(fileItem);
+                });
+            } else {
+                selectedFilesDiv.classList.add('hidden');
+            }
+        });
         
         // Handle image upload
         document.getElementById('imageUploadForm').addEventListener('submit', async function(e) {
@@ -368,9 +420,23 @@
             const formData = new FormData(this);
             const progressDiv = document.getElementById('imageUploadProgress');
             const progressBar = document.getElementById('imageUploadProgressBar');
+            const uploadStatus = document.getElementById('imageUploadStatus');
+            const uploadCount = document.getElementById('imageUploadCount');
+            const uploadDetails = document.getElementById('imageUploadDetails');
+            
+            const files = document.getElementById('imageUploadInput').files;
+            const totalFiles = files.length;
+            
+            if (totalFiles === 0) {
+                alert('Please select at least one image file');
+                return;
+            }
             
             progressDiv.classList.remove('hidden');
-            progressBar.style.width = '50%';
+            uploadStatus.textContent = 'Uploading...';
+            uploadCount.textContent = `0 / ${totalFiles}`;
+            progressBar.style.width = '10%';
+            uploadDetails.textContent = '';
             
             try {
                 const response = await fetch('{% url "dashboard:upload_image" %}', {
@@ -385,12 +451,21 @@
                 
                 if (data.success) {
                     progressBar.style.width = '100%';
+                    uploadStatus.textContent = 'Upload complete!';
+                    uploadCount.textContent = `${data.count} / ${totalFiles}`;
                     
-                    // If we have a target, set it
-                    if (currentImageTarget) {
+                    if (data.errors && data.errors.length > 0) {
+                        uploadDetails.innerHTML = '<span class="text-red-600">Some files failed to upload. Check console for details.</span>';
+                        console.error('Upload errors:', data.errors);
+                    } else {
+                        uploadDetails.textContent = `Successfully uploaded ${data.count} image(s)`;
+                    }
+                    
+                    // If we have a target, set it to the first uploaded image
+                    if (currentImageTarget && data.images && data.images.length > 0) {
                         const input = document.getElementById(currentImageTarget);
                         if (input) {
-                            input.value = data.original_url || data.web_url;
+                            input.value = data.images[0].original_url || data.images[0].web_url;
                             input.dispatchEvent(new Event('change', { bubbles: true }));
                         }
                     }
@@ -405,12 +480,20 @@
                                 location.reload();
                             }
                         }
-                    }, 500);
+                    }, 1500);
                 } else {
-                    alert('Error: ' + (data.error || 'Upload failed'));
+                    uploadStatus.textContent = 'Upload failed';
+                    progressBar.style.width = '0%';
+                    let errorMsg = data.error || 'Upload failed';
+                    if (data.errors) {
+                        errorMsg += '\nErrors: ' + data.errors.map(e => `${e.filename}: ${e.error}`).join(', ');
+                    }
+                    alert('Error: ' + errorMsg);
                     progressDiv.classList.add('hidden');
                 }
             } catch (error) {
+                uploadStatus.textContent = 'Upload failed';
+                progressBar.style.width = '0%';
                 alert('Error: ' + error.message);
                 progressDiv.classList.add('hidden');
             }
