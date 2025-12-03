@@ -69,32 +69,32 @@ As you read through these, see where you quietly recognize yourself — even if 
 **1. Founders & CEOs**  
 You're carrying the weight of a vision, a team, and a future — often in silence.
 
-*Question for you: Where do you actually lay that weight down, if at all?*
+*Where do you actually lay that weight down, if at all?*
 
 **2. Coaches, Therapists & Healers**  
 You hold space for everyone else's emotions and rarely have a grounded space for your own.
 
-*Question for you: When was the last time you were the one being fully witnessed instead of holding the space?*
+*When was the last time you were the one being fully witnessed instead of holding the space?*
 
 **3. Educators & Trainers**  
 You shape minds, rooms, and cultures — and sometimes forget you're allowed to be a student too.
 
-*Question for you: Where in your life do you still long to learn and be guided?*
+*Where in your life do you still long to learn and be guided?*
 
 **4. Faith & Community Leaders**  
 You serve people in their most vulnerable moments and often feel like you need to stay "strong" no matter what.
 
-*Question for you: What parts of you never get to be tender, tired, or unsure?*
+*What parts of you never get to be tender, tired, or unsure?*
 
 **5. High-Responsibility Professionals**  
 You make decisions that affect lives, teams, or systems — and you can't just "turn it off" when the workday ends.
 
-*Question for you: What do you wish you could say out loud about the pressure you're under?*
+*What do you wish you could say out loud about the pressure you're under?*
 
 **6. Mentors & Role Models of All Kinds**  
 If people look to you for strength, this space was created with you in mind.
 
-*Question for you: What would it feel like to have someone in your corner the way you are in everyone else's?*
+*What would it feel like to have someone in your corner the way you are in everyone else's?*
 
 ---
 
@@ -127,22 +127,22 @@ Where in your life are you tired of performing, even if no one knows you're perf
 **1. Clarity & Alignment Sessions**  
 We peel back the noise so you can reconnect to why you lead and where you're truly going.
 
-*Question for you: Are you moving toward a life you actually chose — or one that just happened because you kept saying yes?*
+*Are you moving toward a life you actually chose — or one that just happened because you kept saying yes?*
 
 **2. Emotional & Spiritual Grounding**  
 You get a steady space to process what you're holding — emotionally, spiritually, mentally — without needing to be "on."
 
-*Question for you: Where in your body do you feel the weight of what you carry most days?*
+*Where in your body do you feel the weight of what you carry most days?*
 
 **3. Relational & Team Dynamics**  
 We explore the relationships you carry: co-founders, teams, boards, communities, and family — and how to navigate them in a way that feels honest and sustainable.
 
-*Question for you: Which relationship in your life quietly takes the most energy right now?*
+*Which relationship in your life quietly takes the most energy right now?*
 
 **4. Legacy & Transition Work**  
 When you're changing seasons, passing the torch, or redefining who you are beyond your title, we walk through that transition together, slowly and intentionally.
 
-*Question for you: If your title disappeared tomorrow, who would you still know yourself to be?*
+*If your title disappeared tomorrow, who would you still know yourself to be?*
 
 ### Practical Section:
 
@@ -257,22 +257,22 @@ When you strip away everyone's expectations of you, what does your inner lion ac
 **1. Wife**  
 I'm building a life of deep partnership and shared purpose.
 
-*Question for you: Where do you feel most deeply partnered in your own life?*
+*Where do you feel most deeply partnered in your own life?*
 
 **2. Stepmom**  
 I show up with patience, presence, and unconditional love — even on the messy days.
 
-*Question for you: Who in your world sees the soft, imperfect version of you?*
+*Who in your world sees the soft, imperfect version of you?*
 
 **3. Big Sister & Mentor**  
 I've spent years standing beside people who just needed someone in their corner.
 
-*Question for you: Who has stood in your corner — and when was the last time you let them?*
+*Who has stood in your corner — and when was the last time you let them?*
 
 **4. Aunt & Godmother**  
 I hold space for the next generation with joy, prayer, and a lot of listening.
 
-*Question for you: What kind of ancestor or example do you secretly hope to be remembered as?*
+*What kind of ancestor or example do you secretly hope to be remembered as?*
 
 **Closing Statement:**  
 "These roles remind me that every 'leader' is also a human being with a heart, a family, and a story — including you."
