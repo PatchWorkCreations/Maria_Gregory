@@ -135,7 +135,6 @@ def upload_to_cloudinary(image_file, folder='uploads', public_id=None, overwrite
             public_id=public_id,
             overwrite=overwrite,
             resource_type='image',
-            format='auto',  # Auto format (WebP when supported)
         )
         
         # Get image dimensions

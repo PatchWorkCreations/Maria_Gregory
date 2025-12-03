@@ -281,3 +281,4 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS('\n✅ Homepage content seeded successfully!'))
         self.stdout.write(self.style.SUCCESS('You can now manage all content through the dashboard at /dashboard/'))
 
+

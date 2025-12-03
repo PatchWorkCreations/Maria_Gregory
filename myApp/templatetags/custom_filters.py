@@ -32,3 +32,4 @@ def to_field_name(value):
         return ''
     return value.lower().replace(' ', '_').replace('-', '_')
 
+
