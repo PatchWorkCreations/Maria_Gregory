@@ -5,49 +5,76 @@
 {% block content %}
 <div class="mb-8">
     <h1 class="text-3xl font-bold text-navy-900 mb-2">Contact Section Settings</h1>
-    <p class="text-gray-600">Manage the contact section header and content</p>
+    <p class="text-gray-600">Manage the lower white contact section with contact information and form</p>
 </div>
 
-<div class="mb-6 flex gap-4">
-    <a href="{% url 'dashboard:contact_info_list' %}" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors">
-        <i class="fas fa-address-book mr-2"></i>Manage Contact Info
+<div class="mb-6 flex flex-wrap gap-3">
+    <a href="{% url 'dashboard:cta_edit' %}" class="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center gap-2">
+        <i class="fas fa-bullhorn"></i>Edit Call To Action Section
     </a>
-    <a href="{% url 'dashboard:contact_form_fields_list' %}" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg transition-colors">
-        <i class="fas fa-wpforms mr-2"></i>Manage Form Fields
+    <a href="{% url 'dashboard:contact_info_list' %}" class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center gap-2">
+        <i class="fas fa-address-book"></i>Manage Contact Info
+    </a>
+    <a href="{% url 'dashboard:contact_form_fields_list' %}" class="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center gap-2">
+        <i class="fas fa-wpforms"></i>Manage Form Fields
     </a>
 </div>
 
-<form method="post" class="bg-white rounded-lg shadow p-6">
+<form method="post" class="glass-effect rounded-2xl shadow-lg border border-gray-200/50 p-8">
     {% csrf_token %}
     
-    <div class="mb-6">
-        <label class="block text-gray-700 font-medium mb-2">Title</label>
-        <input type="text" name="title" value="{{ contact.title|default:'' }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-navy-500" required>
+    <!-- Contact Section (Lower White Section) -->
+    <div class="mb-8">
+        <div class="flex items-center gap-3 mb-6">
+            <div class="bg-gradient-to-br from-blue-500 to-blue-600 p-3 rounded-xl shadow-lg">
+                <i class="fas fa-envelope text-white text-xl"></i>
+            </div>
+            <div>
+                <h2 class="text-2xl font-bold text-navy-900">Contact Section (Lower White Section)</h2>
+                <p class="text-sm text-gray-600 mt-1">This is the white section below with contact information and form.</p>
+            </div>
+        </div>
+        
+        <div class="space-y-6">
+            <div class="bg-white rounded-xl p-5 border-l-4 border-blue-500 shadow-sm">
+                <label class="block text-gray-700 font-semibold mb-2 text-sm flex items-center gap-2">
+                    <i class="fas fa-heading text-blue-500"></i>Title
+                </label>
+                <input type="text" name="title" value="{{ contact.title|default:'' }}" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-navy-500 focus:border-navy-500 transition-all duration-200 bg-white/80 hover:bg-white" required>
+            </div>
+            
+            <div class="bg-white rounded-xl p-5 border-l-4 border-purple-500 shadow-sm">
+                <label class="block text-gray-700 font-semibold mb-2 text-sm flex items-center gap-2">
+                    <i class="fas fa-subscript text-purple-500"></i>Subtitle
+                </label>
+                <input type="text" name="subtitle" value="{{ contact.subtitle|default:'' }}" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-navy-500 focus:border-navy-500 transition-all duration-200 bg-white/80 hover:bg-white">
+            </div>
+            
+            <div class="bg-white rounded-xl p-5 border-l-4 border-indigo-500 shadow-sm">
+                <label class="block text-gray-700 font-semibold mb-2 text-sm flex items-center gap-2">
+                    <i class="fas fa-align-left text-indigo-500"></i>Description
+                </label>
+                <textarea name="description" rows="4" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-navy-500 focus:border-navy-500 transition-all duration-200 bg-white/80 hover:bg-white resize-y">{{ contact.description|default:'' }}</textarea>
+            </div>
+        </div>
     </div>
     
-    <div class="mb-6">
-        <label class="block text-gray-700 font-medium mb-2">Subtitle</label>
-        <input type="text" name="subtitle" value="{{ contact.subtitle|default:'' }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-navy-500">
-    </div>
-    
-    <div class="mb-6">
-        <label class="block text-gray-700 font-medium mb-2">Description</label>
-        <textarea name="description" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-navy-500">{{ contact.description|default:'' }}</textarea>
-    </div>
-    
-    <div class="mb-6">
-        <label class="flex items-center">
-            <input type="checkbox" name="is_active" {% if contact.is_active %}checked{% endif %} class="mr-2">
-            <span class="text-gray-700 font-medium">Active (show on website)</span>
+    <div class="bg-gradient-to-br from-gray-50 to-white rounded-xl p-6 border-2 border-gray-200 mb-6">
+        <label class="flex items-center cursor-pointer group">
+            <input type="checkbox" name="is_active" {% if contact.is_active %}checked{% endif %} class="w-5 h-5 text-navy-600 border-gray-300 rounded focus:ring-navy-500 cursor-pointer">
+            <div class="ml-4">
+                <span class="text-gray-800 font-semibold text-lg group-hover:text-navy-900 transition-colors">Active (show on website)</span>
+                <p class="text-sm text-gray-500 mt-1">Toggle to show or hide this section on the website</p>
+            </div>
         </label>
     </div>
     
-    <div class="flex gap-4">
-        <button type="submit" class="bg-navy-900 hover:bg-navy-800 text-white px-6 py-3 rounded-lg transition-colors">
-            <i class="fas fa-save mr-2"></i>Save Changes
+    <div class="flex gap-4 pt-4">
+        <button type="submit" class="btn-primary flex-1">
+            <i class="fas fa-save"></i>Save Changes
         </button>
-        <a href="{% url 'dashboard:index' %}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-6 py-3 rounded-lg transition-colors">
-            Cancel
+        <a href="{% url 'dashboard:index' %}" class="btn-outline">
+            <i class="fas fa-times"></i>Cancel
         </a>
     </div>
 </form>

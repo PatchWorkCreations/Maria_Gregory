@@ -250,6 +250,19 @@ class FAQSection(models.Model):
 
 class Contact(models.Model):
     """Contact section header/content"""
+    # Call To Action Section (Upper Dark Section)
+    cta_title = models.CharField(max_length=200, blank=True)
+    cta_subtitle = models.CharField(max_length=300, blank=True)  # Subtitle inside the box
+    cta_description = models.TextField(blank=True)
+    cta_quote = models.TextField(blank=True)  # Quote below the box
+    # CTA Buttons
+    cta_button1_text = models.CharField(max_length=100, blank=True)
+    cta_button1_url = models.CharField(max_length=200, blank=True)
+    cta_button2_text = models.CharField(max_length=100, blank=True)
+    cta_button2_url = models.CharField(max_length=200, blank=True)
+    cta_button3_text = models.CharField(max_length=100, blank=True)
+    cta_button3_url = models.CharField(max_length=200, blank=True)
+    # Contact Section (Lower White Section)
     title = models.CharField(max_length=200)
     subtitle = models.CharField(max_length=300, blank=True)
     description = models.TextField(blank=True)

@@ -2,62 +2,68 @@
 
 {% block title %}Image Gallery{% endblock %}
 
+{% block page_title %}Image Gallery{% endblock %}
+{% block page_subtitle %}Upload and manage your images{% endblock %}
+
 {% block content %}
 <div class="mb-8 flex justify-between items-center">
-    <div>
-        <h1 class="text-3xl font-bold text-navy-900 mb-2">Image Gallery</h1>
-        <p class="text-gray-600">Upload and manage your images</p>
-    </div>
-    <button onclick="document.getElementById('uploadModal').classList.remove('hidden')" class="bg-navy-900 hover:bg-navy-800 text-white px-6 py-3 rounded-lg transition-colors">
+    <div></div>
+    <button onclick="document.getElementById('uploadModal').classList.remove('hidden')" class="bg-gradient-to-r from-navy-900 to-navy-800 hover:from-navy-800 hover:to-navy-700 text-white px-6 py-3 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl font-semibold flex items-center">
         <i class="fas fa-upload mr-2"></i>Upload Image
     </button>
 </div>
 
 <!-- Upload Modal -->
-<div id="uploadModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-    <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4">
-        <div class="flex justify-between items-center mb-6">
-            <h2 class="text-2xl font-bold text-navy-900">Upload Image</h2>
-            <button onclick="document.getElementById('uploadModal').classList.add('hidden')" class="text-gray-500 hover:text-gray-700">
-                <i class="fas fa-times"></i>
+<div id="uploadModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="glass-effect rounded-2xl shadow-2xl p-8 max-w-md w-full border border-white/20">
+        <div class="flex justify-between items-center mb-6 pb-4 border-b border-gray-200">
+            <h2 class="text-2xl font-bold text-navy-900 flex items-center">
+                <i class="fas fa-upload mr-3 text-beige-600"></i>
+                Upload Image
+            </h2>
+            <button onclick="document.getElementById('uploadModal').classList.add('hidden')" class="text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg p-2 transition-colors">
+                <i class="fas fa-times text-xl"></i>
             </button>
         </div>
         
         <form id="uploadForm" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="mb-4">
-                <label class="block text-gray-700 font-medium mb-2">Image File(s)</label>
-                <input type="file" name="images[]" id="imageInput" accept="image/*" multiple required class="w-full px-4 py-2 border border-gray-300 rounded-lg">
-                <p class="text-xs text-gray-500 mt-1">You can select multiple images at once</p>
+                <label class="block text-gray-700 font-semibold mb-2 text-sm">Image File(s)</label>
+                <input type="file" name="images[]" id="imageInput" accept="image/*" multiple required class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-navy-500 focus:border-navy-500 transition-all bg-white/80">
+                <p class="text-xs text-gray-500 mt-2 flex items-center">
+                    <i class="fas fa-info-circle mr-1"></i>
+                    You can select multiple images at once
+                </p>
             </div>
             
             <div id="selectedFiles" class="hidden mb-4">
-                <label class="block text-gray-700 font-medium mb-2">Selected Files</label>
-                <div id="fileList" class="max-h-32 overflow-y-auto border border-gray-300 rounded-lg p-2 bg-gray-50">
+                <label class="block text-gray-700 font-semibold mb-2 text-sm">Selected Files</label>
+                <div id="fileList" class="max-h-32 overflow-y-auto border-2 border-gray-200 rounded-xl p-3 bg-gray-50/80">
                     <!-- Files will be listed here -->
                 </div>
             </div>
             
             <div class="mb-4">
-                <label class="block text-gray-700 font-medium mb-2">Title (for first image only)</label>
-                <input type="text" name="title" class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="Image title (optional)">
+                <label class="block text-gray-700 font-semibold mb-2 text-sm">Title (for first image only)</label>
+                <input type="text" name="title" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-navy-500 focus:border-navy-500 transition-all bg-white/80" placeholder="Image title (optional)">
             </div>
             
             <div class="mb-4">
-                <label class="block text-gray-700 font-medium mb-2">Description (for first image only)</label>
-                <textarea name="description" class="w-full px-4 py-2 border border-gray-300 rounded-lg" rows="3" placeholder="Image description (optional)"></textarea>
+                <label class="block text-gray-700 font-semibold mb-2 text-sm">Description (for first image only)</label>
+                <textarea name="description" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-navy-500 focus:border-navy-500 transition-all bg-white/80" rows="3" placeholder="Image description (optional)"></textarea>
             </div>
             
             <div class="mb-4">
-                <label class="block text-gray-700 font-medium mb-2">Folder</label>
-                <input type="text" name="folder" value="myApp/uploads" class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="myApp/uploads">
+                <label class="block text-gray-700 font-semibold mb-2 text-sm">Folder</label>
+                <input type="text" name="folder" value="myApp/uploads" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-navy-500 focus:border-navy-500 transition-all bg-white/80" placeholder="myApp/uploads">
             </div>
             
             <div class="flex gap-4">
-                <button type="submit" class="flex-1 bg-navy-900 hover:bg-navy-800 text-white px-6 py-3 rounded-lg transition-colors">
+                <button type="submit" class="flex-1 bg-gradient-to-r from-navy-900 to-navy-800 hover:from-navy-800 hover:to-navy-700 text-white px-6 py-3 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl font-semibold">
                     <i class="fas fa-upload mr-2"></i>Upload
                 </button>
-                <button type="button" onclick="document.getElementById('uploadModal').classList.add('hidden')" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 px-6 py-3 rounded-lg transition-colors">
+                <button type="button" onclick="document.getElementById('uploadModal').classList.add('hidden')" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-3 rounded-xl transition-all duration-200 font-semibold">
                     Cancel
                 </button>
             </div>
@@ -81,22 +87,25 @@
 <!-- Gallery Grid -->
 <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
     {% for image in page_obj %}
-        <div class="bg-white rounded-lg shadow overflow-hidden group relative">
+        <div class="glass-effect rounded-xl shadow-md overflow-hidden group relative border border-gray-200/50 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
             <img src="{{ image.thumbnail_url|default:image.original_url }}" alt="{{ image.title }}" class="w-full h-48 object-cover">
-            <div class="p-3">
-                <p class="text-sm font-medium text-navy-900 truncate">{{ image.title }}</p>
-                <p class="text-xs text-gray-500">{{ image.width }}x{{ image.height }}</p>
+            <div class="p-3 bg-white/80">
+                <p class="text-sm font-semibold text-navy-900 truncate">{{ image.title }}</p>
+                <p class="text-xs text-gray-500 mt-1">{{ image.width }}x{{ image.height }}</p>
             </div>
-            <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-60 transition-opacity flex items-center justify-center gap-2">
-                <button onclick="copyUrl('{{ image.original_url }}')" class="bg-white text-navy-900 px-3 py-2 rounded text-sm opacity-0 group-hover:opacity-100 transition-opacity">
-                    <i class="fas fa-copy mr-1"></i>Copy URL
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-3">
+                <button onclick="copyUrl('{{ image.original_url }}')" class="bg-white text-navy-900 px-4 py-2 rounded-lg text-sm font-medium shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 opacity-0 group-hover:opacity-100">
+                    <i class="fas fa-copy mr-2"></i>Copy URL
                 </button>
             </div>
         </div>
     {% empty %}
-        <div class="col-span-full text-center py-12">
-            <i class="fas fa-images text-6xl text-gray-300 mb-4"></i>
-            <p class="text-gray-600">No images uploaded yet</p>
+        <div class="col-span-full text-center py-16">
+            <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-images text-gray-400 text-4xl"></i>
+            </div>
+            <p class="text-gray-600 text-lg font-medium mb-2">No images uploaded yet</p>
+            <p class="text-gray-500 text-sm">Get started by uploading your first image</p>
         </div>
     {% endfor %}
 </div>
@@ -104,19 +113,19 @@
 <!-- Pagination -->
 {% if page_obj.has_other_pages %}
     <div class="mt-8 flex justify-center">
-        <div class="flex gap-2">
+        <div class="flex gap-3 items-center">
             {% if page_obj.has_previous %}
-                <a href="?page={{ page_obj.previous_page_number }}" class="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+                <a href="?page={{ page_obj.previous_page_number }}" class="px-4 py-2 glass-effect border-2 border-gray-200 rounded-xl hover:border-navy-500 hover:bg-navy-50 transition-all duration-200 shadow-md hover:shadow-lg">
                     <i class="fas fa-chevron-left"></i>
                 </a>
             {% endif %}
             
-            <span class="px-4 py-2 bg-navy-900 text-white rounded-lg">
+            <span class="px-6 py-2 bg-gradient-to-r from-navy-900 to-navy-800 text-white rounded-xl shadow-lg font-semibold">
                 Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
             </span>
             
             {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}" class="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+                <a href="?page={{ page_obj.next_page_number }}" class="px-4 py-2 glass-effect border-2 border-gray-200 rounded-xl hover:border-navy-500 hover:bg-navy-50 transition-all duration-200 shadow-md hover:shadow-lg">
                     <i class="fas fa-chevron-right"></i>
                 </a>
             {% endif %}

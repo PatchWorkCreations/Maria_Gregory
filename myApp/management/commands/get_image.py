@@ -149,3 +149,5 @@ class Command(BaseCommand):
             self.stdout.write(f'  Size: {image.width}x{image.height} | Created: {image.created_at.strftime("%Y-%m-%d")}')
             self.stdout.write('')
 
+
+

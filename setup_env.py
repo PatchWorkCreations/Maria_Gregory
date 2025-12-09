@@ -74,3 +74,5 @@ OPENAI_API_KEY={openai_key if openai_key else 'your_openai_api_key_here'}
 if __name__ == '__main__':
     create_env_file()
 
+
+

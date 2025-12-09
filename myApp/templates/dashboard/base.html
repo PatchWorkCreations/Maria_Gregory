@@ -46,105 +46,299 @@
         }
     </script>
     
+    <style>
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        .animate-slide-in {
+            animation: slideIn 0.3s ease-out;
+        }
+        .sidebar-link {
+            position: relative;
+            overflow: hidden;
+        }
+        .sidebar-link::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 3px;
+            background: linear-gradient(to bottom, #e4b866, #d69e3d);
+            transform: scaleY(0);
+            transition: transform 0.2s ease;
+        }
+        .sidebar-link:hover::before,
+        .sidebar-link.active::before {
+            transform: scaleY(1);
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        /* Modern Button Styles */
+        .btn-primary {
+            background: linear-gradient(to right, #102a43, #243b53);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(to right, #243b53, #334e68);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        .btn-success {
+            background: linear-gradient(to right, #16a34a, #15803d);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .btn-success:hover {
+            background: linear-gradient(to right, #15803d, #166534);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        .btn-danger {
+            background: linear-gradient(to right, #dc2626, #b91c1c);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .btn-danger:hover {
+            background: linear-gradient(to right, #b91c1c, #991b1b);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: linear-gradient(to right, #4b5563, #374151);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .btn-secondary:hover {
+            background: linear-gradient(to right, #374151, #1f2937);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        .btn-outline {
+            background: white;
+            color: #1f2937;
+            border: 2px solid #d1d5db;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .btn-outline:hover {
+            background: #f9fafb;
+            border-color: #9ca3af;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+    </style>
     {% block extra_css %}{% endblock %}
 </head>
-<body class="bg-gray-100">
-    <div class="flex h-screen">
+<body class="bg-gradient-to-br from-gray-50 via-gray-100 to-gray-50">
+    <div class="flex h-screen overflow-hidden">
         <!-- Sidebar -->
-        <aside class="w-64 bg-navy-900 text-white flex flex-col">
-            <div class="p-6 border-b border-navy-800">
-                <h1 class="text-2xl font-bold text-beige-400">Dashboard</h1>
-                <p class="text-sm text-navy-300 mt-1">Maria Gregory</p>
+        <aside class="w-64 bg-gradient-to-b from-navy-900 via-navy-800 to-navy-900 text-white flex flex-col shadow-2xl relative z-10">
+            <div class="p-6 border-b border-navy-700/50 bg-gradient-to-r from-navy-800 to-navy-900">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-beige-400 to-beige-600 rounded-lg flex items-center justify-center shadow-lg">
+                        <i class="fas fa-tachometer-alt text-navy-900 text-lg"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-beige-400">Dashboard</h1>
+                        <p class="text-xs text-navy-300 mt-0.5">Maria Gregory</p>
+                    </div>
+                </div>
             </div>
             
-            <nav class="flex-1 overflow-y-auto p-4">
-                <a href="{% url 'dashboard:index' %}" class="flex items-center px-4 py-3 mb-2 rounded-lg hover:bg-navy-800 transition-colors {% if request.resolver_match.url_name == 'index' %}bg-navy-800{% endif %}">
-                    <i class="fas fa-home mr-3"></i> Dashboard
+            <nav class="flex-1 overflow-y-auto p-4 space-y-1">
+                <a href="{% url 'dashboard:index' %}" class="sidebar-link flex items-center px-4 py-3 rounded-xl hover:bg-navy-800/60 transition-all duration-200 group {% if request.resolver_match.url_name == 'index' %}active bg-navy-800/80 shadow-lg{% endif %}">
+                    <i class="fas fa-home mr-3 text-beige-400 group-hover:scale-110 transition-transform"></i> 
+                    <span class="font-medium">Dashboard</span>
                 </a>
                 
-                <a href="{% url 'dashboard:gallery' %}" class="flex items-center px-4 py-3 mb-2 rounded-lg hover:bg-navy-800 transition-colors {% if request.resolver_match.url_name == 'gallery' %}bg-navy-800{% endif %}">
-                    <i class="fas fa-images mr-3"></i> Gallery
+                <a href="{% url 'dashboard:gallery' %}" class="sidebar-link flex items-center px-4 py-3 rounded-xl hover:bg-navy-800/60 transition-all duration-200 group {% if request.resolver_match.url_name == 'gallery' %}active bg-navy-800/80 shadow-lg{% endif %}">
+                    <i class="fas fa-images mr-3 text-beige-400 group-hover:scale-110 transition-transform"></i> 
+                    <span class="font-medium">Gallery</span>
                 </a>
                 
-                <div class="mt-6 mb-2 text-xs font-semibold text-navy-400 uppercase tracking-wider px-4">Content</div>
+                <div class="mt-6 mb-3 text-xs font-semibold text-navy-400 uppercase tracking-wider px-4 flex items-center">
+                    <span class="w-8 h-px bg-navy-700 mr-2"></span>
+                    Content
+                    <span class="w-8 h-px bg-navy-700 ml-2"></span>
+                </div>
                 
-                <a href="{% url 'dashboard:seo_edit' %}" class="flex items-center px-4 py-3 mb-2 rounded-lg hover:bg-navy-800 transition-colors {% if request.resolver_match.url_name == 'seo_edit' %}bg-navy-800{% endif %}">
-                    <i class="fas fa-search mr-3"></i> SEO
+                <a href="{% url 'dashboard:seo_edit' %}" class="sidebar-link flex items-center px-4 py-3 rounded-xl hover:bg-navy-800/60 transition-all duration-200 group {% if request.resolver_match.url_name == 'seo_edit' %}active bg-navy-800/80 shadow-lg{% endif %}">
+                    <i class="fas fa-search mr-3 text-beige-400 group-hover:scale-110 transition-transform"></i> 
+                    <span class="font-medium">SEO</span>
                 </a>
                 
-                <a href="{% url 'dashboard:navigation_edit' %}" class="flex items-center px-4 py-3 mb-2 rounded-lg hover:bg-navy-800 transition-colors {% if request.resolver_match.url_name == 'navigation_edit' %}bg-navy-800{% endif %}">
-                    <i class="fas fa-bars mr-3"></i> Navigation
+                <a href="{% url 'dashboard:navigation_edit' %}" class="sidebar-link flex items-center px-4 py-3 rounded-xl hover:bg-navy-800/60 transition-all duration-200 group {% if request.resolver_match.url_name == 'navigation_edit' %}active bg-navy-800/80 shadow-lg{% endif %}">
+                    <i class="fas fa-bars mr-3 text-beige-400 group-hover:scale-110 transition-transform"></i> 
+                    <span class="font-medium">Navigation</span>
                 </a>
                 
-                <a href="{% url 'dashboard:hero_edit' %}" class="flex items-center px-4 py-3 mb-2 rounded-lg hover:bg-navy-800 transition-colors {% if request.resolver_match.url_name == 'hero_edit' %}bg-navy-800{% endif %}">
-                    <i class="fas fa-star mr-3"></i> Hero
+                <a href="{% url 'dashboard:hero_edit' %}" class="sidebar-link flex items-center px-4 py-3 rounded-xl hover:bg-navy-800/60 transition-all duration-200 group {% if request.resolver_match.url_name == 'hero_edit' %}active bg-navy-800/80 shadow-lg{% endif %}">
+                    <i class="fas fa-star mr-3 text-beige-400 group-hover:scale-110 transition-transform"></i> 
+                    <span class="font-medium">Hero</span>
                 </a>
                 
-                <a href="{% url 'dashboard:about_edit' %}" class="flex items-center px-4 py-3 mb-2 rounded-lg hover:bg-navy-800 transition-colors {% if request.resolver_match.url_name == 'about_edit' %}bg-navy-800{% endif %}">
-                    <i class="fas fa-user mr-3"></i> About
+                <a href="{% url 'dashboard:about_edit' %}" class="sidebar-link flex items-center px-4 py-3 rounded-xl hover:bg-navy-800/60 transition-all duration-200 group {% if request.resolver_match.url_name == 'about_edit' %}active bg-navy-800/80 shadow-lg{% endif %}">
+                    <i class="fas fa-user mr-3 text-beige-400 group-hover:scale-110 transition-transform"></i> 
+                    <span class="font-medium">About</span>
                 </a>
                 
-                <a href="{% url 'dashboard:stats_list' %}" class="flex items-center px-4 py-3 mb-2 rounded-lg hover:bg-navy-800 transition-colors {% if 'stat' in request.resolver_match.url_name %}bg-navy-800{% endif %}">
-                    <i class="fas fa-chart-bar mr-3"></i> Statistics
+                <a href="{% url 'dashboard:stats_list' %}" class="sidebar-link flex items-center px-4 py-3 rounded-xl hover:bg-navy-800/60 transition-all duration-200 group {% if 'stat' in request.resolver_match.url_name %}active bg-navy-800/80 shadow-lg{% endif %}">
+                    <i class="fas fa-chart-bar mr-3 text-beige-400 group-hover:scale-110 transition-transform"></i> 
+                    <span class="font-medium">Statistics</span>
                 </a>
                 
-                <a href="{% url 'dashboard:services_list' %}" class="flex items-center px-4 py-3 mb-2 rounded-lg hover:bg-navy-800 transition-colors {% if 'service' in request.resolver_match.url_name %}bg-navy-800{% endif %}">
-                    <i class="fas fa-briefcase mr-3"></i> Services
+                <a href="{% url 'dashboard:services_list' %}" class="sidebar-link flex items-center px-4 py-3 rounded-xl hover:bg-navy-800/60 transition-all duration-200 group {% if 'service' in request.resolver_match.url_name %}active bg-navy-800/80 shadow-lg{% endif %}">
+                    <i class="fas fa-briefcase mr-3 text-beige-400 group-hover:scale-110 transition-transform"></i> 
+                    <span class="font-medium">Services</span>
                 </a>
                 
-                <a href="{% url 'dashboard:portfolio_projects_list' %}" class="flex items-center px-4 py-3 mb-2 rounded-lg hover:bg-navy-800 transition-colors {% if 'portfolio_project' in request.resolver_match.url_name %}bg-navy-800{% endif %}">
-                    <i class="fas fa-folder-open mr-3"></i> Portfolio Projects
+                <a href="{% url 'dashboard:portfolio_projects_list' %}" class="sidebar-link flex items-center px-4 py-3 rounded-xl hover:bg-navy-800/60 transition-all duration-200 group {% if 'portfolio_project' in request.resolver_match.url_name %}active bg-navy-800/80 shadow-lg{% endif %}">
+                    <i class="fas fa-folder-open mr-3 text-beige-400 group-hover:scale-110 transition-transform"></i> 
+                    <span class="font-medium">Portfolio Projects</span>
                 </a>
                 
-                <a href="{% url 'dashboard:portfolio_edit' %}" class="flex items-center px-4 py-3 mb-2 rounded-lg hover:bg-navy-800 transition-colors {% if request.resolver_match.url_name == 'portfolio_edit' %}bg-navy-800{% endif %}">
-                    <i class="fas fa-cog mr-3"></i> Portfolio Settings
+                <a href="{% url 'dashboard:portfolio_edit' %}" class="sidebar-link flex items-center px-4 py-3 rounded-xl hover:bg-navy-800/60 transition-all duration-200 group {% if request.resolver_match.url_name == 'portfolio_edit' %}active bg-navy-800/80 shadow-lg{% endif %}">
+                    <i class="fas fa-cog mr-3 text-beige-400 group-hover:scale-110 transition-transform"></i> 
+                    <span class="font-medium">Portfolio Settings</span>
                 </a>
                 
-                <a href="{% url 'dashboard:testimonials_list' %}" class="flex items-center px-4 py-3 mb-2 rounded-lg hover:bg-navy-800 transition-colors {% if 'testimonial' in request.resolver_match.url_name %}bg-navy-800{% endif %}">
-                    <i class="fas fa-quote-left mr-3"></i> Testimonials
+                <a href="{% url 'dashboard:testimonials_list' %}" class="sidebar-link flex items-center px-4 py-3 rounded-xl hover:bg-navy-800/60 transition-all duration-200 group {% if 'testimonial' in request.resolver_match.url_name %}active bg-navy-800/80 shadow-lg{% endif %}">
+                    <i class="fas fa-quote-left mr-3 text-beige-400 group-hover:scale-110 transition-transform"></i> 
+                    <span class="font-medium">Testimonials</span>
                 </a>
                 
-                <a href="{% url 'dashboard:decades_timeline_items_list' %}" class="flex items-center px-4 py-3 mb-2 rounded-lg hover:bg-navy-800 transition-colors {% if 'decades' in request.resolver_match.url_name %}bg-navy-800{% endif %}">
-                    <i class="fas fa-history mr-3"></i> Decades Timeline
+                <a href="{% url 'dashboard:decades_timeline_items_list' %}" class="sidebar-link flex items-center px-4 py-3 rounded-xl hover:bg-navy-800/60 transition-all duration-200 group {% if 'decades' in request.resolver_match.url_name %}active bg-navy-800/80 shadow-lg{% endif %}">
+                    <i class="fas fa-history mr-3 text-beige-400 group-hover:scale-110 transition-transform"></i> 
+                    <span class="font-medium">Decades Timeline</span>
                 </a>
                 
-                <a href="{% url 'dashboard:lion_section_edit' %}" class="flex items-center px-4 py-3 mb-2 rounded-lg hover:bg-navy-800 transition-colors {% if 'lion' in request.resolver_match.url_name %}bg-navy-800{% endif %}">
-                    <i class="fas fa-book mr-3"></i> The Lion Section
+                <a href="{% url 'dashboard:lion_section_edit' %}" class="sidebar-link flex items-center px-4 py-3 rounded-xl hover:bg-navy-800/60 transition-all duration-200 group {% if 'lion' in request.resolver_match.url_name %}active bg-navy-800/80 shadow-lg{% endif %}">
+                    <i class="fas fa-book mr-3 text-beige-400 group-hover:scale-110 transition-transform"></i> 
+                    <span class="font-medium">The Lion Section</span>
                 </a>
                 
-                <a href="{% url 'dashboard:faqs_list' %}" class="flex items-center px-4 py-3 mb-2 rounded-lg hover:bg-navy-800 transition-colors {% if 'faq' in request.resolver_match.url_name %}bg-navy-800{% endif %}">
-                    <i class="fas fa-question-circle mr-3"></i> FAQs
+                <a href="{% url 'dashboard:faqs_list' %}" class="sidebar-link flex items-center px-4 py-3 rounded-xl hover:bg-navy-800/60 transition-all duration-200 group {% if 'faq' in request.resolver_match.url_name %}active bg-navy-800/80 shadow-lg{% endif %}">
+                    <i class="fas fa-question-circle mr-3 text-beige-400 group-hover:scale-110 transition-transform"></i> 
+                    <span class="font-medium">FAQs</span>
                 </a>
                 
-                <a href="{% url 'dashboard:contact_edit' %}" class="flex items-center px-4 py-3 mb-2 rounded-lg hover:bg-navy-800 transition-colors {% if 'contact' in request.resolver_match.url_name %}bg-navy-800{% endif %}">
-                    <i class="fas fa-envelope mr-3"></i> Contact
+                <a href="{% url 'dashboard:cta_edit' %}" class="sidebar-link flex items-center px-4 py-3 rounded-xl hover:bg-navy-800/60 transition-all duration-200 group {% if request.resolver_match.url_name == 'cta_edit' %}active bg-navy-800/80 shadow-lg{% endif %}">
+                    <i class="fas fa-bullhorn mr-3 text-beige-400 group-hover:scale-110 transition-transform"></i> 
+                    <span class="font-medium">Call To Action</span>
                 </a>
                 
-                <a href="{% url 'dashboard:social_links_list' %}" class="flex items-center px-4 py-3 mb-2 rounded-lg hover:bg-navy-800 transition-colors {% if 'social' in request.resolver_match.url_name %}bg-navy-800{% endif %}">
-                    <i class="fas fa-share-alt mr-3"></i> Social Links
+                <a href="{% url 'dashboard:contact_edit' %}" class="sidebar-link flex items-center px-4 py-3 rounded-xl hover:bg-navy-800/60 transition-all duration-200 group {% if request.resolver_match.url_name == 'contact_edit' %}active bg-navy-800/80 shadow-lg{% endif %}">
+                    <i class="fas fa-envelope mr-3 text-beige-400 group-hover:scale-110 transition-transform"></i> 
+                    <span class="font-medium">Contact</span>
                 </a>
                 
-                <a href="{% url 'dashboard:footer_edit' %}" class="flex items-center px-4 py-3 mb-2 rounded-lg hover:bg-navy-800 transition-colors {% if request.resolver_match.url_name == 'footer_edit' %}bg-navy-800{% endif %}">
-                    <i class="fas fa-window-minimize mr-3"></i> Footer
+                <a href="{% url 'dashboard:social_links_list' %}" class="sidebar-link flex items-center px-4 py-3 rounded-xl hover:bg-navy-800/60 transition-all duration-200 group {% if 'social' in request.resolver_match.url_name %}active bg-navy-800/80 shadow-lg{% endif %}">
+                    <i class="fas fa-share-alt mr-3 text-beige-400 group-hover:scale-110 transition-transform"></i> 
+                    <span class="font-medium">Social Links</span>
+                </a>
+                
+                <a href="{% url 'dashboard:footer_edit' %}" class="sidebar-link flex items-center px-4 py-3 rounded-xl hover:bg-navy-800/60 transition-all duration-200 group {% if request.resolver_match.url_name == 'footer_edit' %}active bg-navy-800/80 shadow-lg{% endif %}">
+                    <i class="fas fa-window-minimize mr-3 text-beige-400 group-hover:scale-110 transition-transform"></i> 
+                    <span class="font-medium">Footer</span>
                 </a>
             </nav>
             
-            <div class="p-4 border-t border-navy-800">
-                <a href="{% url 'dashboard:logout' %}" class="flex items-center px-4 py-3 rounded-lg hover:bg-navy-800 transition-colors text-red-400">
-                    <i class="fas fa-sign-out-alt mr-3"></i> Logout
+            <div class="p-4 border-t border-navy-700/50 bg-gradient-to-t from-navy-800 to-navy-900">
+                <a href="{% url 'dashboard:logout' %}" class="flex items-center px-4 py-3 rounded-xl hover:bg-red-600/20 transition-all duration-200 text-red-300 hover:text-red-200 group">
+                    <i class="fas fa-sign-out-alt mr-3 group-hover:scale-110 transition-transform"></i> 
+                    <span class="font-medium">Logout</span>
                 </a>
             </div>
         </aside>
         
         <!-- Main Content -->
         <main class="flex-1 overflow-y-auto">
+            <!-- Top Header Bar -->
+            <div class="glass-effect border-b border-gray-200/50 sticky top-0 z-20 shadow-sm">
+                <div class="px-8 py-4 flex items-center justify-between">
+                    <div>
+                        <h2 class="text-xl font-bold text-navy-900">{% block page_title %}Dashboard{% endblock %}</h2>
+                        <p class="text-sm text-gray-600 mt-0.5">{% block page_subtitle %}Welcome back{% endblock %}</p>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <a href="/" target="_blank" class="px-4 py-2 bg-gradient-to-r from-navy-900 to-navy-800 text-white rounded-lg hover:from-navy-800 hover:to-navy-700 transition-all duration-200 shadow-md hover:shadow-lg flex items-center space-x-2">
+                            <i class="fas fa-external-link-alt text-sm"></i>
+                            <span class="text-sm font-medium">View Site</span>
+                        </a>
+                        <div class="w-10 h-10 bg-gradient-to-br from-beige-400 to-beige-600 rounded-full flex items-center justify-center shadow-md">
+                            <i class="fas fa-user text-navy-900"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
             <div class="p-8">
                 <!-- Messages -->
                 {% if messages %}
-                    <div class="mb-6">
+                    <div class="mb-6 space-y-2">
                         {% for message in messages %}
-                            <div class="bg-{% if message.tags == 'error' %}red{% elif message.tags == 'warning' %}yellow{% else %}green{% endif %}-100 border border-{% if message.tags == 'error' %}red{% elif message.tags == 'warning' %}yellow{% else %}green{% endif %}-400 text-{% if message.tags == 'error' %}red{% elif message.tags == 'warning' %}yellow{% else %}green{% endif %}-700 px-4 py-3 rounded mb-2">
-                                {{ message }}
+                            <div class="glass-effect border-l-4 border-{% if message.tags == 'error' %}red{% elif message.tags == 'warning' %}yellow{% else %}green{% endif %}-500 bg-{% if message.tags == 'error' %}red{% elif message.tags == 'warning' %}yellow{% else %}green{% endif %}-50/80 text-{% if message.tags == 'error' %}red{% elif message.tags == 'warning' %}yellow{% else %}green{% endif %}-800 px-6 py-4 rounded-lg shadow-md flex items-center space-x-3 animate-slide-in">
+                                <i class="fas fa-{% if message.tags == 'error' %}exclamation-circle{% elif message.tags == 'warning' %}exclamation-triangle{% else %}check-circle{% endif %} text-lg"></i>
+                                <span class="font-medium">{{ message }}</span>
                             </div>
                         {% endfor %}
                     </div>
@@ -158,12 +352,15 @@
     {% block extra_js %}{% endblock %}
     
     <!-- Image Picker Modal (Reusable Component) -->
-    <div id="imagePickerModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-        <div class="bg-white rounded-lg p-8 max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold text-navy-900">Select Image from Gallery</h2>
-                <button onclick="closeImagePicker()" class="text-gray-500 hover:text-gray-700">
-                    <i class="fas fa-times text-2xl"></i>
+    <div id="imagePickerModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="glass-effect rounded-2xl shadow-2xl p-8 max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-white/20">
+            <div class="flex justify-between items-center mb-6 pb-4 border-b border-gray-200">
+                <h2 class="text-2xl font-bold text-navy-900 flex items-center">
+                    <i class="fas fa-images mr-3 text-beige-600"></i>
+                    Select Image from Gallery
+                </h2>
+                <button onclick="closeImagePicker()" class="text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg p-2 transition-colors">
+                    <i class="fas fa-times text-xl"></i>
                 </button>
             </div>
             
@@ -180,21 +377,27 @@
     </div>
     
     <!-- Image Upload Modal (Reusable Component) -->
-    <div id="imageUploadModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-        <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold text-navy-900">Upload Image</h2>
-                <button onclick="closeImageUpload()" class="text-gray-500 hover:text-gray-700">
-                    <i class="fas fa-times"></i>
+    <div id="imageUploadModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="glass-effect rounded-2xl shadow-2xl p-8 max-w-md w-full border border-white/20">
+            <div class="flex justify-between items-center mb-6 pb-4 border-b border-gray-200">
+                <h2 class="text-2xl font-bold text-navy-900 flex items-center">
+                    <i class="fas fa-upload mr-3 text-beige-600"></i>
+                    Upload Image
+                </h2>
+                <button onclick="closeImageUpload()" class="text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg p-2 transition-colors">
+                    <i class="fas fa-times text-xl"></i>
                 </button>
             </div>
             
             <form id="imageUploadForm" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="mb-4">
-                    <label class="block text-gray-700 font-medium mb-2">Image File(s)</label>
-                    <input type="file" name="images[]" id="imageUploadInput" accept="image/*" multiple required class="w-full px-4 py-2 border border-gray-300 rounded-lg">
-                    <p class="text-xs text-gray-500 mt-1">You can select multiple images at once</p>
+                    <label class="block text-gray-700 font-semibold mb-2 text-sm">Image File(s)</label>
+                    <input type="file" name="images[]" id="imageUploadInput" accept="image/*" multiple required class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-navy-500 focus:border-navy-500 transition-all bg-white/80">
+                    <p class="text-xs text-gray-500 mt-2 flex items-center">
+                        <i class="fas fa-info-circle mr-1"></i>
+                        You can select multiple images at once
+                    </p>
                 </div>
                 
                 <div id="selectedFilesModal" class="hidden mb-4">
@@ -205,20 +408,20 @@
                 </div>
                 
                 <div class="mb-4">
-                    <label class="block text-gray-700 font-medium mb-2">Title (for first image only)</label>
-                    <input type="text" name="title" class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="Image title (optional)">
+                    <label class="block text-gray-700 font-semibold mb-2 text-sm">Title (for first image only)</label>
+                    <input type="text" name="title" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-navy-500 focus:border-navy-500 transition-all bg-white/80" placeholder="Image title (optional)">
                 </div>
                 
                 <div class="mb-4">
-                    <label class="block text-gray-700 font-medium mb-2">Description (for first image only)</label>
-                    <textarea name="description" class="w-full px-4 py-2 border border-gray-300 rounded-lg" rows="3" placeholder="Image description (optional)"></textarea>
+                    <label class="block text-gray-700 font-semibold mb-2 text-sm">Description (for first image only)</label>
+                    <textarea name="description" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-navy-500 focus:border-navy-500 transition-all bg-white/80" rows="3" placeholder="Image description (optional)"></textarea>
                 </div>
                 
                 <div class="flex gap-4">
-                    <button type="submit" class="flex-1 bg-navy-900 hover:bg-navy-800 text-white px-6 py-3 rounded-lg transition-colors">
+                    <button type="submit" class="flex-1 bg-gradient-to-r from-navy-900 to-navy-800 hover:from-navy-800 hover:to-navy-700 text-white px-6 py-3 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl font-semibold">
                         <i class="fas fa-upload mr-2"></i>Upload
                     </button>
-                    <button type="button" onclick="closeImageUpload()" class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 px-6 py-3 rounded-lg transition-colors">
+                    <button type="button" onclick="closeImageUpload()" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-3 rounded-xl transition-all duration-200 font-semibold">
                         Cancel
                     </button>
                 </div>

@@ -58,6 +58,9 @@ urlpatterns = [
     path('faqs/<int:faq_id>/', dashboard_views.faq_edit, name='faq_edit'),
     path('faq-section/', dashboard_views.faq_section_edit, name='faq_section_edit'),
     
+    # Call To Action
+    path('cta/', dashboard_views.cta_edit, name='cta_edit'),
+    
     # Contact
     path('contact/', dashboard_views.contact_edit, name='contact_edit'),
     path('contact-info/', dashboard_views.contact_info_list, name='contact_info_list'),

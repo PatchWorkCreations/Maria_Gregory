@@ -58,6 +58,8 @@ def dashboard_home(request):
         'total_nav_items': Navigation.objects.count(),
         'total_services': Service.objects.count(),
         'total_testimonials': Testimonial.objects.count(),
+        'total_contact_info': ContactInfo.objects.count(),
+        'total_contact_form_fields': ContactFormField.objects.count(),
         'recent_images': MediaAsset.objects.all()[:5],
     }
     return render(request, 'dashboard/index.html', context)
@@ -629,13 +631,42 @@ def faq_section_edit(request):
     return render(request, 'dashboard/faq_section_edit.html', context)
 
 
-# Contact Views
+# Call To Action Views
 @login_required
-def contact_edit(request):
-    """Edit contact section"""
+def cta_edit(request):
+    """Edit Call To Action section (upper dark section)"""
     contact, created = Contact.objects.get_or_create(pk=1)
     
     if request.method == 'POST':
+        contact.cta_title = request.POST.get('cta_title', '')
+        contact.cta_subtitle = request.POST.get('cta_subtitle', '')
+        contact.cta_description = request.POST.get('cta_description', '')
+        contact.cta_quote = request.POST.get('cta_quote', '')
+        # Buttons
+        contact.cta_button1_text = request.POST.get('cta_button1_text', '')
+        contact.cta_button1_url = request.POST.get('cta_button1_url', '')
+        contact.cta_button2_text = request.POST.get('cta_button2_text', '')
+        contact.cta_button2_url = request.POST.get('cta_button2_url', '')
+        contact.cta_button3_text = request.POST.get('cta_button3_text', '')
+        contact.cta_button3_url = request.POST.get('cta_button3_url', '')
+        contact.is_active = request.POST.get('is_active') == 'on'
+        
+        contact.save()
+        messages.success(request, 'Call To Action section updated!')
+        return redirect('dashboard:cta_edit')
+    
+    context = {'contact': contact}
+    return render(request, 'dashboard/cta_edit.html', context)
+
+
+# Contact Views
+@login_required
+def contact_edit(request):
+    """Edit contact section (lower white section)"""
+    contact, created = Contact.objects.get_or_create(pk=1)
+    
+    if request.method == 'POST':
+        # Contact Section (Lower White Section)
         contact.title = request.POST.get('title', '')
         contact.subtitle = request.POST.get('subtitle', '')
         contact.description = request.POST.get('description', '')

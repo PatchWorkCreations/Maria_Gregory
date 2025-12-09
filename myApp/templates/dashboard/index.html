@@ -1,90 +1,134 @@
 {% extends "dashboard/base.html" %}
 
 {% block title %}Dashboard Home{% endblock %}
+{% block page_title %}Dashboard Overview{% endblock %}
+{% block page_subtitle %}Manage your website content easily{% endblock %}
 
 {% block content %}
-<div class="mb-8">
-    <h1 class="text-3xl font-bold text-navy-900 mb-2">Welcome to Dashboard</h1>
-    <p class="text-gray-600">Manage your website content easily</p>
-</div>
-
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-    <div class="bg-white rounded-lg shadow p-6">
-        <div class="flex items-center justify-between">
-            <div>
-                <p class="text-gray-600 text-sm">Total Images</p>
-                <p class="text-3xl font-bold text-navy-900">{{ total_images }}</p>
+    <div class="card-hover glass-effect rounded-2xl shadow-lg p-6 bg-gradient-to-br from-white to-blue-50/30 border border-blue-100/50">
+        <div class="flex items-center justify-between mb-4">
+            <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
+                <i class="fas fa-images text-white text-xl"></i>
             </div>
-            <div class="bg-blue-100 p-3 rounded-full">
-                <i class="fas fa-images text-blue-600 text-2xl"></i>
+            <div class="text-right">
+                <p class="text-3xl font-bold text-navy-900 mb-0">{{ total_images }}</p>
+                <p class="text-xs text-gray-500 font-medium">Images</p>
             </div>
         </div>
-        <a href="{% url 'dashboard:gallery' %}" class="text-blue-600 hover:text-blue-800 text-sm mt-4 inline-block">
-            View Gallery <i class="fas fa-arrow-right ml-1"></i>
+        <h3 class="text-gray-700 font-semibold mb-1">Total Images</h3>
+        <p class="text-sm text-gray-500 mb-4">Manage your media library</p>
+        <a href="{% url 'dashboard:gallery' %}" class="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium text-sm group">
+            View Gallery 
+            <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
         </a>
     </div>
     
-    <div class="bg-white rounded-lg shadow p-6">
-        <div class="flex items-center justify-between">
-            <div>
-                <p class="text-gray-600 text-sm">Navigation Items</p>
-                <p class="text-3xl font-bold text-navy-900">{{ total_nav_items }}</p>
+    <div class="card-hover glass-effect rounded-2xl shadow-lg p-6 bg-gradient-to-br from-white to-green-50/30 border border-green-100/50">
+        <div class="flex items-center justify-between mb-4">
+            <div class="w-14 h-14 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center shadow-lg">
+                <i class="fas fa-bars text-white text-xl"></i>
             </div>
-            <div class="bg-green-100 p-3 rounded-full">
-                <i class="fas fa-bars text-green-600 text-2xl"></i>
+            <div class="text-right">
+                <p class="text-3xl font-bold text-navy-900 mb-0">{{ total_nav_items }}</p>
+                <p class="text-xs text-gray-500 font-medium">Items</p>
             </div>
         </div>
-        <a href="{% url 'dashboard:navigation_edit' %}" class="text-green-600 hover:text-green-800 text-sm mt-4 inline-block">
-            Manage Navigation <i class="fas fa-arrow-right ml-1"></i>
+        <h3 class="text-gray-700 font-semibold mb-1">Navigation Items</h3>
+        <p class="text-sm text-gray-500 mb-4">Configure site navigation</p>
+        <a href="{% url 'dashboard:navigation_edit' %}" class="inline-flex items-center text-green-600 hover:text-green-700 font-medium text-sm group">
+            Manage Navigation 
+            <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
         </a>
     </div>
     
-    <div class="bg-white rounded-lg shadow p-6">
-        <div class="flex items-center justify-between">
-            <div>
-                <p class="text-gray-600 text-sm">Services</p>
-                <p class="text-3xl font-bold text-navy-900">{{ total_services }}</p>
+    <div class="card-hover glass-effect rounded-2xl shadow-lg p-6 bg-gradient-to-br from-white to-purple-50/30 border border-purple-100/50">
+        <div class="flex items-center justify-between mb-4">
+            <div class="w-14 h-14 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+                <i class="fas fa-briefcase text-white text-xl"></i>
             </div>
-            <div class="bg-purple-100 p-3 rounded-full">
-                <i class="fas fa-briefcase text-purple-600 text-2xl"></i>
+            <div class="text-right">
+                <p class="text-3xl font-bold text-navy-900 mb-0">{{ total_services }}</p>
+                <p class="text-xs text-gray-500 font-medium">Services</p>
             </div>
         </div>
-        <a href="{% url 'dashboard:services_list' %}" class="text-purple-600 hover:text-purple-800 text-sm mt-4 inline-block">
-            Manage Services <i class="fas fa-arrow-right ml-1"></i>
+        <h3 class="text-gray-700 font-semibold mb-1">Services</h3>
+        <p class="text-sm text-gray-500 mb-4">Manage service offerings</p>
+        <a href="{% url 'dashboard:services_list' %}" class="inline-flex items-center text-purple-600 hover:text-purple-700 font-medium text-sm group">
+            Manage Services 
+            <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
         </a>
     </div>
     
-    <div class="bg-white rounded-lg shadow p-6">
-        <div class="flex items-center justify-between">
-            <div>
-                <p class="text-gray-600 text-sm">Testimonials</p>
-                <p class="text-3xl font-bold text-navy-900">{{ total_testimonials }}</p>
+    <div class="card-hover glass-effect rounded-2xl shadow-lg p-6 bg-gradient-to-br from-white to-yellow-50/30 border border-yellow-100/50">
+        <div class="flex items-center justify-between mb-4">
+            <div class="w-14 h-14 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-xl flex items-center justify-center shadow-lg">
+                <i class="fas fa-quote-left text-white text-xl"></i>
             </div>
-            <div class="bg-yellow-100 p-3 rounded-full">
-                <i class="fas fa-quote-left text-yellow-600 text-2xl"></i>
+            <div class="text-right">
+                <p class="text-3xl font-bold text-navy-900 mb-0">{{ total_testimonials }}</p>
+                <p class="text-xs text-gray-500 font-medium">Reviews</p>
             </div>
         </div>
-        <a href="{% url 'dashboard:testimonials_list' %}" class="text-yellow-600 hover:text-yellow-800 text-sm mt-4 inline-block">
-            Manage Testimonials <i class="fas fa-arrow-right ml-1"></i>
+        <h3 class="text-gray-700 font-semibold mb-1">Testimonials</h3>
+        <p class="text-sm text-gray-500 mb-4">Client testimonials</p>
+        <a href="{% url 'dashboard:testimonials_list' %}" class="inline-flex items-center text-yellow-600 hover:text-yellow-700 font-medium text-sm group">
+            Manage Testimonials 
+            <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+        </a>
+    </div>
+    
+    <div class="card-hover glass-effect rounded-2xl shadow-lg p-6 bg-gradient-to-br from-white to-teal-50/30 border border-teal-100/50">
+        <div class="flex items-center justify-between mb-4">
+            <div class="w-14 h-14 bg-gradient-to-br from-teal-500 to-teal-600 rounded-xl flex items-center justify-center shadow-lg">
+                <i class="fas fa-envelope text-white text-xl"></i>
+            </div>
+            <div class="text-right">
+                <p class="text-3xl font-bold text-navy-900 mb-0">{{ total_contact_info }}</p>
+                <p class="text-xs text-gray-500 font-medium">Contacts</p>
+            </div>
+        </div>
+        <h3 class="text-gray-700 font-semibold mb-1">Contact Info</h3>
+        <p class="text-sm text-gray-500 mb-4">Manage contact details</p>
+        <a href="{% url 'dashboard:contact_edit' %}" class="inline-flex items-center text-teal-600 hover:text-teal-700 font-medium text-sm group">
+            Manage Contact 
+            <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
         </a>
     </div>
 </div>
 
-<div class="bg-white rounded-lg shadow p-6">
-    <h2 class="text-xl font-bold text-navy-900 mb-4">Recent Images</h2>
+<div class="glass-effect rounded-2xl shadow-lg p-6 border border-gray-200/50">
+    <div class="flex items-center justify-between mb-6">
+        <div>
+            <h2 class="text-2xl font-bold text-navy-900 mb-1">Recent Images</h2>
+            <p class="text-sm text-gray-600">Your latest uploads</p>
+        </div>
+        <a href="{% url 'dashboard:gallery' %}" class="px-4 py-2 bg-gradient-to-r from-navy-900 to-navy-800 text-white rounded-lg hover:from-navy-800 hover:to-navy-700 transition-all duration-200 shadow-md hover:shadow-lg text-sm font-medium">
+            View All <i class="fas fa-arrow-right ml-2"></i>
+        </a>
+    </div>
     {% if recent_images %}
         <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
             {% for image in recent_images %}
-                <div class="relative group">
-                    <img src="{{ image.thumbnail_url|default:image.original_url }}" alt="{{ image.title }}" class="w-full h-24 object-cover rounded-lg">
-                    <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-opacity rounded-lg flex items-center justify-center">
-                        <span class="text-white text-xs opacity-0 group-hover:opacity-100">{{ image.title|truncatewords:3 }}</span>
+                <div class="relative group rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                    <img src="{{ image.thumbnail_url|default:image.original_url }}" alt="{{ image.title }}" class="w-full h-32 object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
+                        <span class="text-white text-xs font-medium truncate w-full">{{ image.title|truncatewords:3 }}</span>
                     </div>
                 </div>
             {% endfor %}
         </div>
     {% else %}
-        <p class="text-gray-600">No images uploaded yet. <a href="{% url 'dashboard:gallery' %}" class="text-blue-600 hover:text-blue-800">Upload your first image</a></p>
+        <div class="text-center py-12">
+            <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-images text-gray-400 text-3xl"></i>
+            </div>
+            <p class="text-gray-600 mb-2">No images uploaded yet</p>
+            <a href="{% url 'dashboard:gallery' %}" class="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium">
+                Upload your first image 
+                <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+        </div>
     {% endif %}
 </div>
 {% endblock %}

@@ -201,6 +201,16 @@ def get_homepage_content_from_db():
         contact = Contact.objects.filter(is_active=True).first()
         if contact:
             content['contact'] = {
+                'cta_title': contact.cta_title,
+                'cta_subtitle': contact.cta_subtitle,
+                'cta_description': contact.cta_description,
+                'cta_quote': contact.cta_quote,
+                'cta_button1_text': contact.cta_button1_text,
+                'cta_button1_url': contact.cta_button1_url,
+                'cta_button2_text': contact.cta_button2_text,
+                'cta_button2_url': contact.cta_button2_url,
+                'cta_button3_text': contact.cta_button3_text,
+                'cta_button3_url': contact.cta_button3_url,
                 'title': contact.title,
                 'subtitle': contact.subtitle,
                 'description': contact.description,

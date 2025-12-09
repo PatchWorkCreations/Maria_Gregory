@@ -232,8 +232,21 @@ class Command(BaseCommand):
         
         # 13. Contact Section
         contact, created = Contact.objects.get_or_create(pk=1)
-        contact.title = "Ready for Someone in Your Corner?"
+        # Call To Action Section (Upper Dark Section)
+        contact.cta_title = "Let's start a conversation"
+        contact.cta_subtitle = "Ready For Someone In Your Corner?"
+        contact.cta_description = "You don't have to be struggling to reach out. Many of the people I mentor simply want a steadier, truer way of living and leading."
+        contact.cta_quote = "You don't have to carry all of this alone. Even the strongest leaders deserve a place to lay it all down."
+        # CTA Buttons
+        contact.cta_button1_text = "Apply for 1:1 Guidance"
+        contact.cta_button1_url = "#contact"
+        contact.cta_button2_text = "Text Me"
+        contact.cta_button2_url = "sms:+17407215817"
+        contact.cta_button3_text = "Ask a Question First"
+        contact.cta_button3_url = "mailto:contact@mariagregory.com"
         contact.subtitle = "Let's start a conversation"
+        contact.title = "Let's start a conversation"
+        contact.subtitle = ""
         contact.description = "You don't have to be struggling to reach out. Many of the people I mentor simply want a steadier, truer way of living and leading."
         contact.is_active = True
         contact.save()
@@ -264,8 +277,8 @@ class Command(BaseCommand):
         # 16. Social Links
         SocialLink.objects.all().delete()
         social_links = [
-            {'platform': 'linkedin', 'label': 'LinkedIn', 'url': 'https://linkedin.com/in/mariagregory', 'icon': 'fab fa-linkedin', 'sort_order': 1},
-            {'platform': 'twitter', 'label': 'Twitter', 'url': 'https://twitter.com/mariagregory', 'icon': 'fab fa-twitter', 'sort_order': 2},
+            {'platform': 'linkedin', 'label': 'LinkedIn', 'url': 'https://www.linkedin.com/in/maria-gregory-a29a7a69/', 'icon': 'fab fa-linkedin', 'sort_order': 1},
+         
         ]
         for link in social_links:
             SocialLink.objects.create(**link)
