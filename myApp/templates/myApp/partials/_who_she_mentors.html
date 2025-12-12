@@ -1,0 +1,201 @@
+<!-- 2. Who This Space Is For -->
+<section id="who-she-mentors" class="py-24 bg-[#F3F4F6] relative overflow-hidden">
+    <!-- Soft background accents -->
+    <div class="pointer-events-none absolute inset-0">
+        <div class="absolute -top-32 -right-24 h-72 w-72 rounded-full bg-[#22C55E]/10 blur-3xl"></div>
+        <div class="absolute -bottom-40 -left-10 h-80 w-80 rounded-full bg-[#BBF7D0]/30 blur-3xl"></div>
+    </div>
+
+    <div class="container mx-auto px-6 relative z-10">
+        <!-- Intro -->
+        <div class="max-w-4xl mx-auto text-center mb-16 fade-in-up">
+            <div class="inline-flex items-center gap-2 rounded-full bg-white/80 px-4 py-1 mb-5 border border-[#E5E7EB] shadow-sm">
+                <span class="h-2 w-2 rounded-full bg-[#22C55E]"></span>
+                <span class="text-[0.7rem] font-semibold tracking-[0.25em] uppercase text-[#64748B]">
+                    For the ones others lean on
+                </span>
+            </div>
+
+            <h2 class="text-3xl md:text-5xl font-serif font-bold text-[#111827] mb-4">
+                Who I <span class="text-[#22C55E]">Walk With</span>
+            </h2>
+
+            <p class="text-lg md:text-xl text-[#334155] mb-3">
+                Any profession. One kind of leader.
+            </p>
+            <p class="text-lg md:text-xl text-[#475569] leading-relaxed max-w-2xl mx-auto mb-3">
+                I look at the kind of responsibility a person carries.
+            </p>
+            <p class="text-lg md:text-xl text-[#475569] leading-relaxed max-w-2xl mx-auto mb-3">
+                if you're the steady one in the room this space was shaped with you in mind.
+            </p>
+            <p class="text-base text-[#64748B] italic max-w-2xl mx-auto">
+                As you read these roles, just notice if a quiet part of you goes, "…yes, that's me." Even if you rarely say it out loud.
+            </p>
+        </div>
+
+        <!-- Subtle section label -->
+        {% if content.portfolio %}
+        <div class="max-w-6xl mx-auto mb-6 flex items-center justify-between gap-4 text-sm md:text-base text-[#6B7280]">
+            <div class="flex items-center gap-2">
+                <div class="h-px w-10 bg-[#CBD5F5]"></div>
+                <span class="tracking-[0.22em] uppercase">{{ content.portfolio.title|default:'Patterns I see over and over' }}</span>
+            </div>
+            <span class="hidden md:inline-block italic text-[#9CA3AF]">
+                {{ content.portfolio.subtitle|default:"If you see yourself in more than one, that's often where the deepest work begins." }}
+            </span>
+        </div>
+        {% endif %}
+
+        <!-- Leader Types / Portfolio Projects -->
+        {% if content.portfolio_projects %}
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {% for project in content.portfolio_projects %}
+            <!-- Card: {{ project.title }} -->
+            <div class="group bg-white border border-[#E5E7EB] rounded-2xl shadow-[0_10px_30px_rgba(15,23,42,0.06)] p-7 hover:shadow-[0_20px_50px_rgba(15,23,42,0.12)] transition-all duration-200 transform hover:-translate-y-1 fade-in-up stagger-{{ forloop.counter }}">
+                <div class="flex flex-col h-full">
+                    {% if project.image_url %}
+                    <div class="mb-4">
+                        <img src="{% if project.image_url %}{{ project.image_url }}{% else %}https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&h=400&fit=crop&q=80{% endif %}" alt="{{ project.title }}" class="w-full h-48 object-cover rounded-lg mb-4" onerror="this.src='https://via.placeholder.com/600x400/2F4258/ffffff?text={{ project.title|urlencode }}'">
+                    </div>
+                    {% endif %}
+                    <div class="text-center mb-4">
+                        <div class="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-[#ECFDF3] group-hover:bg-[#22C55E]/10 transition">
+                            <i class="fas fa-briefcase text-[#22C55E] text-xl"></i>
+                        </div>
+                        <h3 class="text-lg md:text-xl font-serif font-semibold text-[#111827]">
+                            {{ project.title }}
+                        </h3>
+                        {% if project.category %}
+                        <span class="inline-block mt-2 bg-[#ECFDF3] text-[#16A34A] px-3 py-1 rounded-full text-xs font-medium">{{ project.category }}</span>
+                        {% endif %}
+                    </div>
+                    {% if project.description %}
+                    <p class="text-[#4B5563] text-center mb-3 text-base md:text-lg">
+                        {{ project.description }}
+                    </p>
+                    {% endif %}
+                    {% if project.project_url %}
+                    <div class="mt-auto text-center">
+                        <a href="{{ project.project_url }}" target="_blank" class="text-sm md:text-base text-[#16A34A] hover:text-[#22C55E] font-medium">
+                            Learn More <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <!-- Fallback: Hardcoded cards if no portfolio projects -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <!-- Card 1: Coaches, Therapists & Healers -->
+            <div class="group bg-white border border-[#E5E7EB] rounded-2xl shadow-[0_10px_30px_rgba(15,23,42,0.06)] p-7 hover:shadow-[0_20px_50px_rgba(15,23,42,0.12)] transition-all duration-200 transform hover:-translate-y-1 fade-in-up stagger-2">
+                <div class="flex flex-col h-full">
+                    <div class="text-center mb-4">
+                        <div class="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-[#ECFDF3] group-hover:bg-[#22C55E]/10 transition">
+                            <i class="fas fa-heart text-[#22C55E] text-xl"></i>
+                        </div>
+                        <h3 class="text-lg md:text-xl font-serif font-semibold text-[#111827]">
+                            Coaches, Therapists & Healers
+                        </h3>
+                    </div>
+                    <p class="text-[#4B5563] text-center mb-3 text-base md:text-lg">
+                        You naturally hold space for others. This is where you get to exhale without needing to carry the room.
+                    </p>
+                    <p class="mt-auto text-sm md:text-base text-[#16A34A] italic text-center border-t border-dashed border-[#DCFCE7] pt-3">
+                        Reflection: When was the last time someone simply held space for you?
+                    </p>
+                </div>
+            </div>
+
+            <!-- Card 2: Educators & Trainers -->
+            <div class="group bg-white border border-[#E5E7EB] rounded-2xl shadow-[0_10px_30px_rgba(15,23,42,0.06)] p-7 hover:shadow-[0_20px_50px_rgba(15,23,42,0.12)] transition-all duration-200 transform hover:-translate-y-1 fade-in-up stagger-3">
+                <div class="flex flex-col h-full">
+                    <div class="text-center mb-4">
+                        <div class="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-[#ECFDF3] group-hover:bg-[#22C55E]/10 transition">
+                            <i class="fas fa-chalkboard-teacher text-[#22C55E] text-xl"></i>
+                        </div>
+                        <h3 class="text-lg md:text-xl font-serif font-semibold text-[#111827]">
+                            Educators & Trainers
+                        </h3>
+                    </div>
+                    <p class="text-[#4B5563] text-center mb-3 text-base md:text-lg">
+                        You guide others every day — but you're still someone who deserves guidance too.
+                    </p>
+                    <p class="mt-auto text-sm md:text-base text-[#16A34A] italic text-center border-t border-dashed border-[#DCFCE7] pt-3">
+                        Reflection: Where do you allow yourself to learn, not teach?
+                    </p>
+                </div>
+            </div>
+
+            <!-- Card 3: Faith & Community Leaders -->
+            <div class="group bg-white border border-[#E5E7EB] rounded-2xl shadow-[0_10px_30px_rgba(15,23,42,0.06)] p-7 hover:shadow-[0_20px_50px_rgba(15,23,42,0.12)] transition-all duration-200 transform hover:-translate-y-1 fade-in-up stagger-4">
+                <div class="flex flex-col h-full">
+                    <div class="text-center mb-4">
+                        <div class="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-[#ECFDF3] group-hover:bg-[#22C55E]/10 transition">
+                            <i class="fas fa-hands-praying text-[#22C55E] text-xl"></i>
+                        </div>
+                        <h3 class="text-lg md:text-xl font-serif font-semibold text-[#111827]">
+                            Faith & Community Leaders
+                        </h3>
+                    </div>
+                    <p class="text-[#4B5563] text-center mb-3 text-base md:text-lg">
+                        You're strong for many — quietly, consistently. Here, that strength gets to rest.
+                    </p>
+                    <p class="mt-auto text-sm md:text-base text-[#16A34A] italic text-center border-t border-dashed border-[#DCFCE7] pt-3">
+                        Reflection: What parts of you never ask for help, even when you need it?
+                    </p>
+                </div>
+            </div>
+
+            <!-- Card 4: High-Responsibility Professionals -->
+            <div class="group bg-white border border-[#E5E7EB] rounded-2xl shadow-[0_10px_30px_rgba(15,23,42,0.06)] p-7 hover:shadow-[0_20px_50px_rgba(15,23,42,0.12)] transition-all duration-200 transform hover:-translate-y-1 fade-in-up stagger-5">
+                <div class="flex flex-col h-full">
+                    <div class="text-center mb-4">
+                        <div class="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-[#ECFDF3] group-hover:bg-[#22C55E]/10 transition">
+                            <i class="fas fa-user-md text-[#22C55E] text-xl"></i>
+                        </div>
+                        <h3 class="text-lg md:text-xl font-serif font-semibold text-[#111827]">
+                            High-Responsibility Professionals
+                        </h3>
+                    </div>
+                    <p class="text-[#4B5563] text-center mb-3 text-base md:text-lg">
+                        You make decisions with weight, and you rarely acknowledge the toll. This is a place where that weight can finally sit down.
+                    </p>
+                    <p class="mt-auto text-sm md:text-base text-[#16A34A] italic text-center border-t border-dashed border-[#DCFCE7] pt-3">
+                        Reflection: If one part of your load could be lighter, which part would it be?
+                    </p>
+                </div>
+            </div>
+
+            <!-- Card 5: Guides & Role Models -->
+            <div class="group bg-white border border-[#E5E7EB] rounded-2xl shadow-[0_10px_30px_rgba(15,23,42,0.06)] p-7 hover:shadow-[0_20px_50px_rgba(15,23,42,0.12)] transition-all duration-200 transform hover:-translate-y-1 fade-in-up stagger-6">
+                <div class="flex flex-col h-full">
+                    <div class="text-center mb-4">
+                        <div class="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-[#ECFDF3] group-hover:bg-[#22C55E]/10 transition">
+                            <i class="fas fa-star text-[#22C55E] text-xl"></i>
+                        </div>
+                        <h3 class="text-lg md:text-xl font-serif font-semibold text-[#111827]">
+                            Guides & Role Models of All Kinds
+                        </h3>
+                    </div>
+                    <p class="text-[#4B5563] text-center mb-3 text-base md:text-lg">
+                        If people look to you for strength, this space was created with you in mind.
+                    </p>
+                    <p class="mt-auto text-sm md:text-base text-[#16A34A] italic text-center border-t border-dashed border-[#DCFCE7] pt-3">
+                        Reflection: What would it feel like to have someone in your corner the way you are in everyone else's?
+                    </p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Bottom microcopy -->
+        <div class="max-w-3xl mx-auto mt-10 text-center text-sm md:text-base text-[#6B7280] italic fade-in-up stagger-7">
+            If you're reading this thinking "this is me, but I don't quite see my label here" — 
+            you're exactly the kind of person this work tends to find.
+        </div>
+    </div>
+</section>
+

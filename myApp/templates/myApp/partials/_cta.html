@@ -1,0 +1,137 @@
+<!-- 8. Call To Action – "Ready for Someone in Your Corner?" -->
+<section class="py-32 bg-gradient-to-br from-[#1B2835] via-[#233345] to-[#2F4258] relative overflow-hidden">
+    <!-- Enhanced background with multiple layers -->
+    <div class="absolute inset-0">
+        <!-- Background image with parallax effect -->
+        <div class="absolute inset-0 opacity-20">
+            <img 
+                src="https://images.unsplash.com/photo-1455390582262-044cdead277a?w=1920&h=1080&fit=crop&q=80" 
+                alt="Journal and pen" 
+                class="w-full h-full object-cover scale-110"
+                style="animation: slowZoom 20s ease-in-out infinite alternate;"
+                onerror="this.src='https://via.placeholder.com/1920x1080/2F4258/ffffff?text=Journal'"
+            >
+        </div>
+        <!-- Gradient overlays for depth -->
+        <div class="absolute inset-0 bg-gradient-to-br from-[#1B2835]/90 via-[#233345]/85 to-[#2F4258]/90"></div>
+        <!-- Animated gradient orbs -->
+        <div class="absolute top-0 right-0 w-96 h-96 bg-[#22C55E]/10 rounded-full blur-3xl animate-pulse"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 bg-[#38BDF8]/10 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
+        <!-- Subtle pattern overlay -->
+        <div class="absolute inset-0 opacity-5" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 40px 40px;"></div>
+    </div>
+    
+    <div class="container mx-auto px-6 relative z-10">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="fade-in-up">
+                {% if content.contact.cta_title %}
+                <div class="mb-10 relative">
+                    <!-- Decorative elements -->
+                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-transparent via-[#22C55E] to-transparent"></div>
+                    <h2 class="text-5xl md:text-7xl font-serif font-bold text-white mb-4 relative z-10 drop-shadow-2xl">
+                        <span class="bg-gradient-to-r from-white via-[#E5E7EB] to-white bg-clip-text text-transparent">
+                            {{ content.contact.cta_title }}
+                        </span>
+                    </h2>
+                    <div class="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-transparent via-[#22C55E] to-transparent"></div>
+                </div>
+                {% endif %}
+                
+                {% if content.contact.cta_subtitle or content.contact.cta_description %}
+                <div class="relative mb-12 fade-in-up stagger-1">
+                    <!-- Glowing border effect -->
+                    <div class="absolute -inset-1 bg-gradient-to-r from-[#22C55E]/20 via-[#38BDF8]/20 to-[#22C55E]/20 rounded-3xl blur-lg opacity-75 animate-pulse"></div>
+                    <!-- Main content box -->
+                    <div class="relative bg-gradient-to-br from-[#3B546E]/90 via-[#2F4258]/90 to-[#3B546E]/90 backdrop-blur-xl rounded-3xl p-10 md:p-14 shadow-2xl border border-white/10">
+                        <!-- Inner glow -->
+                        <div class="absolute inset-0 rounded-3xl bg-gradient-to-br from-white/5 to-transparent pointer-events-none"></div>
+                        
+                        <div class="relative z-10">
+                            {% if content.contact.cta_subtitle %}
+                            <div class="mb-6">
+                                <p class="text-2xl md:text-3xl font-serif font-bold text-white leading-tight">
+                                    <span class="bg-gradient-to-r from-white to-[#E5E7EB] bg-clip-text text-transparent">
+                                        {{ content.contact.cta_subtitle }}
+                                    </span>
+                                </p>
+                            </div>
+                            {% endif %}
+                            {% if content.contact.cta_description %}
+                            <p class="text-lg md:text-xl text-[#E5E7EB] leading-relaxed max-w-2xl mx-auto">
+                                {{ content.contact.cta_description }}
+                            </p>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Decorative corner accents -->
+                        <div class="absolute top-4 left-4 w-8 h-8 border-t-2 border-l-2 border-[#22C55E]/40 rounded-tl-lg"></div>
+                        <div class="absolute top-4 right-4 w-8 h-8 border-t-2 border-r-2 border-[#22C55E]/40 rounded-tr-lg"></div>
+                        <div class="absolute bottom-4 left-4 w-8 h-8 border-b-2 border-l-2 border-[#22C55E]/40 rounded-bl-lg"></div>
+                        <div class="absolute bottom-4 right-4 w-8 h-8 border-b-2 border-r-2 border-[#22C55E]/40 rounded-br-lg"></div>
+                    </div>
+                </div>
+                {% endif %}
+                
+                {% if content.contact.cta_quote %}
+                <div class="fade-in-up stagger-2 mb-12">
+                    <div class="relative inline-block">
+                        <!-- Quote decoration -->
+                        <div class="absolute -left-8 top-0 text-6xl text-[#22C55E]/20 font-serif">"</div>
+                        <p class="text-2xl md:text-3xl font-serif text-white italic leading-relaxed relative z-10 px-8">
+                            {{ content.contact.cta_quote }}
+                        </p>
+                        <div class="absolute -right-8 bottom-0 text-6xl text-[#22C55E]/20 font-serif">"</div>
+                    </div>
+                </div>
+                {% endif %}
+                
+                <!-- CTA Buttons -->
+                {% if content.contact.cta_button1_text or content.contact.cta_button2_text or content.contact.cta_button3_text %}
+                <div class="mt-16 flex flex-col sm:flex-row gap-5 justify-center items-center fade-in-up stagger-3">
+                    {% if content.contact.cta_button1_text %}
+                    <a href="{{ content.contact.cta_button1_url|default:'#contact' }}" class="group relative bg-gradient-to-r from-[#22C55E] to-[#16A34A] text-[#233345] px-10 py-5 rounded-full font-semibold text-lg transition-all duration-300 ease-out transform hover:-translate-y-1 hover:scale-105 shadow-2xl hover:shadow-[0_20px_50px_rgba(34,197,94,0.4)] overflow-hidden">
+                        <!-- Animated background shine -->
+                        <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+                        <span class="relative z-10 flex items-center">
+                            {{ content.contact.cta_button1_text }}
+                            <i class="fas fa-arrow-right ml-3 transform group-hover:translate-x-1 transition-transform"></i>
+                        </span>
+                    </a>
+                    {% endif %}
+                    {% if content.contact.cta_button2_text %}
+                    <a href="{{ content.contact.cta_button2_url|default:'#' }}" class="group relative bg-white/10 hover:bg-white/20 text-white border-2 border-white/40 hover:border-white/70 px-9 py-5 rounded-full font-semibold text-lg transition-all duration-300 ease-out transform hover:-translate-y-1 hover:scale-105 shadow-xl hover:shadow-2xl backdrop-blur-md overflow-hidden">
+                        <!-- Subtle glow effect -->
+                        <div class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <span class="relative z-10 flex items-center">
+                            <i class="fas fa-comment-dots mr-3 transform group-hover:scale-110 transition-transform"></i>
+                            {{ content.contact.cta_button2_text }}
+                        </span>
+                    </a>
+                    {% endif %}
+                    {% if content.contact.cta_button3_text %}
+                    <a href="{{ content.contact.cta_button3_url|default:'#' }}" class="group relative bg-white/10 hover:bg-white/20 text-[#A7F3D0] hover:text-white border-2 border-[#A7F3D0]/40 hover:border-[#22C55E]/70 px-10 py-5 rounded-full font-semibold text-lg transition-all duration-300 ease-out transform hover:-translate-y-1 hover:scale-105 shadow-xl hover:shadow-2xl backdrop-blur-md overflow-hidden">
+                        <!-- Subtle glow effect -->
+                        <div class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <span class="relative z-10 flex items-center">
+                            <i class="fas fa-question-circle mr-3 transform group-hover:scale-110 transition-transform"></i>
+                            {{ content.contact.cta_button3_text }}
+                        </span>
+                    </a>
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- Floating decorative elements -->
+    <div class="absolute top-20 left-10 w-2 h-2 bg-[#22C55E] rounded-full opacity-60 animate-ping" style="animation-delay: 0s;"></div>
+    <div class="absolute top-40 right-20 w-3 h-3 bg-[#38BDF8] rounded-full opacity-40 animate-ping" style="animation-delay: 2s;"></div>
+    <div class="absolute bottom-32 left-20 w-2 h-2 bg-[#22C55E] rounded-full opacity-50 animate-ping" style="animation-delay: 4s;"></div>
+    
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTop" class="fixed bottom-8 left-8 bg-[#22C55E] hover:bg-[#16A34A] text-[#233345] w-12 h-12 rounded-full shadow-lg flex items-center justify-center transition-all duration-200 ease-out transform hover:scale-110 opacity-0 pointer-events-none z-50" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+        <i class="fas fa-angle-up"></i>
+    </button>
+</section>
+

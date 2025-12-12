@@ -1,0 +1,41 @@
+<!-- 10. Footer -->
+<footer id="main-footer" class="bg-[#1A2633] text-[#E5E7EB] py-12">
+    <div class="container mx-auto px-6">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+            <div>
+                <h3 class="text-2xl font-serif font-bold mb-2">Maria Gregory</h3>
+                <p class="text-[#A7F3D0] text-sm">Someone Leaders Can Lean On.</p>
+                <p class="text-[#A7F3D0] text-xs mt-1">Serving leaders, mentors, and professionals across any field.</p>
+            </div>
+            
+            <div class="flex flex-col md:flex-row gap-6 items-center">
+                <a href="/" id="footer-home" class="footer-btn-scroll-up delay-1 text-[#E5E7EB] hover:text-[#22C55E] transition-all duration-300 ease-in-out transform hover:scale-105">Home</a>
+                <a href="#who-she-mentors" class="footer-link footer-btn-scroll-up delay-2 text-[#E5E7EB] hover:text-[#22C55E] transition-all duration-300 ease-in-out transform hover:scale-105">Who She Walks With</a>
+                <a href="#mentorship" class="footer-link footer-btn-scroll-up delay-3 text-[#E5E7EB] hover:text-[#22C55E] transition-all duration-300 ease-in-out transform hover:scale-105">1:1 Guidance</a>
+                <a href="#about" class="footer-link footer-btn-scroll-up delay-4 text-[#E5E7EB] hover:text-[#22C55E] transition-all duration-300 ease-in-out transform hover:scale-105">About Maria</a>
+                <a href="#contact" class="footer-link footer-btn-scroll-up delay-5 text-[#E5E7EB] hover:text-[#22C55E] transition-all duration-300 ease-in-out transform hover:scale-105">Contact</a>
+            </div>
+            
+            <div class="flex gap-4">
+                <a href="mailto:contact@mariagregory.com" class="text-[#A7F3D0] hover:text-[#22C55E] transition-colors duration-150 text-xl">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            </div>
+        </div>
+        
+        <div class="mt-8 pt-8 border-t border-[#233345] text-center text-[#A7F3D0] text-sm">
+            <p>{% if content.footer.copyright_text %}{{ content.footer.copyright_text }}{% else %}&copy; 2025 Maria Gregory. All rights reserved.{% endif %}</p>
+        </div>
+        
+        {% if content.social_links %}
+        <div class="mt-6 flex justify-center gap-4">
+            {% for link in content.social_links %}
+            <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer" class="text-[#A7F3D0] hover:text-[#22C55E] transition-colors duration-150 text-xl" title="{{ link.label }}">
+                {% if link.icon %}<i class="{{ link.icon }}"></i>{% else %}{{ link.label }}{% endif %}
+            </a>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</footer>
+

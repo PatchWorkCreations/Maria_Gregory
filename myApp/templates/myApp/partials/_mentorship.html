@@ -1,0 +1,301 @@
+<!-- 3. 1:1 Guidance Section (Premium) -->
+<section id="mentorship" class="relative overflow-hidden py-24 md:py-32 bg-gradient-to-b from-[#0F172A] via-[#132235] to-[#0B1220]">
+    <!-- Ambient glow -->
+    <div class="pointer-events-none absolute inset-0">
+      <div class="absolute -top-20 left-1/4 h-[28rem] w-[28rem] rounded-full bg-emerald-400/10 blur-3xl"></div>
+      <div class="absolute -bottom-20 right-1/4 h-[28rem] w-[28rem] rounded-full bg-sky-400/10 blur-3xl"></div>
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.06),transparent_55%)]"></div>
+    </div>
+  
+    <div class="container mx-auto px-6 relative z-10">
+      {% if content.services_section %}
+      <!-- Header -->
+      <div class="max-w-4xl mx-auto text-center mb-14 md:mb-20 fade-in-up">
+        <div class="inline-flex items-center gap-3 mb-6">
+          <span class="h-px w-12 bg-gradient-to-r from-transparent via-emerald-300/60 to-transparent"></span>
+          <span class="text-[11px] font-semibold tracking-[0.35em] uppercase text-emerald-200/80">
+            Private Guidance
+          </span>
+          <span class="h-px w-12 bg-gradient-to-l from-transparent via-emerald-300/60 to-transparent"></span>
+        </div>
+  
+        <h2 class="text-4xl md:text-6xl font-serif font-bold text-white leading-tight">
+          {% if content.services_section.title %}
+            {{ content.services_section.title }}
+          {% else %}
+            1:1 Work With <span class="bg-gradient-to-r from-emerald-300 to-sky-300 bg-clip-text text-transparent">Me</span>
+          {% endif %}
+        </h2>
+  
+        {% if content.services_section.subtitle %}
+        <p class="mt-5 text-lg md:text-2xl text-white/80 font-serif italic">
+          {{ content.services_section.subtitle }}
+        </p>
+        {% endif %}
+  
+        {% if content.services_section.description %}
+        <p class="mt-4 text-base md:text-lg text-white/65 leading-relaxed max-w-2xl mx-auto">
+          {{ content.services_section.description }}
+        </p>
+        {% endif %}
+      </div>
+      {% endif %}
+  
+      <!-- What this is / is not -->
+      <div class="max-w-5xl mx-auto mb-16 md:mb-20 fade-in-up stagger-1">
+        <div class="grid md:grid-cols-2 gap-6 md:gap-8">
+          <!-- IS -->
+          <div class="relative rounded-3xl border border-white/10 bg-white/[0.06] backdrop-blur-xl shadow-2xl overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-br from-emerald-300/10 via-transparent to-transparent"></div>
+            <div class="relative p-8 md:p-10">
+              <div class="flex items-center gap-3 mb-5">
+                <div class="w-10 h-10 rounded-2xl bg-emerald-400/15 border border-emerald-300/20 flex items-center justify-center">
+                  <i class="fas fa-feather text-emerald-200 text-sm"></i>
+                </div>
+                <h3 class="text-xl md:text-2xl font-serif font-bold text-white">What this space is</h3>
+              </div>
+              <p class="text-white/75 leading-relaxed text-base md:text-lg">
+                This is a quiet, confidential space for leaders who rarely get to set their armor down.
+                Here, you don’t have to be impressive or “on.”
+                You can simply be human — and explore what you’re carrying with someone who understands.
+              </p>
+            </div>
+          </div>
+  
+          <!-- IS NOT -->
+          <div class="relative rounded-3xl border border-white/10 bg-white/[0.06] backdrop-blur-xl shadow-2xl overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-br from-sky-300/10 via-transparent to-transparent"></div>
+            <div class="relative p-8 md:p-10">
+              <div class="flex items-center gap-3 mb-5">
+                <div class="w-10 h-10 rounded-2xl bg-sky-400/15 border border-sky-300/20 flex items-center justify-center">
+                  <i class="fas fa-shield-heart text-sky-200 text-sm"></i>
+                </div>
+                <h3 class="text-xl md:text-2xl font-serif font-bold text-white">What this space is not</h3>
+              </div>
+              <p class="text-white/75 leading-relaxed text-base md:text-lg">
+                This isn’t a performance room, a hype environment, or a place to prove anything.
+                You don’t need fixing — you deserve a steadier place to land.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      {% if content.services %}
+      <!-- Services -->
+      <div class="max-w-6xl mx-auto mb-16">
+        <div class="text-center mb-10 md:mb-14 fade-in-up stagger-2">
+          <h3 class="text-3xl md:text-4xl font-serif font-bold text-white">How we can work together</h3>
+          <p class="mt-3 text-white/60 max-w-2xl mx-auto">
+            Clear containers, deep work, and practical clarity — without turning your life into a “project.”
+          </p>
+        </div>
+  
+        <div class="grid md:grid-cols-2 gap-6 md:gap-8 md:auto-rows-fr">
+            {% for service in content.services %}
+            <div
+              class="
+                group relative h-full
+                rounded-3xl border border-white/10 bg-white/[0.06] backdrop-blur-xl shadow-2xl
+                overflow-hidden transition-all duration-300 hover:bg-white/[0.08] hover:-translate-y-1
+                fade-in-up stagger-{{ forloop.counter|add:2 }}
+          
+                {% comment %}
+                If total count is odd, the last card sits alone.
+                Make it span both columns and center it so it looks intentional.
+                {% endcomment %}
+                {% if forloop.last and not forloop.counter|divisibleby:2 %}
+                  md:col-span-2 md:max-w-3xl md:mx-auto
+                {% endif %}
+              "
+            >
+              <!-- hover sheen -->
+              <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br from-emerald-300/10 via-transparent to-sky-300/10"></div>
+          
+              {% if service.image_url %}
+              <div class="relative">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
+                <img
+                  src="{{ service.image_url }}"
+                  alt="{{ service.title }}"
+                  class="w-full h-44 md:h-52 object-cover"
+                  onerror="this.src='https://via.placeholder.com/1200x800/0F172A/ffffff?text={{ service.title|urlencode }}'"
+                >
+              </div>
+              {% endif %}
+          
+              <!-- content wrapper: flex makes bottom spacing consistent even when text lengths vary -->
+              <div class="relative p-7 md:p-9 h-full flex flex-col">
+                <div class="flex items-start gap-4">
+                  <div class="mt-1 w-11 h-11 rounded-2xl bg-emerald-400/15 border border-emerald-300/20 flex items-center justify-center shrink-0">
+                    {% if service.icon %}
+                      <i class="{{ service.icon }} text-emerald-200 text-lg"></i>
+                    {% else %}
+                      <i class="fas fa-compass text-emerald-200 text-lg"></i>
+                    {% endif %}
+                  </div>
+          
+                  <div class="min-w-0">
+                    <h4 class="text-xl md:text-2xl font-serif font-bold text-white leading-snug">
+                      {{ service.title }}
+                    </h4>
+          
+                    {% if service.description %}
+                    <p class="mt-3 text-white/70 leading-relaxed text-base md:text-lg">
+                      {{ service.description }}
+                    </p>
+                    {% endif %}
+                  </div>
+                </div>
+          
+                <!-- optional: subtle bottom accent so the card feels “finished” -->
+                <div class="mt-auto pt-6">
+                  <div class="h-px w-full bg-gradient-to-r from-emerald-300/20 via-white/5 to-sky-300/20"></div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          
+      </div>
+  
+      {% else %}
+      <!-- Fallback: Pillars (same content, upgraded look) -->
+      <div class="max-w-6xl mx-auto mb-16">
+        <div class="text-center mb-10 md:mb-14 fade-in-up stagger-2">
+          <h3 class="text-3xl md:text-4xl font-serif font-bold text-white">Our Pillars</h3>
+          <p class="mt-3 text-white/60 max-w-2xl mx-auto">
+            Four steady places we return to — so the work stays grounded, honest, and sustainable.
+          </p>
+        </div>
+  
+        <div class="grid md:grid-cols-2 gap-6 md:gap-8">
+          <!-- Pillar 1 -->
+          <div class="group relative rounded-3xl border border-white/10 bg-white/[0.06] backdrop-blur-xl shadow-2xl overflow-hidden transition-all duration-300 hover:bg-white/[0.08] hover:-translate-y-1 fade-in-up stagger-3">
+            <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br from-emerald-300/10 via-transparent to-transparent"></div>
+            <div class="relative p-7 md:p-9">
+              <div class="flex items-start gap-4">
+                <div class="mt-1 w-11 h-11 rounded-2xl bg-emerald-400/15 border border-emerald-300/20 flex items-center justify-center shrink-0">
+                  <i class="fas fa-compass text-emerald-200 text-lg"></i>
+                </div>
+                <div>
+                  <h4 class="text-xl md:text-2xl font-serif font-bold text-white">Clarity & Alignment Sessions</h4>
+                  <p class="mt-3 text-white/70 leading-relaxed text-base md:text-lg">
+                    We peel back the noise so you can reconnect to why you lead — and where you’re truly going.
+                  </p>
+                  <p class="mt-4 text-emerald-100/75 italic">
+                    Are you moving toward a life you actually chose — or one that happened because you kept saying yes?
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <!-- Pillar 2 -->
+          <div class="group relative rounded-3xl border border-white/10 bg-white/[0.06] backdrop-blur-xl shadow-2xl overflow-hidden transition-all duration-300 hover:bg-white/[0.08] hover:-translate-y-1 fade-in-up stagger-4">
+            <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br from-sky-300/10 via-transparent to-transparent"></div>
+            <div class="relative p-7 md:p-9">
+              <div class="flex items-start gap-4">
+                <div class="mt-1 w-11 h-11 rounded-2xl bg-sky-400/15 border border-sky-300/20 flex items-center justify-center shrink-0">
+                  <i class="fas fa-seedling text-sky-200 text-lg"></i>
+                </div>
+                <div>
+                  <h4 class="text-xl md:text-2xl font-serif font-bold text-white">Emotional & Spiritual Grounding</h4>
+                  <p class="mt-3 text-white/70 leading-relaxed text-base md:text-lg">
+                    A steady place to process what you’re holding — emotionally, spiritually, mentally — without needing to be “on.”
+                  </p>
+                  <p class="mt-4 text-emerald-100/75 italic">
+                    Where in your body do you feel the weight of what you carry most days?
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <!-- Pillar 3 -->
+          <div class="group relative rounded-3xl border border-white/10 bg-white/[0.06] backdrop-blur-xl shadow-2xl overflow-hidden transition-all duration-300 hover:bg-white/[0.08] hover:-translate-y-1 fade-in-up stagger-5">
+            <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br from-emerald-300/10 via-transparent to-transparent"></div>
+            <div class="relative p-7 md:p-9">
+              <div class="flex items-start gap-4">
+                <div class="mt-1 w-11 h-11 rounded-2xl bg-emerald-400/15 border border-emerald-300/20 flex items-center justify-center shrink-0">
+                  <i class="fas fa-users text-emerald-200 text-lg"></i>
+                </div>
+                <div>
+                  <h4 class="text-xl md:text-2xl font-serif font-bold text-white">Relational & Team Dynamics</h4>
+                  <p class="mt-3 text-white/70 leading-relaxed text-base md:text-lg">
+                    We explore the relationships you carry — co-founders, teams, boards, communities, family — and how to navigate them honestly.
+                  </p>
+                  <p class="mt-4 text-emerald-100/75 italic">
+                    Which relationship quietly takes the most energy right now?
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <!-- Pillar 4 -->
+          <div class="group relative rounded-3xl border border-white/10 bg-white/[0.06] backdrop-blur-xl shadow-2xl overflow-hidden transition-all duration-300 hover:bg-white/[0.08] hover:-translate-y-1 fade-in-up stagger-6">
+            <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br from-sky-300/10 via-transparent to-transparent"></div>
+            <div class="relative p-7 md:p-9">
+              <div class="flex items-start gap-4">
+                <div class="mt-1 w-11 h-11 rounded-2xl bg-sky-400/15 border border-sky-300/20 flex items-center justify-center shrink-0">
+                  <i class="fas fa-route text-sky-200 text-lg"></i>
+                </div>
+                <div>
+                  <h4 class="text-xl md:text-2xl font-serif font-bold text-white">Legacy & Transition Work</h4>
+                  <p class="mt-3 text-white/70 leading-relaxed text-base md:text-lg">
+                    When you’re changing seasons, passing the torch, or redefining who you are beyond your title — we move slowly and intentionally.
+                  </p>
+                  <p class="mt-4 text-emerald-100/75 italic">
+                    If your title disappeared tomorrow, who would you still know yourself to be?
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+  
+      <!-- CTA Panel (premium) -->
+      <div class="max-w-4xl mx-auto fade-in-up">
+        <div class="relative rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.04] backdrop-blur-xl shadow-2xl overflow-hidden">
+          <div class="absolute inset-0 bg-gradient-to-r from-emerald-300/10 via-transparent to-sky-300/10"></div>
+  
+          <div class="relative p-8 md:p-12 text-center">
+            <p class="text-lg md:text-2xl text-white/85 font-serif italic leading-relaxed">
+              “If you’re already feeling a small yes — even a quiet, shaky one — this is what it looks like to explore working together.”
+            </p>
+  
+            <div class="mt-8 grid md:grid-cols-3 gap-4 text-left">
+              <div class="rounded-2xl border border-white/10 bg-white/[0.06] p-5">
+                <p class="text-emerald-200 text-sm font-semibold tracking-wide uppercase mb-2">Format</p>
+                <p class="text-white/75">1:1 private guidance (online, with in-person options where possible)</p>
+              </div>
+              <div class="rounded-2xl border border-white/10 bg-white/[0.06] p-5">
+                <p class="text-emerald-200 text-sm font-semibold tracking-wide uppercase mb-2">Who it’s for</p>
+                <p class="text-white/75">Leaders, mentors, coaches, and professionals who hold responsibility for others</p>
+              </div>
+              <div class="rounded-2xl border border-white/10 bg-white/[0.06] p-5">
+                <p class="text-emerald-200 text-sm font-semibold tracking-wide uppercase mb-2">Next step</p>
+                <p class="text-white/75">Fill out the form below. I personally read every application and respond with next steps.</p>
+              </div>
+            </div>
+  
+            <!-- Optional buttons (hook these to your form/booking) -->
+            <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+              <a href="#application" class="inline-flex items-center justify-center rounded-full px-7 py-3 bg-emerald-500 hover:bg-emerald-400 text-white font-semibold transition">
+                Apply for 1:1 Guidance
+              </a>
+              <a href="#faq" class="inline-flex items-center justify-center rounded-full px-7 py-3 border border-white/15 hover:border-white/25 text-white/85 hover:text-white transition">
+                Read the Details
+              </a>
+            </div>
+  
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  </section>
+  

@@ -5,7 +5,7 @@ from .models import (
     MediaAsset, SEO, Navigation, Hero, About, Stat, Service, ServicesSection,
     Portfolio, PortfolioProject, Testimonial, FAQ, FAQSection, Contact,
     ContactInfo, ContactFormField, SocialLink, Footer, DecadesSection, DecadesTimelineItem,
-    LionSection
+    LionSection, BooksSection, PublishedBook
 )
 
 
@@ -328,6 +328,43 @@ def get_homepage_content_from_db():
             }
     except:
         content['lion_section'] = {}
+    
+    # Books Section
+    try:
+        books_section = BooksSection.objects.filter(is_active=True).first()
+        if books_section:
+            content['books_section'] = {
+                'title': books_section.title,
+                'subtitle': books_section.subtitle,
+                'description': books_section.description,
+                'show_publishing_service': books_section.show_publishing_service,
+                'publishing_service_title': books_section.publishing_service_title,
+                'publishing_service_description': books_section.publishing_service_description,
+                'publishing_service_button_text': books_section.publishing_service_button_text,
+                'publishing_service_button_url': books_section.publishing_service_button_url,
+                **books_section.content,
+            }
+    except:
+        content['books_section'] = {}
+    
+    # Published Books
+    try:
+        published_books = PublishedBook.objects.filter(is_active=True).order_by('sort_order', 'id')
+        content['published_books'] = [
+            {
+                'title': book.title,
+                'subtitle': book.subtitle,
+                'description': book.description,
+                'cover_image_url': book.cover_image_url,
+                'publisher': book.publisher,
+                'publication_year': book.publication_year,
+                'purchase_url': book.purchase_url,
+                'amazon_url': book.amazon_url,
+            }
+            for book in published_books
+        ]
+    except:
+        content['published_books'] = []
     
     return content
 

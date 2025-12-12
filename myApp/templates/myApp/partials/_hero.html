@@ -1,0 +1,134 @@
+<!-- 1. Hero Section – "Warm Welcome" -->
+<section class="min-h-screen flex items-center justify-center bg-[#1B2835] relative overflow-hidden">
+    <!-- Background gradient + pattern -->
+    <div class="absolute inset-0">
+        <div class="absolute inset-0 bg-gradient-to-br from-[#020617] via-[#1B2835] to-[#0B1120] opacity-95"></div>
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute inset-0" style="background-image: radial-gradient(circle at 1px 1px, #22C55E 1px, transparent 0); background-size: 38px 38px;"></div>
+        </div>
+        <div class="absolute -right-40 -top-40 h-80 w-80 rounded-full bg-[#22C55E]/10 blur-3xl"></div>
+        <div class="absolute -left-40 -bottom-40 h-96 w-96 rounded-full bg-[#38BDF8]/10 blur-3xl"></div>
+    </div>
+
+    <div class="container mx-auto px-6 py-20 relative z-10">
+        <div class="grid gap-16 lg:grid-cols-[1.15fr_minmax(0,0.9fr)] items-center">
+            <!-- Left: Text Content -->
+            <div class="fade-in-up text-center lg:text-left space-y-6">
+                <!-- Badge -->
+                <div class="inline-flex items-center gap-2 rounded-full border border-[#22C55E]/40 bg-white/5 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.22em] text-[#A7F3D0] fade-in-left stagger-1">
+                    <i class="fas fa-seedling text-xs"></i>
+                    <span>A Private 1:1 Space for Those Others Rely On</span>
+                </div>
+
+                <h1 class="text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-ephesis font-normal text-white leading-tight fade-in-up stagger-2">
+                    {% if content.hero.title %}{{ content.hero.title }}{% else %}Maria <span class="text-[#22C55E]">Gregory</span>{% endif %}
+                </h1>
+
+                <p class="text-lg sm:text-xl md:text-2xl text-[#E5E7EB] font-serif italic fade-in-up stagger-3">
+                    {% if content.hero.subtitle %}{{ content.hero.subtitle }}{% else %}Someone Leaders Can Lean On.{% endif %}
+                </p>
+
+                {% if content.hero.description %}
+                <p class="text-lg md:text-xl text-[#E5E7EB]/90 leading-relaxed max-w-xl mx-auto lg:mx-0 fade-in-up stagger-4">
+                    {{ content.hero.description }}
+                </p>
+                {% endif %}
+
+                <!-- Who she works with -->
+                <div class="flex flex-wrap justify-center lg:justify-start gap-3 text-sm md:text-base text-[#9CA3AF] fade-in-up stagger-4">
+                    <div class="inline-flex items-center gap-2 rounded-full bg-white/5 px-3 py-1 border border-white/10">
+                        <i class="fas fa-user-friends text-[11px] text-[#22C55E]"></i>
+                        <span>Coaches & Therapists</span>
+                    </div>
+                    <div class="inline-flex items-center gap-2 rounded-full bg-white/5 px-3 py-1 border border-white/10">
+                        <i class="fas fa-briefcase text-[11px] text-[#22C55E]"></i>
+                        <span>Founders & Executives</span>
+                    </div>
+                    <div class="inline-flex items-center gap-2 rounded-full bg-white/5 px-3 py-1 border border-white/10">
+                        <i class="fas fa-heart text-[11px] text-[#22C55E]"></i>
+                        <span>Leaders Who Hold Space</span>
+                    </div>
+                </div>
+
+                <!-- Buttons -->
+                {% if content.hero.button_text or content.hero.button_url %}
+                <div class="flex flex-col sm:flex-row items-center sm:items-stretch gap-4 pt-2 fade-in-up stagger-5">
+                    {% if content.hero.button_text %}
+                    <a href="{{ content.hero.button_url|default:'#mentorship' }}"
+                       class="inline-flex items-center justify-center gap-2 bg-[#22C55E] hover:bg-[#16A34A] text-[#031018] px-8 py-4 rounded-full font-medium text-base md:text-lg transition-all duration-200 ease-out transform hover:-translate-y-0.5 hover:shadow-[0_18px_45px_rgba(34,197,94,0.35)] w-full sm:w-auto">
+                        {{ content.hero.button_text }}
+                        <i class="fas fa-arrow-right text-sm"></i>
+                    </a>
+                    {% endif %}
+
+                    <a href="#who-she-mentors"
+                       class="inline-flex items-center justify-center gap-2 border-2 border-[#A7F3D0]/60 text-[#E5E7EB] hover:bg-[#A7F3D0]/10 hover:border-[#22C55E] px-8 py-4 rounded-full font-medium text-base md:text-lg transition-all duration-200 ease-out transform hover:-translate-y-0.5 hover:shadow-lg w-full sm:w-auto">
+                        Is This for You?
+                        <i class="fas fa-question-circle text-sm text-[#A7F3D0]"></i>
+                    </a>
+                </div>
+                {% endif %}
+
+                <!-- Gentle nudge -->
+                <p class="text-sm md:text-base text-[#9CA3AF] pt-2 fade-in-up stagger-6">
+                    You don't have to hold it all alone. Start with a conversation, not a commitment.
+                </p>
+            </div>
+
+            <!-- Right: Portrait / Visual -->
+            <div class="fade-in-right stagger-3">
+                <div class="relative max-w-md mx-auto">
+                    <!-- Soft glow behind -->
+                    <div class="absolute -inset-8 rounded-[2.5rem] bg-gradient-to-br from-[#22C55E]/25 via-transparent to-[#38BDF8]/25 blur-3xl opacity-60"></div>
+
+                    <!-- Framed image card -->
+                    <div class="relative rounded-[2.5rem] border border-white/10 bg-gradient-to-b from-white/5 via-white/5 to-white/0 shadow-[0_25px_80px_rgba(15,23,42,0.9)] overflow-hidden">
+                        <div class="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-black/30 to-transparent pointer-events-none"></div>
+
+                        <!-- Top label -->
+                        <div class="absolute left-6 top-6 z-10 inline-flex items-center gap-2 rounded-full bg-black/55 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.18em] text-[#E5E7EB]">
+                            <i class="fas fa-moon text-[10px] text-[#22C55E]"></i>
+                            <span>Deep Inner Work</span>
+                        </div>
+
+                        <!-- Corner tag -->
+                        <div class="absolute right-6 top-6 z-10 inline-flex items-center gap-1 rounded-full bg-[#22C55E]/15 border border-[#22C55E]/40 px-3 py-1 text-[11px] text-[#A7F3D0]">
+                            <i class="fas fa-lock text-[10px]"></i>
+                            <span>Private 1:1 only</span>
+                        </div>
+
+                        <img
+                            src="{% if content.hero.background_image_url %}{{ content.hero.background_image_url }}{% else %}https://www.thelionyoudontsee.com/static/assets/images/about/authorimg1.jpg{% endif %}"
+                            alt="{% if content.hero.title %}{{ content.hero.title }}{% else %}Maria Gregory{% endif %}"
+                            class="relative w-full aspect-[4/5] object-cover transform transition-all duration-500 hover:scale-105"
+                            onerror="this.src='https://via.placeholder.com/800x1000/111827/ffffff?text=Maria+Gregory';"
+                        >
+
+                        <!-- Bottom quote strip -->
+                        <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 via-black/40 to-transparent px-6 pb-6 pt-10">
+                            <p class="text-xs md:text-sm text-[#E5E7EB]/90 leading-relaxed">
+                                "The ones who carry everyone else rarely make space to be carried themselves. My work begins where your normal support system ends."
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Small floating card -->
+                    <div class="absolute -bottom-10 -left-4 hidden md:block">
+                        <div class="rounded-2xl bg-[#020617]/90 border border-white/10 px-4 py-3 shadow-xl backdrop-blur">
+                            <div class="flex items-center gap-3">
+                                <div class="flex h-9 w-9 items-center justify-center rounded-full bg-[#22C55E]/15 border border-[#22C55E]/40">
+                                    <i class="fas fa-wave-square text-xs text-[#22C55E]"></i>
+                                </div>
+                                <div>
+                                    <p class="text-[11px] uppercase tracking-[0.18em] text-[#9CA3AF]">For Those Who Carry the Most</p>
+                                    <p class="text-xs font-medium text-[#E5E7EB]">Those who take care of others first..</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </div>
+</section>
+

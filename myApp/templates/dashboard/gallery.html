@@ -159,8 +159,16 @@
         }
     });
     
+    let isUploading = false; // Prevent double submissions
+    
     document.getElementById('uploadForm').addEventListener('submit', async function(e) {
         e.preventDefault();
+        
+        // Prevent double submissions
+        if (isUploading) {
+            console.log('Upload already in progress, ignoring duplicate submission');
+            return;
+        }
         
         const formData = new FormData(this);
         const progressDiv = document.getElementById('uploadProgress');
@@ -168,6 +176,7 @@
         const uploadStatus = document.getElementById('uploadStatus');
         const uploadCount = document.getElementById('uploadCount');
         const uploadDetails = document.getElementById('uploadDetails');
+        const submitButton = this.querySelector('button[type="submit"]');
         
         const files = document.getElementById('imageInput').files;
         const totalFiles = files.length;
@@ -176,6 +185,12 @@
             alert('Please select at least one image file');
             return;
         }
+        
+        // Disable form and button during upload
+        isUploading = true;
+        submitButton.disabled = true;
+        submitButton.style.opacity = '0.6';
+        submitButton.style.cursor = 'not-allowed';
         
         progressDiv.classList.remove('hidden');
         uploadStatus.textContent = 'Uploading...';
@@ -222,6 +237,11 @@
                 alert('Upload Error:\n\n' + errorMsg + '\n\nPlease check:\n1. Cloudinary credentials in .env file\n2. Server console for more details\n3. File size (max 10MB)');
                 uploadDetails.innerHTML = '<span class="text-red-600 font-semibold">Upload failed! Check the error message above.</span>';
                 progressDiv.classList.remove('hidden');
+                // Re-enable form on error
+                isUploading = false;
+                submitButton.disabled = false;
+                submitButton.style.opacity = '1';
+                submitButton.style.cursor = 'pointer';
             }
         } catch (error) {
             uploadStatus.textContent = 'Upload failed';
@@ -231,6 +251,11 @@
             uploadDetails.innerHTML = '<span class="text-red-600 font-semibold">Connection error! Check server and network.</span>';
             progressDiv.classList.remove('hidden');
             console.error('Upload error:', error);
+            // Re-enable form on error
+            isUploading = false;
+            submitButton.disabled = false;
+            submitButton.style.opacity = '1';
+            submitButton.style.cursor = 'pointer';
         }
     });
     

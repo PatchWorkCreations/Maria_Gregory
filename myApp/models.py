@@ -435,3 +435,50 @@ class LionSection(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class BooksSection(models.Model):
+    """Books section header/content"""
+    title = models.CharField(max_length=200, default="Books by Maria")
+    subtitle = models.CharField(max_length=300, blank=True)
+    description = models.TextField(blank=True)
+    show_publishing_service = models.BooleanField(default=True)
+    publishing_service_title = models.CharField(max_length=200, blank=True)
+    publishing_service_description = models.TextField(blank=True)
+    publishing_service_button_text = models.CharField(max_length=100, blank=True)
+    publishing_service_button_url = models.CharField(max_length=200, blank=True)
+    content = JSONField(default=dict, blank=True)
+    is_active = models.BooleanField(default=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Books Section"
+        verbose_name_plural = "Books Sections"
+
+    def __str__(self):
+        return self.title
+
+
+class PublishedBook(models.Model):
+    """Individual published books"""
+    books_section = models.ForeignKey(BooksSection, on_delete=models.CASCADE, related_name='books', null=True, blank=True)
+    title = models.CharField(max_length=200)
+    subtitle = models.CharField(max_length=300, blank=True)
+    description = models.TextField(blank=True)
+    cover_image_url = models.URLField(max_length=500, blank=True)
+    publisher = models.CharField(max_length=200, blank=True)
+    publication_year = models.CharField(max_length=10, blank=True)
+    purchase_url = models.URLField(max_length=500, blank=True)
+    amazon_url = models.URLField(max_length=500, blank=True)
+    sort_order = models.IntegerField(default=0)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['sort_order', 'id']
+        verbose_name = "Published Book"
+        verbose_name_plural = "Published Books"
+
+    def __str__(self):
+        return self.title

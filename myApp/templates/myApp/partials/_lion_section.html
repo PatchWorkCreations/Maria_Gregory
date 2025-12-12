@@ -1,0 +1,81 @@
+<!-- 6. The Lion You Don't See – "Origin Story" -->
+{% if content.lion_section %}
+<section class="relative py-32 overflow-hidden">
+    <!-- Background Image with Overlay -->
+    <div class="absolute inset-0">
+        {% if content.lion_section.background_image_url %}
+        <img 
+            src="{{ content.lion_section.background_image_url }}" 
+            alt="Background image" 
+            class="w-full h-full object-cover"
+            onerror="this.src='https://via.placeholder.com/1920x1080/2F4258/ffffff?text=Inner+Strength'"
+        >
+        {% else %}
+        <img 
+            src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&h=1080&fit=crop&q=80" 
+            alt="Forest light symbolizing inner strength" 
+            class="w-full h-full object-cover"
+            onerror="this.src='https://via.placeholder.com/1920x1080/2F4258/ffffff?text=Inner+Strength'"
+        >
+        {% endif %}
+        <div class="absolute inset-0 bg-[#2F4258]/80"></div>
+    </div>
+    
+    <div class="container mx-auto px-6 relative z-10">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="fade-in-up">
+                {% if content.lion_section.icon %}
+                <i class="{{ content.lion_section.icon }} text-[#22C55E] text-5xl mb-6"></i>
+                {% else %}
+                <i class="fas fa-star text-[#22C55E] text-5xl mb-6"></i>
+                {% endif %}
+                <h2 class="text-5xl md:text-7xl font-serif font-bold text-white mb-6">
+                    {% if content.lion_section.title %}{{ content.lion_section.title|safe }}{% else %}The <span class="text-[#22C55E]">Lion</span> You Don't See{% endif %}
+                </h2>
+                {% if content.lion_section.intro_text %}
+                <p class="text-xl md:text-2xl text-[#E5E7EB] mb-8 leading-relaxed">
+                    {{ content.lion_section.intro_text }}
+                </p>
+                {% endif %}
+                {% if content.lion_section.paragraph_1 %}
+                <p class="text-lg text-[#E5E7EB] mb-4 leading-relaxed max-w-2xl mx-auto">
+                    {{ content.lion_section.paragraph_1 }}
+                </p>
+                {% endif %}
+                {% if content.lion_section.paragraph_2 %}
+                <p class="text-lg text-[#E5E7EB] mb-8 leading-relaxed max-w-2xl mx-auto">
+                    {{ content.lion_section.paragraph_2 }}
+                </p>
+                {% endif %}
+                {% if content.lion_section.reflection_question %}
+                <p class="text-sm text-[#A7F3D0] italic mb-12 max-w-2xl mx-auto">
+                    {{ content.lion_section.reflection_question }}
+                </p>
+                {% endif %}
+            </div>
+            
+            <!-- Book Display -->
+            {% if content.lion_section.book_cover_image_url %}
+            <div class="fade-in-up stagger-2 mt-12">
+                <div class="inline-block transform transition-all duration-500 hover:scale-110 hover:shadow-2xl">
+                    <div class="bg-[#3B546E] p-4 rounded-2xl shadow-2xl">
+                        <img 
+                            src="{{ content.lion_section.book_cover_image_url }}" 
+                            alt="The Lion You Don't See book cover" 
+                            class="rounded-xl max-w-xs mx-auto"
+                            onerror="this.src='https://via.placeholder.com/600x800/2F4258/ffffff?text=The+Lion+You+Dont+See'"
+                        >
+                    </div>
+                </div>
+                {% if content.lion_section.closing_quote %}
+                <p class="text-[#E5E7EB] mt-6 text-lg italic">
+                    {{ content.lion_section.closing_quote }}
+                </p>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endif %}
+

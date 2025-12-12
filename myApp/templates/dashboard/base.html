@@ -590,6 +590,14 @@
             document.getElementById('imageUploadProgress').classList.add('hidden');
             document.getElementById('selectedFilesModal').classList.add('hidden');
             document.getElementById('fileListModal').innerHTML = '';
+            // Reset upload flag and re-enable submit button
+            isImageUploading = false;
+            const submitButton = document.querySelector('#imageUploadForm button[type="submit"]');
+            if (submitButton) {
+                submitButton.disabled = false;
+                submitButton.style.opacity = '1';
+                submitButton.style.cursor = 'pointer';
+            }
         }
         
         // Show selected files in modal
@@ -617,8 +625,16 @@
         });
         
         // Handle image upload
+        let isImageUploading = false; // Prevent double submissions
+        
         document.getElementById('imageUploadForm').addEventListener('submit', async function(e) {
             e.preventDefault();
+            
+            // Prevent double submissions
+            if (isImageUploading) {
+                console.log('Upload already in progress, ignoring duplicate submission');
+                return;
+            }
             
             const formData = new FormData(this);
             const progressDiv = document.getElementById('imageUploadProgress');
@@ -626,6 +642,7 @@
             const uploadStatus = document.getElementById('imageUploadStatus');
             const uploadCount = document.getElementById('imageUploadCount');
             const uploadDetails = document.getElementById('imageUploadDetails');
+            const submitButton = this.querySelector('button[type="submit"]');
             
             const files = document.getElementById('imageUploadInput').files;
             const totalFiles = files.length;
@@ -633,6 +650,14 @@
             if (totalFiles === 0) {
                 alert('Please select at least one image file');
                 return;
+            }
+            
+            // Disable form and button during upload
+            isImageUploading = true;
+            if (submitButton) {
+                submitButton.disabled = true;
+                submitButton.style.opacity = '0.6';
+                submitButton.style.cursor = 'not-allowed';
             }
             
             progressDiv.classList.remove('hidden');
@@ -693,10 +718,24 @@
                     }
                     alert('Error: ' + errorMsg);
                     progressDiv.classList.add('hidden');
+                    // Re-enable form on error
+                    isImageUploading = false;
+                    if (submitButton) {
+                        submitButton.disabled = false;
+                        submitButton.style.opacity = '1';
+                        submitButton.style.cursor = 'pointer';
+                    }
                 }
             } catch (error) {
                 uploadStatus.textContent = 'Upload failed';
                 progressBar.style.width = '0%';
+                // Re-enable form on error
+                isImageUploading = false;
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.style.opacity = '1';
+                    submitButton.style.cursor = 'pointer';
+                }
                 alert('Error: ' + error.message);
                 progressDiv.classList.add('hidden');
             }

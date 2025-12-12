@@ -81,7 +81,8 @@ def upload_image(request):
         from dotenv import load_dotenv
         
         # Reload .env file to ensure we have the latest credentials
-        BASE_DIR = Path(__file__).resolve().parent.parent.parent
+        # BASE_DIR should be project root (2 levels up from myApp/dashboard_views.py)
+        BASE_DIR = Path(__file__).resolve().parent.parent
         load_dotenv(BASE_DIR / '.env', override=True)
         
         cloud_name = os.getenv('CLOUDINARY_CLOUD_NAME', '')
@@ -123,6 +124,21 @@ def upload_image(request):
                 # Upload to Cloudinary
                 upload_result = upload_to_cloudinary(image_file, folder=folder)
                 
+                # Check if image already exists (prevent duplicates)
+                public_id = upload_result['public_id']
+                existing_asset = MediaAsset.objects.filter(cloudinary_public_id=public_id).first()
+                
+                if existing_asset:
+                    # Image already exists, skip creating duplicate
+                    uploaded_images.append({
+                        'id': existing_asset.id,
+                        'title': existing_asset.title,
+                        'original_url': existing_asset.original_url,
+                        'web_url': existing_asset.web_url,
+                        'thumbnail_url': existing_asset.thumbnail_url,
+                    })
+                    continue
+                
                 # Save to database
                 media_asset = MediaAsset.objects.create(
                     title=title,
@@ -130,7 +146,7 @@ def upload_image(request):
                     original_url=upload_result['original_url'],
                     web_url=upload_result['web_url'],
                     thumbnail_url=upload_result['thumbnail_url'],
-                    cloudinary_public_id=upload_result['public_id'],
+                    cloudinary_public_id=public_id,
                     folder=folder,
                     width=upload_result['width'],
                     height=upload_result['height'],

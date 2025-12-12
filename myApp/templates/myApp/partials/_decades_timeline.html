@@ -1,0 +1,153 @@
+<!-- 5. Impact Timeline – "Decades of Walking With Leaders" -->
+{% if content.decades_section %}
+<section class="relative overflow-hidden py-24 md:py-32 bg-gradient-to-b from-[#0F172A] via-[#132235] to-[#0B1220]">
+  <!-- Ambient glow (subtle, not loud) -->
+  <div class="pointer-events-none absolute inset-0 opacity-60">
+    <div class="absolute -top-24 left-1/3 h-[32rem] w-[32rem] rounded-full bg-emerald-400/10 blur-3xl"></div>
+    <div class="absolute -bottom-24 right-1/4 h-[32rem] w-[32rem] rounded-full bg-sky-400/10 blur-3xl"></div>
+  </div>
+
+  <div class="container mx-auto px-6 relative z-10">
+    <!-- Header -->
+    <div class="max-w-4xl mx-auto text-center mb-16 md:mb-24">
+      <div class="inline-flex items-center gap-3 mb-6">
+        <span class="h-px w-14 bg-gradient-to-r from-transparent via-emerald-300/60 to-transparent"></span>
+        <span class="text-xs font-semibold tracking-[0.35em] uppercase text-emerald-200/80">Legacy & Impact</span>
+        <span class="h-px w-14 bg-gradient-to-l from-transparent via-emerald-300/60 to-transparent"></span>
+      </div>
+
+      <h2 class="text-4xl md:text-6xl lg:text-7xl font-serif font-bold text-white leading-tight">
+        {% if content.decades_section.title %}
+          {{ content.decades_section.title|safe }}
+        {% else %}
+          Decades of Walking With
+          <span class="bg-gradient-to-r from-emerald-300 to-sky-300 bg-clip-text text-transparent">Leaders</span>
+        {% endif %}
+      </h2>
+
+      {% if content.decades_section.subtitle %}
+      <p class="mt-6 text-lg md:text-2xl text-white/80 font-serif italic">
+        {{ content.decades_section.subtitle }}
+      </p>
+      {% endif %}
+
+      {% if content.decades_section.description %}
+      <p class="mt-5 text-base md:text-lg text-white/65 leading-relaxed max-w-2xl mx-auto">
+        {{ content.decades_section.description }}
+      </p>
+      {% endif %}
+    </div>
+
+    {% if content.decades_timeline_items %}
+    <!-- Timeline -->
+    <div class="max-w-6xl mx-auto relative">
+      <!-- Vertical line (desktop) -->
+      <div class="hidden md:block absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-emerald-300/0 via-emerald-300/30 to-sky-300/0"></div>
+
+      <div class="space-y-14 md:space-y-20">
+        {% for item in content.decades_timeline_items %}
+        <div class="relative">
+          <!-- Mobile timeline line + node -->
+          <div class="md:hidden absolute left-4 top-0 bottom-0 w-px bg-white/10"></div>
+
+          <div class="grid md:grid-cols-2 gap-6 md:gap-12 items-start">
+            {# LEFT COLUMN #}
+            <div class="{% if forloop.counter|divisibleby:2 %}md:order-2{% endif %}">
+              {% if item.image_url %}
+              <div class="rounded-2xl overflow-hidden border border-white/10 bg-white/5 shadow-2xl">
+                <div class="relative">
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent"></div>
+                  <img
+                    src="{{ item.image_url }}"
+                    alt="{{ item.title }}"
+                    class="w-full h-56 md:h-72 object-cover"
+                    onerror="this.src='https://via.placeholder.com/1200x800/0F172A/ffffff?text={{ item.title|urlencode }}'"
+                  >
+                </div>
+              </div>
+              {% endif %}
+            </div>
+
+            {# RIGHT COLUMN (Card) #}
+            <div class="{% if forloop.counter|divisibleby:2 %}md:order-1{% endif %} relative">
+              <!-- Desktop node anchored to center line -->
+              <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 -translate-y-2 top-6 z-20">
+                <div class="relative">
+                  <div class="absolute inset-0 rounded-full bg-emerald-400/20 blur-xl"></div>
+                  <div class="relative w-14 h-14 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 border border-white/15 shadow-[0_18px_60px_rgba(16,185,129,0.25)] flex items-center justify-center">
+                    {% if item.icon %}
+                      <i class="{{ item.icon }} text-white text-lg"></i>
+                    {% else %}
+                      <i class="fas fa-star text-white text-lg"></i>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Mobile node -->
+              <div class="md:hidden absolute left-4 top-6 -translate-x-1/2 z-20">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 border border-white/15 shadow-lg flex items-center justify-center">
+                  {% if item.icon %}
+                    <i class="{{ item.icon }} text-white text-sm"></i>
+                  {% else %}
+                    <i class="fas fa-star text-white text-sm"></i>
+                  {% endif %}
+                </div>
+              </div>
+
+              <div class="md:pl-0 pl-10">
+                <div class="group rounded-3xl border border-white/10 bg-white/[0.06] backdrop-blur-xl shadow-2xl hover:bg-white/[0.08] transition-all duration-300">
+                  <div class="p-7 md:p-9">
+                    {% if item.period %}
+                    <div class="inline-flex items-center gap-2 mb-4">
+                      <span class="text-[11px] font-bold tracking-[0.22em] uppercase text-emerald-200/90 bg-emerald-400/10 border border-emerald-300/20 px-4 py-1.5 rounded-full">
+                        {{ item.period }}
+                      </span>
+                    </div>
+                    {% endif %}
+
+                    {% if item.organization %}
+                    <p class="mt-3 text-lg md:text-xl font-semibold text-emerald-200/90 flex items-center gap-2">
+                      <i class="fas fa-building text-sm opacity-80"></i>
+                      {{ item.organization }}
+                    </p>
+                    {% endif %}
+
+                    {% if item.description %}
+                    <p class="mt-4 text-lg md:text-xl text-white/75 leading-relaxed">
+                      {{ item.description }}
+                    </p>
+                    {% endif %}
+
+                    {% if item.reflection %}
+                    <div class="mt-6 pt-6 border-t border-white/10">
+                      <p class="text-emerald-100/80 italic text-base md:text-lg leading-relaxed flex items-start gap-3">
+                        <i class="fas fa-quote-left text-emerald-300/40 mt-1 text-sm"></i>
+                        <span>{{ item.reflection }}</span>
+                      </p>
+                    </div>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    {% if content.decades_section.closing_quote %}
+    <div class="max-w-4xl mx-auto mt-16 md:mt-24">
+      <div class="relative rounded-3xl border border-white/10 bg-white/[0.06] backdrop-blur-xl shadow-2xl p-9 md:p-12 text-center">
+        <p class="text-xl md:text-3xl font-serif italic text-white/85 leading-relaxed">
+          {{ content.decades_section.closing_quote }}
+        </p>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endif %}

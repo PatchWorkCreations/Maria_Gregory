@@ -1,0 +1,316 @@
+<!-- Scroll Animation Script -->
+<script>
+    // Intersection Observer for fade-in animations
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, observerOptions);
+    
+    // Observe all fade-in elements
+    document.querySelectorAll('.fade-in-up, .fade-in-left, .fade-in-right').forEach(el => {
+        observer.observe(el);
+    });
+    
+    // Observe footer buttons for scroll-up animation
+    document.querySelectorAll('.footer-btn-scroll-up').forEach(btn => {
+        observer.observe(btn);
+    });
+    
+    
+    // Scroll to top button visibility
+    const scrollToTopBtn = document.getElementById('scrollToTop');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+            scrollToTopBtn.classList.remove('opacity-0', 'pointer-events-none');
+            scrollToTopBtn.classList.add('opacity-100');
+        } else {
+            scrollToTopBtn.classList.add('opacity-0', 'pointer-events-none');
+            scrollToTopBtn.classList.remove('opacity-100');
+        }
+    });
+    
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+    
+    // Fix SMS and tel links to ensure proper protocol format and prevent Django routing
+    document.addEventListener('DOMContentLoaded', function() {
+        // Handle all links that might be SMS or tel
+        document.querySelectorAll('a[href*="sms"], a[href*="tel"], a[data-sms-link]').forEach(link => {
+            const href = link.getAttribute('href');
+            const smsData = link.getAttribute('data-sms-link');
+            
+            // Get the phone number from href or data attribute
+            let phoneNumber = null;
+            if (smsData) {
+                phoneNumber = smsData;
+            } else if (href) {
+                // Extract phone number from various formats
+                const match = href.match(/(?:sms|tel)[:/+]*([+]?[\d\s\-()]+)/i);
+                if (match) {
+                    phoneNumber = match[1].trim();
+                }
+            }
+            
+            if (phoneNumber) {
+                // Set proper href
+                const properHref = 'sms://' + phoneNumber.replace(/^\+/, '+');
+                link.setAttribute('href', properHref);
+                
+                // Add click handler to prevent Django from intercepting
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    window.location.href = properHref;
+                    return false;
+                });
+            } else if (href && (href.includes('sms') || href.includes('tel'))) {
+                // Fallback: fix the href format
+                let fixedHref = href;
+                if (href.match(/^(sms|tel):[^/]/)) {
+                    fixedHref = href.replace(/^(sms|tel):/, '$1://');
+                    link.setAttribute('href', fixedHref);
+                }
+                
+                // Add click handler
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    window.location.href = fixedHref;
+                    return false;
+                });
+            }
+        });
+    });
+    
+    // Smooth scroll for footer Home button
+    const footerHomeBtn = document.getElementById('footer-home');
+    if (footerHomeBtn) {
+        footerHomeBtn.addEventListener('click', function(e) {
+            // If we're already on the home page, scroll to top smoothly
+            if (window.location.pathname === '/' || window.location.pathname === '') {
+                e.preventDefault();
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            }
+            // Otherwise, let the normal navigation happen
+        });
+    }
+    
+    // Enhanced smooth scroll for footer links with offset
+    document.querySelectorAll('.footer-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            const target = document.getElementById(targetId);
+            if (target) {
+                // Calculate offset for better positioning
+                const offset = 80; // Adjust this value as needed
+                const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+    
+    // Chatbot Functionality with OpenAI API
+    const chatbotToggle = document.getElementById('chatbotToggle');
+    const chatbotWindow = document.getElementById('chatbotWindow');
+    const chatbotClose = document.getElementById('chatbotClose');
+    const chatbotInput = document.getElementById('chatbotInput');
+    const chatbotSend = document.getElementById('chatbotSend');
+    const chatbotMessages = document.getElementById('chatbotMessages');
+    
+    // Conversation history for context
+    let conversationHistory = [];
+    
+    function addMessage(content, isUser = false) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${isUser ? 'user' : 'maria'}`;
+        
+        const avatar = document.createElement('div');
+        avatar.className = 'message-avatar';
+        avatar.innerHTML = isUser ? '<i class="fas fa-user"></i>' : '<i class="fas fa-star"></i>';
+        
+        const messageContent = document.createElement('div');
+        messageContent.className = 'message-content';
+        messageContent.textContent = content;
+        
+        messageDiv.appendChild(avatar);
+        messageDiv.appendChild(messageContent);
+        chatbotMessages.appendChild(messageDiv);
+        
+        // Add to conversation history
+        conversationHistory.push({
+            role: isUser ? 'user' : 'assistant',
+            content: content
+        });
+        
+        // Scroll to bottom
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+    }
+    
+    function showTypingIndicator() {
+        const typingDiv = document.createElement('div');
+        typingDiv.className = 'message maria';
+        typingDiv.id = 'typingIndicator';
+        
+        const avatar = document.createElement('div');
+        avatar.className = 'message-avatar';
+        avatar.innerHTML = '<i class="fas fa-star"></i>';
+        
+        const typingContent = document.createElement('div');
+        typingContent.className = 'message-content typing-indicator';
+        typingContent.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+        
+        typingDiv.appendChild(avatar);
+        typingDiv.appendChild(typingContent);
+        chatbotMessages.appendChild(typingDiv);
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+    }
+    
+    function removeTypingIndicator() {
+        const indicator = document.getElementById('typingIndicator');
+        if (indicator) {
+            indicator.remove();
+        }
+    }
+    
+    function showError(message) {
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'message maria';
+        
+        const avatar = document.createElement('div');
+        avatar.className = 'message-avatar';
+        avatar.innerHTML = '<i class="fas fa-exclamation-triangle"></i>';
+        
+        const messageContent = document.createElement('div');
+        messageContent.className = 'message-content';
+        messageContent.style.color = '#ff6b6b';
+        messageContent.textContent = message || "I'm sorry, I'm having trouble responding right now. Please try again in a moment.";
+        
+        errorDiv.appendChild(avatar);
+        errorDiv.appendChild(messageContent);
+        chatbotMessages.appendChild(errorDiv);
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+    }
+    
+    async function sendMessage() {
+        const message = chatbotInput.value.trim();
+        if (!message) return;
+        
+        // Disable input while processing
+        chatbotInput.disabled = true;
+        chatbotSend.disabled = true;
+        
+        // Add user message
+        addMessage(message, true);
+        chatbotInput.value = '';
+        
+        // Show typing indicator
+        showTypingIndicator();
+        
+        try {
+            // Call backend API
+            const response = await fetch('/api/chat/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify({
+                    message: message,
+                    history: conversationHistory.slice(0, -1) // Exclude the message we just added
+                })
+            });
+            
+            const data = await response.json();
+            
+            removeTypingIndicator();
+            
+            if (response.ok && data.success) {
+                addMessage(data.response);
+            } else {
+                showError(data.error || 'Something went wrong. Please try again.');
+            }
+        } catch (error) {
+            removeTypingIndicator();
+            showError('I apologize, but I\'m having trouble connecting right now. Please check your connection and try again.');
+            console.error('Chatbot error:', error);
+        } finally {
+            // Re-enable input
+            chatbotInput.disabled = false;
+            chatbotSend.disabled = false;
+            chatbotInput.focus();
+        }
+    }
+    
+    // Helper function to get CSRF token
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    
+    // Event listeners
+    chatbotToggle.addEventListener('click', () => {
+        chatbotWindow.classList.toggle('active');
+        if (chatbotWindow.classList.contains('active')) {
+            chatbotInput.focus();
+        }
+    });
+    
+    chatbotClose.addEventListener('click', () => {
+        chatbotWindow.classList.remove('active');
+    });
+    
+    chatbotSend.addEventListener('click', sendMessage);
+    
+    chatbotInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    });
+    
+    // Close on escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && chatbotWindow.classList.contains('active')) {
+            chatbotWindow.classList.remove('active');
+        }
+    });
+</script>
+</body>
+</html>
+

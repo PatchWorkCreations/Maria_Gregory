@@ -1,0 +1,46 @@
+<!-- 4. About Maria – "The Guide Behind the Guides" -->
+<section id="about" class="py-24 bg-[#F9FAFB]">
+    <div class="container mx-auto px-6">
+        <div class="grid md:grid-cols-2 gap-16 items-center">
+            <!-- Left: Image -->
+            <div class="fade-in-left">
+                <img 
+                    src="{% if content.about.image_url %}{{ content.about.image_url }}{% else %}https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&h=600&fit=crop&q=80{% endif %}" 
+                    alt="{% if content.about.title %}{{ content.about.title }}{% else %}Maria speaking and mentoring{% endif %}" 
+                    class="rounded-2xl shadow-xl w-full border border-[#E5E7EB] transform transition-all duration-500 hover:scale-105 hover:shadow-2xl"
+                    onerror="this.src='https://via.placeholder.com/800x600/2F4258/ffffff?text=Maria+Speaking'"
+                >
+            </div>
+            
+            <!-- Right: About Text -->
+            <div class="fade-in-right">
+                <h2 class="text-4xl md:text-5xl font-serif font-bold text-[#2F4258] mb-6">
+                    The Guide Behind the <span class="text-[#22C55E]">Guides</span>
+                </h2>
+                
+                <p class="text-[#2F4258] mb-4 leading-relaxed text-lg">
+                    "I'm the person leaders speak to when they've outgrown generic advice and need someone who can meet them quietly, honestly, and without judgment.
+                </p>
+                
+                <p class="text-[#2F4258] mb-4 leading-relaxed">
+                    Most of the people I walk with don't 'need' help in the traditional sense. They're capable, seasoned, and deeply self-reliant. What they want is a place where their insight, strength, and humanity can all exist at the same time — without being filtered through a title."
+                </p>
+                
+                <p class="text-[#2F4258] mb-4 leading-relaxed text-base italic">
+                    "Along the way, I've founded and served in initiatives focused on growth, healing, and education — including the I RiseUp group of organizations and community-focused programs for youth.
+                </p>
+                
+                <p class="text-[#2F4258] mb-6 leading-relaxed text-sm italic">
+                    Today, my calling is more focused: to walk alongside the people who walk alongside everyone else."
+                </p>
+                
+                <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-[#22C55E] mb-4">
+                    <p class="text-[#2F4258] leading-relaxed italic">
+                        <em class="text-[#22C55E] font-medium">"Even the most self-sufficient leaders deserve a place where they don't have to hold everything on their own."</em>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

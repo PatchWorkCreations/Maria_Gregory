@@ -1,0 +1,76 @@
+{% load custom_filters %}
+<!-- 9. Contact Section -->
+<section id="contact" class="py-24 bg-[#F9FAFB]">
+    <div class="container mx-auto px-6">
+        <div class="max-w-3xl mx-auto">
+            {% if content.contact %}
+            {% if content.contact.title %}
+            <h2 class="text-4xl md:text-5xl font-serif font-bold text-center text-[#2F4258] mb-4 fade-in-up">
+                {{ content.contact.title }}
+            </h2>
+            {% endif %}
+            {% if content.contact.description %}
+            <p class="text-center text-[#2F4258] mb-12 fade-in-up stagger-1">
+                {{ content.contact.description }}
+            </p>
+            {% endif %}
+            {% endif %}
+            
+            {% if content.contact_info %}
+            <div class="grid md:grid-cols-3 gap-6 mb-12 fade-in-up stagger-1">
+                {% for info in content.contact_info %}
+                <div class="text-center">
+                    {% if info.icon %}<i class="{{ info.icon }} text-[#22C55E] text-3xl mb-3"></i>{% endif %}
+                    <h3 class="font-semibold text-[#2F4258] mb-2">{{ info.label }}</h3>
+                    <p class="text-[#64748B]">
+                        {% if info.type == 'email' %}<a href="mailto:{{ info.value }}" class="hover:text-[#22C55E]">{{ info.value }}</a>
+                        {% elif info.type == 'phone' %}<a href="tel:{{ info.value }}" class="hover:text-[#22C55E]">{{ info.value }}</a>
+                        {% else %}{{ info.value }}{% endif %}
+                    </p>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            
+            {% if content.contact_form_fields %}
+            <form class="bg-white p-8 rounded-xl shadow-lg fade-in-up stagger-2">
+                <div class="space-y-6">
+                    {% for field in content.contact_form_fields %}
+                    <div>
+                        <label for="field_{{ forloop.counter }}" class="block text-[#2F4258] font-medium mb-2">
+                            {{ field.label }}{% if field.is_required %} *{% endif %}
+                        </label>
+                        {% if field.field_type == 'textarea' %}
+                        <textarea id="field_{{ forloop.counter }}" name="{{ field.label|to_field_name }}" rows="4" {% if field.is_required %}required{% endif %} placeholder="{{ field.placeholder|default:'' }}" class="w-full px-4 py-3 border border-[#E5E7EB] rounded-lg focus:ring-2 focus:ring-[#22C55E] focus:border-transparent"></textarea>
+                        {% elif field.field_type == 'select' %}
+                        <select id="field_{{ forloop.counter }}" name="{{ field.label|to_field_name }}" {% if field.is_required %}required{% endif %} class="w-full px-4 py-3 border border-[#E5E7EB] rounded-lg focus:ring-2 focus:ring-[#22C55E] focus:border-transparent">
+                            <option value="">{{ field.placeholder|default:'Select...' }}</option>
+                            {% for option in field.options %}
+                            <option value="{{ option }}">{{ option }}</option>
+                            {% endfor %}
+                        </select>
+                        {% else %}
+                        <input type="{{ field.field_type }}" id="field_{{ forloop.counter }}" name="{{ field.label|to_field_name }}" {% if field.is_required %}required{% endif %} placeholder="{{ field.placeholder|default:'' }}" class="w-full px-4 py-3 border border-[#E5E7EB] rounded-lg focus:ring-2 focus:ring-[#22C55E] focus:border-transparent">
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                    
+                    <button type="submit" class="w-full bg-[#22C55E] hover:bg-[#16A34A] text-[#233345] px-8 py-4 rounded-full font-medium transition-all duration-200 ease-out transform hover:-translate-y-0.5 hover:shadow-lg">
+                        Submit Application
+                        <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </form>
+            {% endif %}
+            
+            <!-- Text Me Button in Contact Section -->
+            <div class="mt-8 text-center fade-in-up stagger-3">
+                <a href="#" onclick="window.location.href='sms://+17407215817'; return false;" class="inline-flex items-center gap-2 bg-[#22C55E] hover:bg-[#16A34A] text-[#233345] px-8 py-4 rounded-full font-medium transition-all duration-200 ease-out transform hover:-translate-y-0.5 hover:shadow-lg" data-sms-link="+17407215817">
+                    <i class="fas fa-comment-dots"></i>
+                    Text Me
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
